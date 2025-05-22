@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    height: 100vh;
+}
+
+canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid khaki;
+    /* border: 2px solid #fdcf867e; */
+}

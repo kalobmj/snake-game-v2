@@ -1,5 +1,6 @@
 const title = document.getElementById('title');
 const canvas = document.getElementById('canvas');
+const space = document.getElementById('space');
 const highScore = document.getElementById('high-score');
 const score = document.getElementById('score');
 const c = canvas.getContext('2d');
@@ -19,6 +20,9 @@ const cellSize = canvasHeight / 8;
 canvas.width = rows * cellSize;
 canvas.height = cols * cellSize;
 
+// set space background maxHeight to the height of canvas
+space.style.maxHeight = `${canvasHeight}px`;
+
 // bejewled snake 💎
 // bejewled snake 💎
 // bejewled snake 💎
@@ -30,16 +34,27 @@ canvas.height = cols * cellSize;
 // score will be points based on jewel
 // seperate score will also be just jewels eaten
 
-// draw board loop
-for (let i=0; i<rows; i++) {
-    for (let j=0; j<cols; j++) {
-        const isEven = (i + j) % 2 === 0;
-        let color = isEven ? '#00ccff48' : '#eeff0048';
+// -> as of now: our game board should be responsive depending on user window size. This might not scale all the way with the background-image, but the grid canvas should be responsive
 
-        // fill in grid
-        c.fillStyle = color;
-        c.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
-    }
-};
+// create game board on space image load
+space.addEventListener('load', () => {
+    let spaceWidthRemainder = space.width - canvas.width;
+    let remainderBuffer = spaceWidthRemainder / 2;
+
+    // draw space background onto canvas
+    c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+
+    // nested loop to draw game grid ontop of canvas image
+    for (let i=0; i<rows; i++) {
+        for (let j=0; j<cols; j++) {
+            const isEven = (i + j) % 2 === 0;
+            let color = isEven ? '#ffffff18' : '#eeff0048';
+            
+            // fill in grids
+            c.fillStyle = color;
+            c.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
+        }
+    };
+})
 
 // test

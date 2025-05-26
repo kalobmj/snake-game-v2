@@ -94,7 +94,8 @@ space.addEventListener('load', () => {
     spaceImgCopy.id = 'space-2';
 
     // draw image with copy of space instead of original
-    c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    // c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height)
 
     // original draw image
     // c.drawImage(space, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);

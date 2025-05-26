@@ -73,7 +73,20 @@ space.addEventListener('load', () => {
     console.log({remainderBuffer})
 
     // draw space background onto canvas
-    c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+
+    // function to test if space is updated before we draw it to the canvas
+    function pasteImage() {
+        console.log(space.height);
+        console.log(space.width);
+
+        c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+
+    }
+
+    // calling testing function
+    pasteImage();
+
+    // c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
     for (let i=0; i<rows; i++) {

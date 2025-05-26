@@ -41,9 +41,16 @@ space.style.maxHeight = `${canvasHeight}px`;
 // create game board on space image load
 space.addEventListener('load', () => {
     // before we draw image on canvas, if the canvas is larger than the image, then scale it up. (giving it the same height will scale it up, having the same height as the canvas, we can start to calculate the areas on the side that need to be cut). Only changing height will maintain aspect ratio.
+
+    console.log('space height', space.height);
+    console.log('space width', space.width);
+
     if (space.height < canvas.height) {
         space.height = canvas.height
     };
+
+    console.log('space height', space.height);
+    console.log('space width', space.width);
 
     let spaceWidthRemainder = space.width - canvas.width;
     let remainderBuffer = spaceWidthRemainder / 2;

@@ -14,3 +14,7 @@ canvas {
     border: 5px solid khaki;
     /* border: 2px solid #fdcf867e; */
 }
+
+#space {
+    height: auto;
+}

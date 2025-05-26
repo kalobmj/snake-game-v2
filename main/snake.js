@@ -47,7 +47,7 @@ space.addEventListener('load', () => {
 
     if (space.height < canvas.height) {
         space.height = canvas.height
-        space.width = 'auto'
+        // space.width = 'auto'
     };
 
     console.log('space height', space.height);

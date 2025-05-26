@@ -5,27 +5,12 @@ body {
     flex-direction: column;
     margin: 0;
     height: 100vh;
-    background-color: #ffffff18;
 }
 
 canvas {
     display: flex;
-    /* position: absolute; */
     justify-content: center;
     align-items: center;
-    /* border: 5px solid khaki; */
-    /* border-radius: 5px; */
+    border: 5px solid khaki;
     /* border: 2px solid #fdcf867e; */
-}
-
-#board-background {
-    position: relative;
-}
-
-#game-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    position: relative;
 }

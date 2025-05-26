@@ -45,10 +45,18 @@ space.addEventListener('load', () => {
     console.log('space height', space.height);
     console.log('space width', space.width);
 
+    let aspectRatio = space.height / space.width;
+
     if (space.height < canvas.height) {
         space.height = canvas.height
-        // space.width = 'auto'
     };
+
+    console.log('space width pre', space.width);
+
+    space.width = space.height * aspectRatio;
+    
+    // updated space width
+    console.log('space width updated', space.width);
 
     console.log('space height', space.height);
     console.log('space width', space.width);

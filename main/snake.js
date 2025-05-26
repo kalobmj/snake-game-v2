@@ -49,22 +49,11 @@ space.addEventListener('load', () => {
 
     console.log({aspectRatio})
 
-    if (space.height < canvas.height) {
-        space.height = canvas.height
-    };
+    // if (space.height < canvas.height) {
+    //     space.height = canvas.height
+    // };
 
-    console.log('space width pre', space.width);
-
-    space.width = space.height * aspectRatio;
-    
-    // updated space width
-    console.log('space width updated', space.width);
-
-    console.log('space height', space.height);
-    console.log('space width', space.width);
-
-    console.log('canvas height', canvas.height);
-    console.log('canvas width', canvas.width);
+    // space.width = space.height * aspectRatio;
 
     let spaceWidthRemainder = space.width - canvas.width;
     let remainderBuffer = spaceWidthRemainder / 2;
@@ -72,15 +61,18 @@ space.addEventListener('load', () => {
     console.log({spaceWidthRemainder})
     console.log({remainderBuffer})
 
-    // tesing scaling
-    space.width = 1000;
-    space.height = 1000;
+    // // tesing scaling
+    // space.width = 1000;
+    // space.height = 1000;
 
-    console.log('1k space height: ', space.height);
-    console.log('1k space width: ', space.width);
+    // console.log('1k space height: ', space.height);
+    // console.log('1k space width: ', space.width);
 
     // draw space background onto canvas
-    c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    // c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+
+
+    c.drawImage(space, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
     for (let i=0; i<rows; i++) {

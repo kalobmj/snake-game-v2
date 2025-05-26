@@ -67,6 +67,9 @@ space.addEventListener('load', () => {
     let spaceWidthRemainder = space.width - canvas.width;
     let remainderBuffer = spaceWidthRemainder / 2;
 
+    console.log({spaceWidthRemainder})
+    console.log({remainderBuffer})
+
     // draw space background onto canvas
     c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 

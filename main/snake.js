@@ -76,6 +76,9 @@ space.addEventListener('load', () => {
     space.width = 1000;
     space.height = 1000;
 
+    console.log('1k space height: ', space.height);
+    console.log('1k space width: ', space.width);
+
     // draw space background onto canvas
     c.drawImage(space, remainderBuffer, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 

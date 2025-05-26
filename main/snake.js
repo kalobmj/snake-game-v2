@@ -47,6 +47,8 @@ space.addEventListener('load', () => {
 
     let aspectRatio = space.width / space.height;
 
+    console.log({aspectRatio})
+
     if (space.height < canvas.height) {
         space.height = canvas.height
     };

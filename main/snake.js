@@ -52,6 +52,9 @@ space.addEventListener('load', () => {
     console.log('space height', space.height);
     console.log('space width', space.width);
 
+    console.log('canvas height', canvas.height);
+    console.log('canvas width', canvas.width);
+
     let spaceWidthRemainder = space.width - canvas.width;
     let remainderBuffer = spaceWidthRemainder / 2;
 

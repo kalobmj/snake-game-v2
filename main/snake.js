@@ -87,8 +87,13 @@ space.addEventListener('load', () => {
 
     console.log({newSpaceImage})
 
-    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height)
+    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
+    
+    //
 
+    // 5/26 comment -> you need to create a copy of space image and resize it. then use that to draw onto the canvas using drawImage
+
+    //
 
     // draw image with copy of space instead of original
     // c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);

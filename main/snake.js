@@ -77,25 +77,22 @@ space.addEventListener('load', () => {
 
     // we can change the space dimensions, then make a copy and create a new html element. then we can take that and use it in a drawImage, since it uses the original dimensions
 
-    const imgContainer = document.getElementById('img-container');
 
-    console.log(imgContainer);
+    let newSpaceImage = new Image();
 
-    space.height = 1001;
-    space.width = 1001;
+    newSpaceImage.src = space.src;
 
-    let spaceImgCopy = space.cloneNode();
+    newSpaceImage.height = 300;
+    newSpaceImage.width = 300;
 
-    console.log({spaceImgCopy});
+    console.log({newSpaceImage})
 
-    console.log('space image copy height', spaceImgCopy.height);
-    console.log('space image copy width', spaceImgCopy.width);
+    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height)
 
-    spaceImgCopy.id = 'space-2';
 
     // draw image with copy of space instead of original
     // c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-    c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height)
+    // c.drawImage(spaceImgCopy, 0, 0, canvas.width, canvas.height)
 
     // original draw image
     // c.drawImage(space, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);

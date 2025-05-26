@@ -38,7 +38,6 @@ space.style.maxHeight = `${canvasHeight}px`;
 
 // -> need to make background image scale depending on if user window size is bigger (resizing)
 
-
 // create game board on space image load
 space.addEventListener('load', () => {
     // before we draw image on canvas, if the canvas is larger than the image, then scale it up. (giving it the same height will scale it up, having the same height as the canvas, we can start to calculate the areas on the side that need to be cut). Only changing height will maintain aspect ratio.
@@ -64,6 +63,4 @@ space.addEventListener('load', () => {
         }
     };
 
-})
-
-// test
+});

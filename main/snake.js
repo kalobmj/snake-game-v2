@@ -75,6 +75,27 @@ space.addEventListener('load', () => {
 
     console.log('space height after', space.height)
 
+    // we can change the space dimensions, then make a copy and create a new html element. then we can take that and use it in a drawImage, since it uses the original dimensions
+
+    const imgContainer = document.getElementById('img-container');
+
+    console.log(imgContainer);
+
+    space.height = 1001;
+    space.width = 1001;
+
+    let spaceImgCopy = space.cloneNode();
+
+    console.log({spaceImgCopy});
+
+    console.log('space image copy height', spaceImgCopy.height);
+    console.log('space image copy width', spaceImgCopy.width);
+
+    spaceImgCopy.id = 'space-2';
+
+    // draw image with copy of space instead of original
+    c.drawImage(space, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+
     c.drawImage(space, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image

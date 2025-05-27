@@ -52,28 +52,7 @@ let pointsArr = [
 
 // jewel will act as the apple, eating the green, red, or yellow jewels will at +1 to snake length, white -1, and blue does neither (keeps same).
 
-// function to place snake on board (at game start)
-function placeSnake() {
-
-
-
-};
-
-// function to placeJewel on board
-function placeJewel() {
-
-
-
-};
-
-// funciton to move snake
-function moveSnake() {
-
-
-
-};
-
-// create game board on space image load
+// create game board on space image load (can wrap all of this into a wrapper function)
 space.addEventListener('load', () => {
     // creating copy of space img
     let newSpaceImage = new Image();
@@ -85,14 +64,55 @@ space.addEventListener('load', () => {
     c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
-    for (let i=0; i<rows; i++) {
-        for (let j=0; j<cols; j++) {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
             const isEven = (i + j) % 2 === 0;
             let color = isEven ? '#ffffff00' : '#00000040';
-            
+
             // fill in grids
             c.fillStyle = color;
             c.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
         }
     };
+
+    placeSnake();
+
 });
+
+// function to place snake on board (at game start)
+function placeSnake() {
+
+    console.log({ cellSize });
+
+    console.log (cellSize / 2);
+
+    // snakeSize takes up half the size of a cell
+    let snakeSize = cellSize / 2;
+
+    // snake color
+    c.fillStyle = 'red'
+
+    // snake tail
+    c.fillRect(cellSize, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
+    
+    // snake head
+    c.fillRect(cellSize*2, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
+
+};
+
+// test call
+placeSnake();
+
+// function to placeJewel on board
+function placeJewel() {
+
+    // logic for jewel, might be able to use images from game as jewel. if not we can make and use our own
+
+};
+
+// funciton to move snake
+function moveSnake() {
+
+
+
+};

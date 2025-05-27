@@ -6,6 +6,14 @@ const highScore = document.getElementById('high-score');
 const score = document.getElementById('score');
 const c = canvas.getContext('2d');
 
+// ***
+
+    // possible idea for game:
+        // there are multiple levels, each time user beats level, their score goes up.
+        // with each level, the snake speed (interval) increases, making the game harder and harder
+
+// ***
+
 // 8x8 board
 let rows = 8;
 let cols = 8;
@@ -15,7 +23,7 @@ const windowHeight = window.innerHeight;
 
 // calculate canvas height to be 2/3 size of useable window
 const canvasHeight = Math.floor((windowHeight / 3) * 2);
-const cellSize = canvasHeight / 8;
+const cellSize = canvasHeight / rows;
 
 // set canvas height and width
 canvas.width = rows * cellSize;

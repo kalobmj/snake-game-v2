@@ -14,9 +14,17 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 5px solid khaki; */
+    border: 8px solid rgb(0, 0, 0, 0.4);
+    border-image: repeating-linear-gradient(30deg, #0c339f, #9198e5, #0c9f84 20px)
+  10;
     /* border: 2px solid #fdcf867e; */
+    background: #00000033
 }
+
+/* #game-container {
+    border-radius: 15px;
+    overflow: hidden;
+} */
 
 #border {
     position: absolute;

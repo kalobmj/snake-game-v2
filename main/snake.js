@@ -32,8 +32,46 @@ space.style.maxHeight = `${canvasHeight}px`;
 // apple is a jewel 🔷
 // apple is a jewel 🔶
 
+// we will have 5 types of jewels:
+// green 🟢 (octogon) -> 20 points
+// red 🔴 (square) -> 30 points
+// yellow 🟨 (rect) -> 40 points
+// white 🤍 (decagon) -> 50 points (this jewel takes 1 off snake body length)
+// blue 💎 (blue diamond) -> 75 points (the only jewel that doesn't length to snake body)
+
 // score will be points based on jewel
 // seperate score will also be just jewels eaten
+
+let pointsArr = [
+    'green',
+    'red',
+    'yellow',
+    'white',
+    'blue'
+];
+
+// jewel will act as the apple, eating the green, red, or yellow jewels will at +1 to snake length, white -1, and blue does neither (keeps same).
+
+// function to place snake on board (at game start)
+function placeSnake() {
+
+
+
+};
+
+// function to placeJewel on board
+function placeJewel() {
+
+
+
+};
+
+// funciton to move snake
+function moveSnake() {
+
+
+
+};
 
 // create game board on space image load
 space.addEventListener('load', () => {

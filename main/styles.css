@@ -21,10 +21,10 @@ canvas {
     background: #00000033
 }
 
-/* #game-container {
-    border-radius: 15px;
+#game-container {
+    border-radius: 4px;
     overflow: hidden;
-} */
+}
 
 #border {
     position: absolute;

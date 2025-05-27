@@ -5,14 +5,21 @@ body {
     flex-direction: column;
     margin: 0;
     height: 100vh;
+    background-image: url('/assets/blue-stars.jpg'), 
+    linear-gradient(to right top, #282d3c, #282d39, #282d37, #282c34, #292c31, #2b2f37, #2c323d, #2e3543, #313d54, #344565, #374d77, #3a5589);
+    background-blend-mode: lighten;
 }
 
 canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px solid khaki;
+    /* border: 5px solid khaki; */
     /* border: 2px solid #fdcf867e; */
+}
+
+#border {
+    position: absolute;
 }
 
 /* #snake {

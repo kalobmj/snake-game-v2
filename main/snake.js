@@ -25,6 +25,9 @@ const windowHeight = window.innerHeight;
 const canvasHeight = Math.floor((windowHeight / 3) * 2);
 const cellSize = canvasHeight / rows;
 
+// snake coordinates
+let snakeCoordinates = [];
+
 // set canvas height and width
 canvas.width = rows * cellSize;
 canvas.height = cols * cellSize;
@@ -94,6 +97,11 @@ function placeSnake() {
 
     console.log (cellSize / 2);
 
+    
+    // For odd-width (aka thickness) lines (1px, 3px, etc.), position the line on half-pixel coordinates
+    // For even-width (aka thickness) lines (2px, 4px, etc.), position the line on whole-pixel coordinates
+
+
     // snakeSize takes up half the size of a cell
     let snakeSize = cellSize / 2;
 
@@ -106,10 +114,16 @@ function placeSnake() {
     // snake head
     c.fillRect(cellSize*2, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
 
+    snakeCoordinates.push({x: cellSize, y: (cellSize * 6)});
+    snakeCoordinates.push({x: (cellSize * 2), y: (cellSize * 6)})
+
+    // you don't need exact y coordinates, because we are only accounting for the cell area (any part of the snake and jewel cannot take up the same cell)
+    console.log({snakeCoordinates});
+
 };
 
 // test call
-placeSnake();
+// placeSnake();
 
 // function to placeJewel on board
 function placeJewel() {

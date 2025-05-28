@@ -72,7 +72,7 @@ space.addEventListener('load', () => {
     newSpaceImage.height = 300;
     newSpaceImage.width = 300;
 
-    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
+    // c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
     for (let i = 0; i < rows; i++) {
@@ -116,6 +116,19 @@ function placeSnake() {
 
     snakeCoordinates.push({x: cellSize, y: (cellSize * 6)});
     snakeCoordinates.push({x: (cellSize * 2), y: (cellSize * 6)})
+
+    let blueDiamond = new Image();
+
+    blueDiamond.src = '/assets/gems/blue-diamond.png';
+    blueDiamond.id = 'blue-diamond';
+    blueDiamond.height = '300';
+    blueDiamond.width = '300';
+
+    console.log({blueDiamond})
+
+    // 5/27 uncomment background img, figure out why this is not working
+
+    c.drawImage(blueDiamond, 100, 100);
 
     // you don't need exact y coordinates, because we are only accounting for the cell area (any part of the snake and jewel cannot take up the same cell)
     console.log({snakeCoordinates});

@@ -1,10 +1,12 @@
 const title = document.getElementById('title');
 const canvas = document.getElementById('canvas');
+const canvas2 = document.getElementById('canvas-2');
 // const border = document.getElementById('border');
 const space = document.getElementById('space');
 const highScore = document.getElementById('high-score');
 const score = document.getElementById('score');
 const c = canvas.getContext('2d');
+const c2 = canvas.getContext('2d');
 
 // ***
 
@@ -50,6 +52,8 @@ space.style.maxHeight = `${canvasHeight}px`;
 // white 🤍 (decagon) -> 50 points (this jewel takes 1 off snake body length)
 // blue 💎 (blue diamond) -> 75 points (the only jewel that doesn't length to snake body)
 
+// jewel will act as the apple, eating the green, red, or yellow jewels will at +1 to snake length, white -1, and blue does neither (keeps same).
+
 // score will be points based on jewel
 // seperate score will also be just jewels eaten
 
@@ -61,18 +65,9 @@ let pointsArr = [
     'blue'
 ];
 
-// jewel will act as the apple, eating the green, red, or yellow jewels will at +1 to snake length, white -1, and blue does neither (keeps same).
-
-// create game board on space image load (can wrap all of this into a wrapper function)
+// load game onto canvas once space image loads
 space.addEventListener('load', () => {
-    // creating copy of space img
-    let newSpaceImage = new Image();
-
-    newSpaceImage.src = space.src;
-    newSpaceImage.height = 300;
-    newSpaceImage.width = 300;
-
-    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
+    c.drawImage(space, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
     for (let i = 0; i < rows; i++) {
@@ -86,9 +81,9 @@ space.addEventListener('load', () => {
         }
     };
 
+    // after image load, place snake, then jewel
     placeSnake();
     placeJewel();
-
 });
 
 // function to place snake on board (at game start)
@@ -139,19 +134,7 @@ function placeJewel() {
 
     // at this point, we have found a spot for our apple, and we can draw it
 
-    // jewel placeHolder (jewels are 70 x 70, so they will scale)
-    let newJewel = new Image();
-
-    newJewel.src = '/assets/gems/blue-diamond.png';
-    newJewel.height = cellSize;
-    newJewel.width = cellSize;
-
-    console.log({x1});
-    console.log({y1});
-
-    console.log('max dimensions');
-    console.log(cellSize * cols);
-    console.log(cellSize * rows);
+    
 
     // draw jewel on board using updated coords that do not collide with any parts of the snake body
     c.drawImage(newJewel, x1, y1);

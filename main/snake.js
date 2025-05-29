@@ -13,6 +13,12 @@ const c2 = canvas.getContext('2d');
 // possible idea for game:
 // there are multiple levels, each time user beats level, their score goes up.
 // with each level, the snake speed (interval) increases, making the game harder and harder
+// also can possibly increase the board size each level, making the game bigger
+
+// vvv game runs in this order vvv
+// background img loads
+// snake loads
+// gem loads
 
 // ***
 
@@ -29,6 +35,9 @@ const cellSize = canvasHeight / rows;
 
 // snake coordinates
 let snakeCoordinates = [];
+
+// arr used to store each jewel as an img
+let jewelImgs = [];
 
 // set canvas height and width
 canvas.width = rows * cellSize;
@@ -78,11 +87,29 @@ const jewels = {
     blue: '/assets/gems/blue-diamond.png'
 };
 
-console.log(jewels.green);
-console.log(jewels.red);
-console.log(jewels.yellow);
-console.log(jewels.white);
-console.log(jewels.blue);
+function createImages() {
+    // jewel image array
+    let jewelsArr = Object.entries(jewels);
+
+    // loop to get image sources and push them into our array
+    for (let i = 0; i < jewelsArr.length; i++) {
+        const img = new Image();
+        img.id = jewelsArr[i][0]; // jewel name
+        img.src = jewelsArr[i][1]; // jewel src
+        jewelImgs.push(img)
+    };
+
+    console.log({ jewelImgs });
+};
+
+// util function to check collisions
+function checkCollision(x1, y1, x2, y2) {
+    if (x1 === x2 && y1 === y2) {
+        return true;
+    } else {
+        return false;
+    }
+};
 
 // interval to test jewel placing function
 // let interval = setInterval(placeJewelStart, 100);
@@ -104,15 +131,9 @@ space.addEventListener('load', () => {
     };
 
     // after image load, place snake, then jewel
+    createImages();
     placeSnakeStart();
     placeJewelStart();
-    
-    // let interval = setInterval(placeJewelStart, 100);
-
-    // setInterval(() => {
-    //     placeJewelStart();
-    // }, 1000);
-
 });
 
 // function to place snake on board (at game start)
@@ -156,18 +177,15 @@ function placeJewelStart() {
             if (checkCollision(x1, y1, snakeCellX, snakeCellY)) {
                 console.log('there was a collision');
                 collision = true;
-                console.log({collision});
+                console.log({ collision });
+
                 // clearInterval(interval);
+
                 break;
             }
         };
 
     } while (collision);
-
-    let jewel = document.getElementById('jewel');
-
-    let jewelRoll = Math.floor(Math.random() * 100) + 1;
-    console.log(jewelRoll);
 
     // 5 jewels
     // 1st jewel 1-30 (30%)
@@ -176,33 +194,38 @@ function placeJewelStart() {
     // 4th jewel 66-85 (15%)
     // 5th jewel 86-100 (15%)
 
-    console.log({jewelRoll})
+    // roll random num from 1-100 to determine which jewel will spawn
+    let jewelRoll = Math.floor(Math.random() * 100) + 1;
 
-    // determining jewel img src based on jewelRoll
+    // var to store our selected jewel image
+    let ourJewel;
+
     if (jewelRoll >= 1 && jewelRoll <= 30) {
-        jewel.src = jewels.green;
+        ourJewel = jewelImgs[0];
     } else if (jewelRoll >= 31 && jewelRoll <= 50) {
-        jewel.src = jewels.red;
+        ourJewel = jewelImgs[1];
     } else if (jewelRoll >= 51 && jewelRoll <= 65) {
-        jewel.src = jewels.yellow;
+        ourJewel = jewelImgs[2];
     } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-        jewel.src = jewels.white;
+        ourJewel = jewelImgs[3];
     } else if (jewelRoll >= 86 && jewelRoll <= 100) {
-        jewel.src = jewels.blue;
+        ourJewel = jewelImgs[4];
     };
 
-    // wait for jewel image to load, then start drawing on the canvas
-    jewel.onload = () => {
+    console.log({ ourJewel });
+
+    // when our selected jewel loads, draw it on the canvas
+    ourJewel.onload = () => {
         // coords of jewel for testing
         console.log({ x1 });
         console.log({ y1 });
 
         // draw jewel on our 2nd canvas
-        c2.drawImage(jewel, x1, y1, canvas2.width, canvas2.height);
+        c2.drawImage(ourJewel, x1, y1, canvas2.width, canvas2.height);
 
         // draw 2nd canvas onto original canvas
         c.drawImage(canvas2, x1, y1);
-    };
+    }
 };
 
 // funciton to move snake
@@ -212,22 +235,9 @@ function moveSnake() {
 
 };
 
-// function to place newe jewel on board
+// function to place new jewel on board (apple)
 function placeJewelNew() {
 
 
 
-};
-
-// util function to check collisions
-function checkCollision(x1, y1, x2, y2) {
-    if (x1 === x2 && y1 === y2) {
-        console.log({x1})
-        console.log({y1})
-        console.log({x2})
-        console.log({y2})
-        return true;
-    } else {
-        return false;
-    }
 };

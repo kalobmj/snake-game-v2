@@ -72,7 +72,7 @@ space.addEventListener('load', () => {
     newSpaceImage.height = 300;
     newSpaceImage.width = 300;
 
-    // c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
+    c.drawImage(newSpaceImage, 0, 0, canvas.width, canvas.height);
 
     // nested loop to draw game grid ontop of canvas image
     for (let i = 0; i < rows; i++) {
@@ -87,20 +87,14 @@ space.addEventListener('load', () => {
     };
 
     placeSnake();
+    placeJewel();
 
 });
 
 // function to place snake on board (at game start)
 function placeSnake() {
-
+    // cellSize: 58.5
     console.log({ cellSize });
-
-    console.log (cellSize / 2);
-
-    
-    // For odd-width (aka thickness) lines (1px, 3px, etc.), position the line on half-pixel coordinates
-    // For even-width (aka thickness) lines (2px, 4px, etc.), position the line on whole-pixel coordinates
-
 
     // snakeSize takes up half the size of a cell
     let snakeSize = cellSize / 2;
@@ -108,41 +102,59 @@ function placeSnake() {
     // snake color
     c.fillStyle = 'red'
 
-    // snake tail
+    // snake tail & head
     c.fillRect(cellSize, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
-    
-    // snake head
     c.fillRect(cellSize*2, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
 
+    // push coords of snake to snakeCoordinates arr
     snakeCoordinates.push({x: cellSize, y: (cellSize * 6)});
-    snakeCoordinates.push({x: (cellSize * 2), y: (cellSize * 6)})
+    snakeCoordinates.push({x: (cellSize * 2), y: (cellSize * 6)});
 
-    let blueDiamond = new Image();
-
-    blueDiamond.src = '/assets/gems/blue-diamond.png';
-    blueDiamond.id = 'blue-diamond';
-    blueDiamond.height = '300';
-    blueDiamond.width = '300';
-
-    console.log({blueDiamond})
-
-    // 5/27 uncomment background img, figure out why this is not working
-
-    c.drawImage(blueDiamond, 100, 100);
-
-    // you don't need exact y coordinates, because we are only accounting for the cell area (any part of the snake and jewel cannot take up the same cell)
     console.log({snakeCoordinates});
-
 };
-
-// test call
-// placeSnake();
 
 // function to placeJewel on board
 function placeJewel() {
+    let x1, y1, collison;
 
-    // logic for jewel, might be able to use images from game as jewel. if not we can make and use our own
+    // get random place for jewel, do checking collision while there are collisions
+    do {
 
+        // if collision found, will return true -> loop keeps running
+        let collision = false;
+
+        x1 = Math.floor(Math.random() * cols) * cellSize;
+        y1 = Math.floor(Math.random() * rows) * cellSize;
+
+        for (let i = 0; i < snakeCoordinates.length; i++) {
+            let snakeCellX = snakeCoordinates[i].x;
+            let snakeCellY = snakeCoordinates[i].y;
+            if (checkCollision(x1, y1, snakeCellX, snakeCellY)) {
+                collision = true;
+                break;
+            }
+        }
+
+    } while (collison);
+
+    // at this point, we have found a spot for our apple, and we can draw it
+
+    // jewel placeHolder (jewels are 70 x 70, so they will scale)
+    let newJewel = new Image();
+
+    newJewel.src = '/assets/gems/blue-diamond.png';
+    newJewel.height = cellSize;
+    newJewel.width = cellSize;
+
+    console.log({x1});
+    console.log({y1});
+
+    console.log('max dimensions');
+    console.log(cellSize * cols);
+    console.log(cellSize * rows);
+
+    // draw jewel on board using updated coords that do not collide with any parts of the snake body
+    c.drawImage(newJewel, x1, y1);
 };
 
 // funciton to move snake
@@ -150,4 +162,12 @@ function moveSnake() {
 
 
 
+};
+
+// util function to check collisions
+function checkCollision(x1, y1, x2, y2) {
+    if (x1 === x2 || y1 === y2) {
+        return true
+    }
+    return false;
 };

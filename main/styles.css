@@ -10,7 +10,7 @@ body {
     background-blend-mode: lighten;
 }
 
-canvas {
+#canvas {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -35,6 +35,11 @@ const cellSize = canvasHeight / rows;
 
 // snake coordinates
 let snakeCoordinates = [];
+let jewelCoordinates = [];
+
+// player direction (right by default);
+let dir = 'right'; 
+let lastDir = '';
 
 // arr used to store each jewel as an img
 let jewelImgs = [];
@@ -187,6 +192,13 @@ function placeJewelStart() {
 
     } while (collision);
 
+    // plot jewel (apple) coordinates
+    jewelCoordinates.push({x: x1, y: y1});
+
+    // how to update vals:
+        // jewelCoordinates[0].x = 9000;
+        // jewelCoordinates[0].y = 9000;
+
     // 5 jewels
     // 1st jewel 1-30 (30%)
     // 2nd jewel 31-50 (20%)
@@ -231,7 +243,33 @@ function placeJewelStart() {
 // funciton to move snake
 function moveSnake() {
 
+    // moving snake
 
+    console.log({snakeCoordinates});
+    console.log({jewelCoordinates});
+
+    // saving snakeTail (for if snake gets jewel)
+    let snakeTail = snakeCoordinates[snakeCoordinates.length - 1];
+    console.log({snakeTail});
+
+    // all you have to do:
+        // move head depending on direction
+            // cut tail (since we are moving snake)
+                // loop thru and add each coord to new snake had array
+                    // after loop you have new snake (replace old one)
+                        // if apple, attach old tail to new snake 
+
+    
+
+    // gonna have to re-draw background every time (resets board)
+
+    // check if snakehad hits apple (move snake and keep tail)
+
+    // have to update snake body
+
+    // draw snake body (actual moving of snake)
+
+    // place fruit (avoided new snake body)
 
 };
 
@@ -241,3 +279,13 @@ function placeJewelNew() {
 
 
 };
+
+// test game by pressing enter
+document.addEventListener('keydown', (e) => {
+
+    if (e.key === 'Enter') {
+        console.log(`${e.key} key is pressed`);
+        moveSnake();
+    };
+
+});

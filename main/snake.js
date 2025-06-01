@@ -252,6 +252,37 @@ function moveSnake() {
     let snakeTail = snakeCoordinates[snakeCoordinates.length - 1];
     console.log({snakeTail});
 
+    // snakeHead
+    let snakeHead = snakeCoordinates[0];
+    console.log({snakeHead});
+
+    // updating snakeHead location based on direction
+    if (dir === 'right' && lastDir != 'left') {
+        console.log('dir was right')
+        snakeHead.x += cellSize;
+    };
+
+    // remove snakeTail and move new snakehead to front
+    snakeCoordinates.pop();
+    snakeCoordinates.unshift(snakeHead)
+
+    // testing if new snakeHead is on the same spot as an jewel (apple)
+    if (checkCollision(snakeHead.x, snakeHead.y, jewelCoordinates.x, jewelCoordinates.y)) {
+        // if new snakeHead is on top of jewel, add old tail back on (snake grows)
+        snakeCoordinates.shift(snakeTail)
+    };
+
+    // ***
+
+        // logic for drawing snake here:
+
+            // need to c.drawImage('the background')
+            // then loop thru snake coords and draw body
+            // then place (draw) the new jewel
+
+            
+    // ***
+
     // all you have to do:
         // move head depending on direction
             // cut tail (since we are moving snake)

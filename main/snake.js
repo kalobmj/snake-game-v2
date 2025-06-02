@@ -23,8 +23,8 @@ const c2 = canvas.getContext('2d');
 // ***
 
 // 8x8 board
-let rows = 8;
-let cols = 8;
+let rows = 10;
+let cols = 10;
 
 // focus on canvas
 canvas.setAttribute('tabindex', 1);
@@ -164,8 +164,8 @@ function placeSnakeStart() {
     c.fillRect(cellSize * 2, (cellSize * 6), cellSize, cellSize);
 
     // push coords of snake to snakeCoordinates arr
-    snakeCoordinates.push({ x: (cellSize * 2), y: (cellSize * 6)});
-    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6)});
+    snakeCoordinates.push({ x: (cellSize * 2), y: (cellSize * 6) });
+    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6) });
 
     console.log({ snakeCoordinates });
 };
@@ -267,22 +267,18 @@ function moveSnake() {
     if (dir === 'right' && lastDir != 'left') {
         console.log('dir was right');
         snakeHead.x += cellSize;
-        snakeHead.direction = 'right';
         lastDir = 'right';
     } else if (dir === 'down' && lastDir != 'up') {
         console.log('dir was down');
         snakeHead.y += cellSize;
-        snakeHead.direction = 'down';
         lastDir = 'down';
     } else if (dir === 'left' && lastDir != 'right') {
         console.log('dir was left');
         snakeHead.x -= cellSize;
-        snakeHead.direction = 'left';
         lastDir = 'left';
     } else if (dir === 'up' && lastDir != 'down') {
         console.log('dir was up');
         snakeHead.y -= cellSize;
-        snakeHead.direction = 'up';
         lastDir = 'up';
     };
 
@@ -329,7 +325,7 @@ function moveSnake() {
     };
 
     // drawing snake is fine, but since snake is skinnier than the cell, need to draw different based on directions
-        // might have to keep track of cells direction, then color based on that
+    // might have to keep track of cells direction, then color based on that
 
 
 };
@@ -341,32 +337,43 @@ function placeJewelNew() {
 
 };
 
-// test game by pressing enter
-document.addEventListener('keydown', (e) => {
 
-    function wrapper() {
 
-    }
+// function to start game
+function runGame() {
 
-    // set game running to true (game starts)
     gameRunning = true;
-
     console.log('game is running');
     console.log({ gameRunning });
 
-    console.log({ dir })
+    moveSnake();
+    placeJewelNew();
 
-    console.log(e.key);
+}
 
+// function to stop game
+function stopGame() {
+
+}
+
+// function to reset game
+function resetGame() {
+
+}
+
+let interval;
+
+// test game by pressing enter
+document.addEventListener('keydown', (e) => {
+    
     if (e.key === 'Enter') {
+        
+        if (!gameRunning) {
+            interval = setInterval(runGame, 200);
+        } else if (gameRunning) {
+            clearInterval(interval)
+        }
 
-
-
-        console.log(`${e.key} key is pressed`);
-        // move the snake
-        moveSnake();
-        // place a new jewel after the snake is updated and drawn
-        placeJewelNew();
     };
 
 });

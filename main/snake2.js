@@ -2,3 +2,10 @@
     // we are going to use util funcs, have wrapper functions that all call to a main funciton
         // after this we will refactor and clean up
             // and after that we will try to re-write using oop
+
+// minimal variables
+    // use of larger functions that call smaller ones, and depends on smaller util functions
+        // scaling based on window size
+            // think of an option for mobile
+                // start thinking of designs
+                

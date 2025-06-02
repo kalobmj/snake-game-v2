@@ -26,6 +26,10 @@ const c2 = canvas.getContext('2d');
 let rows = 8;
 let cols = 8;
 
+// focus on canvas
+canvas.setAttribute('tabindex', 1);
+canvas.focus();
+
 // get user window height
 const windowHeight = window.innerHeight;
 
@@ -33,13 +37,19 @@ const windowHeight = window.innerHeight;
 const canvasHeight = Math.floor((windowHeight / 3) * 2);
 const cellSize = canvasHeight / rows;
 
+// snakeSize takes up half the size of a cell
+let snakeSize = cellSize / 2;
+
 // snake coordinates
 let snakeCoordinates = [];
 let jewelCoordinates = [];
 
 // player direction (right by default);
-let dir = 'right'; 
+let dir = 'right';
 let lastDir = '';
+
+// var to keep track of if game is running
+let gameRunning = false;
 
 // arr used to store each jewel as an img
 let jewelImgs = [];
@@ -146,9 +156,6 @@ function placeSnakeStart() {
     // cellSize: 58.5
     console.log({ cellSize });
 
-    // snakeSize takes up half the size of a cell
-    let snakeSize = cellSize / 2;
-
     // snake color
     c.fillStyle = 'red';
 
@@ -157,8 +164,8 @@ function placeSnakeStart() {
     c.fillRect(cellSize * 2, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
 
     // push coords of snake to snakeCoordinates arr
-    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6) });
     snakeCoordinates.push({ x: (cellSize * 2), y: (cellSize * 6) });
+    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6) });
 
     console.log({ snakeCoordinates });
 };
@@ -193,11 +200,11 @@ function placeJewelStart() {
     } while (collision);
 
     // plot jewel (apple) coordinates
-    jewelCoordinates.push({x: x1, y: y1});
+    jewelCoordinates.push({ x: x1, y: y1 });
 
     // how to update vals:
-        // jewelCoordinates[0].x = 9000;
-        // jewelCoordinates[0].y = 9000;
+    // jewelCoordinates[0].x = 9000;
+    // jewelCoordinates[0].y = 9000;
 
     // 5 jewels
     // 1st jewel 1-30 (30%)
@@ -245,21 +252,34 @@ function moveSnake() {
 
     // moving snake
 
-    console.log({snakeCoordinates});
-    console.log({jewelCoordinates});
+    console.log({ snakeCoordinates });
+    console.log({ jewelCoordinates });
 
     // saving snakeTail (for if snake gets jewel)
     let snakeTail = snakeCoordinates[snakeCoordinates.length - 1];
-    console.log({snakeTail});
+    console.log({ snakeTail });
 
     // snakeHead
-    let snakeHead = snakeCoordinates[0];
-    console.log({snakeHead});
+    let snakeHead = { ...snakeCoordinates[0] };
+    console.log({ snakeHead });
 
     // updating snakeHead location based on direction
     if (dir === 'right' && lastDir != 'left') {
-        console.log('dir was right')
+        console.log('dir was right');
         snakeHead.x += cellSize;
+        lastDir = 'right';
+    } else if (dir === 'down' && lastDir != 'up') {
+        console.log('dir was down');
+        snakeHead.y += cellSize;
+        lastDir = 'down';
+    } else if (dir === 'left' && lastDir != 'right') {
+        console.log('dir was left');
+        snakeHead.x -= cellSize;
+        lastDir = 'left';
+    } else if (dir === 'up' && lastDir != 'down') {
+        console.log('dir was up');
+        snakeHead.y -= cellSize;
+        lastDir = 'up';
     };
 
     // remove snakeTail and move new snakehead to front
@@ -272,51 +292,99 @@ function moveSnake() {
         snakeCoordinates.shift(snakeTail)
     };
 
-    // ***
+    // we will place drawing background and grid into a util function
 
-        // logic for drawing snake here:
+    // re-draw background
+    c.drawImage(space, 0, 0, canvas.width, canvas.height);
 
-            // need to c.drawImage('the background')
-            // then loop thru snake coords and draw body
-            // then place (draw) the new jewel
+    // nested loop to draw game grid ontop of canvas image
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            const isEven = (i + j) % 2 === 0;
+            let color = isEven ? '#ffffff00' : '#00000040';
 
-            
-    // ***
+            // fill in grids
+            c.fillStyle = color;
+            c.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
+        }
+    };
 
-    // all you have to do:
-        // move head depending on direction
-            // cut tail (since we are moving snake)
-                // loop thru and add each coord to new snake had array
-                    // after loop you have new snake (replace old one)
-                        // if apple, attach old tail to new snake 
+    console.log({ snakeCoordinates });
 
+    // moving snake (drawing it)
+    for (let i = 0; i < snakeCoordinates.length; i++) {
+
+        // snake color
+        c.fillStyle = 'red';
+
+
+        // fillRect(x, y, width, height)
+        // drawing snake
+        c.fillRect(snakeCoordinates[i].x, snakeCoordinates[i].y + (snakeSize / 2), cellSize, snakeSize);
+
+    };
+
+    // drawing snake is fine, but since snake is skinnier than the cell, need to draw different based on directions
     
-
-    // gonna have to re-draw background every time (resets board)
-
-    // check if snakehad hits apple (move snake and keep tail)
-
-    // have to update snake body
-
-    // draw snake body (actual moving of snake)
-
-    // place fruit (avoided new snake body)
 
 };
 
 // function to place new jewel on board (apple)
 function placeJewelNew() {
 
-
+    console.log('placing jewel...')
 
 };
 
 // test game by pressing enter
 document.addEventListener('keydown', (e) => {
 
+    function wrapper() {
+
+    }
+
+    // set game running to true (game starts)
+    gameRunning = true;
+
+    console.log('game is running');
+    console.log({ gameRunning });
+
+    console.log({ dir })
+
+    console.log(e.key);
+
     if (e.key === 'Enter') {
+
+
+
         console.log(`${e.key} key is pressed`);
+        // move the snake
         moveSnake();
+        // place a new jewel after the snake is updated and drawn
+        placeJewelNew();
     };
 
+});
+
+// user arrowkey event listeners
+canvas.addEventListener('keydown', (e) => {
+
+    console.log('we are in canvas addeventlistner')
+
+    if (gameRunning) {
+        if (e.key === 'ArrowRight' && dir != 'left') {
+            console.log('right arrow key pressed');
+            console.log(e.key);
+            dir = 'right';
+        } else if (e.key === 'ArrowLeft' && dir != 'right') {
+            console.log('left arrow key pressed');
+            dir = 'left';
+        } else if (e.key === 'ArrowUp' && dir != 'down') {
+            console.log('up arrow key pressed');
+            dir = 'up';
+        } else if (e.key === 'ArrowDown' && dir != 'up') {
+            console.log('down arrow key pressed');
+            dir = 'down';
+        }
+    }
 });

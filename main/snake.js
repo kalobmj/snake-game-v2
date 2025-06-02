@@ -160,12 +160,12 @@ function placeSnakeStart() {
     c.fillStyle = 'red';
 
     // snake tail & head
-    c.fillRect(cellSize, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
-    c.fillRect(cellSize * 2, (cellSize * 6) + (snakeSize / 2), cellSize, snakeSize);
+    c.fillRect(cellSize, (cellSize * 6), cellSize, cellSize);
+    c.fillRect(cellSize * 2, (cellSize * 6), cellSize, cellSize);
 
     // push coords of snake to snakeCoordinates arr
-    snakeCoordinates.push({ x: (cellSize * 2), y: (cellSize * 6) });
-    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6) });
+    snakeCoordinates.push({ x: (cellSize * 2), y: (cellSize * 6)});
+    snakeCoordinates.push({ x: cellSize, y: (cellSize * 6)});
 
     console.log({ snakeCoordinates });
 };
@@ -267,18 +267,22 @@ function moveSnake() {
     if (dir === 'right' && lastDir != 'left') {
         console.log('dir was right');
         snakeHead.x += cellSize;
+        snakeHead.direction = 'right';
         lastDir = 'right';
     } else if (dir === 'down' && lastDir != 'up') {
         console.log('dir was down');
         snakeHead.y += cellSize;
+        snakeHead.direction = 'down';
         lastDir = 'down';
     } else if (dir === 'left' && lastDir != 'right') {
         console.log('dir was left');
         snakeHead.x -= cellSize;
+        snakeHead.direction = 'left';
         lastDir = 'left';
     } else if (dir === 'up' && lastDir != 'down') {
         console.log('dir was up');
         snakeHead.y -= cellSize;
+        snakeHead.direction = 'up';
         lastDir = 'up';
     };
 
@@ -320,12 +324,13 @@ function moveSnake() {
 
         // fillRect(x, y, width, height)
         // drawing snake
-        c.fillRect(snakeCoordinates[i].x, snakeCoordinates[i].y + (snakeSize / 2), cellSize, snakeSize);
+        c.fillRect(snakeCoordinates[i].x, snakeCoordinates[i].y, cellSize, cellSize);
 
     };
 
     // drawing snake is fine, but since snake is skinnier than the cell, need to draw different based on directions
-    
+        // might have to keep track of cells direction, then color based on that
+
 
 };
 

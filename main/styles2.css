@@ -1,0 +1,12 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url('/assets/blue-stars.jpg'), linear-gradient(90deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.621) 35%, rgba(0, 213, 255, 0.268) 100%);
+    background-blend-mode: lighten;
+    background-size: cover;
+}

@@ -31,11 +31,11 @@ body {
 }
 
 #title {
-    margin: 0;
+    /* margin: 0; */
 }
 
 #high-score {
-    margin: 0;
+    /* margin: 0; */
 }
 
 #canvas-container {
@@ -49,6 +49,10 @@ body {
     border: 4mm ridge #ffec02;
 }
 
+#canvas-2 {
+    position: absolute;
+}
+
 #bottom-container {
     display: flex;
     justify-content: center;
@@ -57,11 +61,11 @@ body {
 }
 
 #play {
-    margin-top: 7px;
+    margin-top: 10px;
 }
 
 #score {
-    margin-top: 3px;
+    margin-top: 7px;
     margin-bottom: 0px;
 }
 

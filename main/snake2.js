@@ -1,16 +1,32 @@
 const canvas = document.getElementById('canvas');
 const canvas2 = document.getElementById('canvas-2');
 const c = canvas.getContext('2d');
-const c2 = canvas2.getContext('2d');
+const c2 = canvas.getContext('2d');
 const space = document.getElementById('space');
+const play = document.getElementById('play');
+
+// ***
+
+// check browser loading (clear cache and test)
+
+// ***
 
 // focus on canvas
 canvas.setAttribute('tabindex', 1);
 canvas.focus();
 
 // 8x8 board (can change)
-let rows = 16;
-let cols = 16;
+let rows = 10;
+let cols = 10;
+
+// direction
+let direction = 'right';
+
+// var to track current jewel
+let ourJewel;
+
+// keep track of game state
+let gameRunning = false;
 
 // jewel names and their locations
 const jewels = {
@@ -29,6 +45,10 @@ const cellSize = canvasHeight / rows;
 canvas.width = rows * cellSize;
 canvas.height = cols * cellSize;
 
+// set canvas 2 height and width to cellSize (canvas 2 is our jewel)
+canvas2.width = cellSize;
+canvas2.height = cellSize;
+
 console.log({ canvasHeight });
 console.log({ cellSize });
 
@@ -45,9 +65,9 @@ function getImages() {
     let jewelsArr = Object.entries(jewels);
     imgs = document.querySelectorAll('img');
 
-    console.log({jewelsArr})
+    console.log({ jewelsArr })
 
-    console.log({imgs})
+    console.log({ imgs })
 
     for (let i = 0; i < jewelsArr.length; i++) {
         const img = new Image();
@@ -56,7 +76,7 @@ function getImages() {
         jewelImgs.push(img)
     }
 
-    console.log({jewelImgs})
+    console.log({ jewelImgs })
 
 };
 
@@ -128,12 +148,20 @@ function setupGame() {
         placeJewel();
     });
 
-
-
 };
 
 // this function gets game going
 function runGame() {
+
+    // let runInterval = setInterval(moveSnake, 200);
+
+    moveSnake();
+
+    // placeJewel();
+
+    console.log({ direction });
+
+    // moveSnake();
 
 };
 
@@ -144,6 +172,75 @@ function endGame() {
 
 // function to move snake
 function moveSnake() {
+
+    // if snake head is out of bounds, end game
+    if (checkBounds(snake[0].x, snake[0].y)) {
+        window.location.reload();
+    }
+
+    console.log({ snake });
+    console.log({ jewel });
+
+    let tail = snake[snake.length - 1];
+    console.log({ tail });
+
+    let head = { ...snake[0] };
+    console.log({ head });
+
+    // updating snakeHead location based on direction
+    if (direction === 'right') {
+        console.log('direction was right');
+        head.x += cellSize;
+    } else if (direction === 'down') {
+        console.log('direction was down');
+        head.y += cellSize;
+    } else if (direction === 'left') {
+        console.log('direction was left');
+        head.x -= cellSize;
+    } else if (direction === 'up') {
+        console.log('direction was up');
+        head.y -= cellSize;
+    };
+
+    snake.pop();
+
+    // if (checkCollision(head.x, head.y, jewel.x, jewel.y)) {
+    //     snake.shift(tail)
+    // };
+
+    // re-draw board so we can place new snake and jewel
+    drawBoard();
+
+    console.log({ourJewel})
+
+    console.log(jewel[0].x)
+    console.log(jewel.y)
+
+    // re-draw jewel
+    // draw jewel on our 2nd canvas
+    c2.drawImage(ourJewel, jewel[0].x, jewel[0].y, canvas2.width, canvas2.height);
+
+    // draw 2nd canvas onto original canvas
+    c.drawImage(canvas2, jewel[0].x, jewel[0].y);
+
+    console.log({ snake });
+
+    // if snake eats the apple 😋
+    if (checkCollision(snake[0].x, snake[0].y, jewel[0].x, jewel[0].y)) {
+        snake.unshift(head);
+        snake.push(tail);
+    } else {
+        snake.unshift(head);
+    }
+
+    console.log({ snake });
+
+    // drawing new snake
+    for (let i = 0; i < snake.length; i++) {
+        c.fillStyle = 'violet';
+        c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
+    };
+
 
 };
 
@@ -176,8 +273,6 @@ function placeJewel() {
 
     let jewelRoll = Math.floor(Math.random() * 100) + 1;
 
-    let ourJewel;
-
     if (jewelRoll >= 1 && jewelRoll <= 30) {
         ourJewel = jewelImgs[0];
     } else if (jewelRoll >= 31 && jewelRoll <= 50) {
@@ -190,22 +285,68 @@ function placeJewel() {
         ourJewel = jewelImgs[4];
     };
 
-    console.log({ourJewel})
+    console.log({ ourJewel })
 
-    // when our selected jewel loads, draw it on the canvas
-    ourJewel.onload = () => {
-        // coords of jewel for testing
-        console.log({ x1 });
-        console.log({ y1 });
+    // coords of jewel for testing
+    console.log({ x1 });
+    console.log({ y1 });
 
-        // draw jewel on our 2nd canvas
-        c2.drawImage(ourJewel, x1, y1, canvas2.width, canvas2.height);
+    // draw jewel on our 2nd canvas
+    c2.drawImage(ourJewel, x1, y1, canvas2.width, canvas2.height);
 
-        // draw 2nd canvas onto original canvas
-        c.drawImage(canvas2, x1, y1);
-    }
+    // draw 2nd canvas onto original canvas
+    c.drawImage(canvas2, x1, y1);
 
 };
 
+play.addEventListener('click', () => {
+    runGame();
+})
+
 // setting up the game on window load
 setupGame();
+
+// user arrowkey event listeners
+canvas.addEventListener('keydown', (e) => {
+
+    console.log('we are in canvas addeventlistner')
+
+    if (gameRunning) {
+        if (e.key === 'ArrowRight' && direction != 'left') {
+            console.log('right arrow key pressed');
+            console.log(e.key);
+            direction = 'right';
+        } else if (e.key === 'ArrowLeft' && direction != 'right') {
+            console.log('left arrow key pressed');
+            direction = 'left';
+        } else if (e.key === 'ArrowUp' && direction != 'down') {
+            console.log('up arrow key pressed');
+            direction = 'up';
+        } else if (e.key === 'ArrowDown' && direction != 'up') {
+            console.log('down arrow key pressed');
+            direction = 'down';
+        }
+    }
+});
+
+let interval;
+let game = false;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        console.log('enter pressed');
+
+        if (!game) {
+            interval = setInterval(runGame, 200);
+            game = true;
+            gameRunning = true;
+        } else if (game) {
+            clearInterval(interval);
+            game = false;
+            gameRunning = false;
+        }
+
+    }
+});
+
+

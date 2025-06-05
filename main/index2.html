@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles2.css" />
     <title>bejewled snake game</title>
 </head>
+
 <body>
-    <h1 id="title">bejewled snake game</h1>
-    <h2 id="high-score">high score: 0</h2>
-    <canvas id="canvas" width="500px" height="500px"></canvas>
-    <button class="btn btn-primary" id="play">play</button>
-    <h2 id="score">score: 0</h2>
+    <div id="asset-container" style="display: none">
+        <img id="space" src="/assets/bj-background.webp" alt="background">
+        <img src="/assets/gems/blue-diamond.png" alt="blue-diamond">
+        <img src="/assets/gems/green-octogon.png" alt="green-octogon">
+        <img src="/assets/gems/red-square.png" alt="red-square">
+        <img src="/assets/gems/white-decagon.png" alt="white-decagon">
+        <img src="/assets/gems/yellow-rect.png" alt="yellow-rect">
+    </div>
+    <div id="top-container">
+        <h1 class="text" id="title">BEJEWLED SNAKE GAME</h1>
+        <h2 class="text" id="high-score">HIGH SCORE: 0</h2>
+    </div>
+    <div id="canvas-container">
+        <canvas id="canvas" width="500px" height="500px"></canvas>
+        <canvas id="canvas-2" width="70" height="70"></canvas>
+    </div>
+    <div id="bottom-container">
+        <button class="btn btn-primary" id="play">play</button>
+        <h2 class="text" id="score">SCORE: 0</h2>
+    </div>
     <script type="application/javascript" src="snake2.js"></script>
 </body>
+
 </html>

@@ -1,12 +1,75 @@
 body {
     height: 100vh;
+    /* font-family: Quincy Caps; */
+    font-family: 'Quincy Caps', Fallback, sans-serif;
+
+    /* font face below should make it so user doesn't need to download font, check this at home */
+    @font-face {
+        font-family: 'Quincy Caps';
+        src: url('Quincy-Caps-Regular.ttf');
+    }
+
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-image: url('/assets/blue-stars.jpg'), linear-gradient(90deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.621) 35%, rgba(0, 213, 255, 0.268) 100%);
+
+    /* background is not working on light mode, test this at home */
+    background-image: url('/assets/blue-stars.jpg'),
+    linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.621) 35%, rgba(0, 213, 255, 0.268) 100%);
     background-blend-mode: lighten;
-    background-size: cover;
+    background-size: contain;
+}
+
+#top-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#title {
+    margin: 0;
+}
+
+#high-score {
+    margin: 0;
+}
+
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#canvas {
+    border: 4mm ridge #ffec02;
+}
+
+#bottom-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#play {
+    margin-top: 7px;
+}
+
+#score {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+.text {
+    /* text is dark in dark mode, test this at home */
+    background: -webkit-linear-gradient(#eeeeee, #a31c64);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* background-color: violet; */
 }

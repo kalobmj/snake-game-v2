@@ -187,6 +187,7 @@ function moveSnake() {
     let head = { ...snake[0] };
     console.log({ head });
 
+    
     // updating snakeHead location based on direction
     if (direction === 'right') {
         console.log('direction was right');
@@ -201,9 +202,20 @@ function moveSnake() {
         console.log('direction was up');
         head.y -= cellSize;
     };
-
+    
     snake.pop();
-
+    
+    // if snake head collides with any part of the snake body, end game
+    for (let cell of snake) {
+        console.log(head.x);
+        console.log(head.y);
+        console.log(cell.x);
+        console.log(cell.y);
+        if (checkCollision(head.x, head.y, cell.x, cell.y)) {
+            window.location.reload();
+        }
+    };
+    
     // if (checkCollision(head.x, head.y, jewel.x, jewel.y)) {
     //     snake.shift(tail)
     // };
@@ -225,10 +237,21 @@ function moveSnake() {
 
     console.log({ snake });
 
+    console.log({ head })
+    console.log('head x', head.x);
+    console.log('head y', head.y);
+    console.log('jewel x', jewel[0].x);
+    console.log('jewel y', jewel[0].y);
+
     // if snake eats the apple 😋
-    if (checkCollision(snake[0].x, snake[0].y, jewel[0].x, jewel[0].y)) {
+    if (checkCollision(Math.round(head.x), Math.round(head.y), Math.round(jewel[0].x), Math.round(jewel[0].y))) {
+        console.log('we hit an apple');
         snake.unshift(head);
         snake.push(tail);
+        placeJewel();
+
+        console.log({jewel})
+
     } else {
         snake.unshift(head);
     }

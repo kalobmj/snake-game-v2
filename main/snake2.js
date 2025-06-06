@@ -352,8 +352,18 @@ canvas.addEventListener('keydown', (e) => {
     }
 });
 
+
+
 let interval;
 let game = false;
+
+// ***
+``
+    // hey so the worm is exiiting game when it is on the border, not out of bounds, fix this lul ;)
+
+
+
+// ***
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {

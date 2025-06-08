@@ -1,3 +1,9 @@
+// ***
+
+// re-do snake on snake-3
+
+// ***
+
 const canvas = document.getElementById('canvas');
 const canvas2 = document.getElementById('canvas-2');
 const c = canvas.getContext('2d');
@@ -88,6 +94,13 @@ console.log(cellSize * cols);
 function checkBounds(x, y) {
     let maxWidth = cellSize * cols;
     let maxHeight = cellSize * rows;
+
+    console.log('x, max-width');
+    console.log({x});
+    console.log({maxWidth});
+    console.log('y, max-height');
+    console.log({y});
+    console.log({maxHeight});
 
     if (x < 0 || y < 0 || x > maxWidth || y > maxHeight) {
         return true
@@ -181,6 +194,7 @@ function moveSnake() {
 
     // if snake head is out of bounds, end game
     if (checkBounds(snake[0].x, snake[0].y)) {
+        clearInterval(interval)
         window.location.reload();
     }
 
@@ -368,7 +382,7 @@ let interval;
 let game = false;
 
 // ***
-``
+
     // hey so the worm is exiiting game when it is on the border, not out of bounds, fix this lul ;)
 
 

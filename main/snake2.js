@@ -173,6 +173,12 @@ function endGame() {
 // function to move snake
 function moveSnake() {
 
+    console.log('snake here: ')
+    console.log({snake});
+    console.log(snake[0]);
+    console.log(snake[0].x);
+    console.log(snake[0].y);
+
     // if snake head is out of bounds, end game
     if (checkBounds(snake[0].x, snake[0].y)) {
         window.location.reload();
@@ -207,6 +213,10 @@ function moveSnake() {
     
     // if snake head collides with any part of the snake body, end game
     for (let cell of snake) {
+
+        console.log('cell here')
+        console.log({cell})
+
         console.log(head.x);
         console.log(head.y);
         console.log(cell.x);

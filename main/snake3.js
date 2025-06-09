@@ -48,53 +48,11 @@ function checkForJewel(x1, y1, x2, y2) {
 
 function move() {
 
-    let head = snake[0];
+    // based on direction, prepare a head that will be one tile away from the snakes actual head
 
-    if (direction === 'right') {
-        head.x += cellSize;
-    } else if (direction === 'left') {
-        head.x -= cellSize;
-    } else if (direction === 'up') {
-        head.y -= cellSize;
-    } else if (direction === 'down') {
-        head.y += cellSize
-    };
+    // test that prepared head, then if its an apple. just change the square to a snake, and record the apple coordinates to the front of the snake array body
 
-    if (checkForJewel(apple.x, apple.y, head.x, head.y)) {
-
-        snake.unshift(head);
-
-        grid();
-
-        placeApple();
-        
-        for (let i = 0; i < snake.length; i++) {
-            c.fillStyle = 'green'
-            c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
-        }
-        
-    } else {
-        
-        let tail = snake[snake.length - 1];
-        
-        snake.pop();
-        
-        snake.unshift(head);
-        
-        console.log('this is snake')
-        console.log({snake});
-        console.log(snake.length);
-        
-        grid();
-        
-        placeApple();
-        
-        for (let i = 0; i < snake.length; i++) {
-            c.fillStyle = 'green'
-            c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
-        }
-
-    }
+    
     
 };
 

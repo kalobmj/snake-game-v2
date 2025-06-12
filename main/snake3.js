@@ -90,11 +90,30 @@ function move() {
     }
 
     for (let cell of snake) {
-        if (checkCollision(head.x, head.y, snake[0].x, snake[0].y)) {
+        console.log('checking snake..');
+
+        let snakeCopy = { ...snake }
+
+        console.log({snakeCopy})
+    
+        console.log(head.x);
+        console.log(head.y);
+        console.log(cell.x);
+        console.log(cell.y);
+
+        if (checkCollision(head.x, head.y, cell.x, cell.y)) {
             console.log('collision found');
+            // window.location.reload();
+            setTimeout(() => {
+                clearInterval(interval)
+            }, 2000);
         }
     }
 
+    if (checkBounds(head.x, head.y)) {
+        console.log('out of bounds');
+        window.location.reload();
+    }
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
         console.log('collision with apple');
@@ -121,6 +140,25 @@ function move() {
     };
 
     console.log('move done');
+};
+
+// util for checking out of bounds
+function checkBounds(x, y) {
+    let maxWidth = cellSize * cols;
+    let maxHeight = cellSize * rows;
+
+    console.log('x, max-width');
+    console.log({x});
+    console.log({maxWidth});
+    console.log('y, max-height');
+    console.log({y});
+    console.log({maxHeight});
+
+    if (x < 0 || y < 0 || x > maxWidth || y > maxHeight) {
+        return true
+    } else {
+        return false
+    };
 };
 
 canvas.addEventListener('keydown', (e) => {

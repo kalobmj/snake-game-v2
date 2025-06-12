@@ -7,23 +7,28 @@ canvas.focus();
 const rows = 10;
 const cols = 10;
 
-const cellSize = 50;
+const cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
+
+console.log({ cellSize });
+
+canvas.height = cellSize * rows;
+canvas.width = cellSize * cols;
 
 function grid() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             c.fillStyle = 'white';
-            c.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
+            c.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
             c.strokeStyle = 'blue';
-            c.strokeRect(j*cellSize, i*cellSize, cellSize, cellSize)
+            c.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize)
         }
     };
 };
 
 grid();
 
-let snake = [{x: 200, y: 200}, {x: 250, y: 200}];
-let apple = [{x: 100, y: 100}];
+let snake = [{ x: 4 * cellSize, y: 4 * cellSize }, { x: 5 * cellSize, y: 4 * cellSize }];
+let apple = [{ x: 2 * cellSize, y: 2 * cellSize }];
 
 c.fillStyle = 'green';
 c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
@@ -72,10 +77,11 @@ function checkCollision(x1, y1, x2, y2) {
 
 function move() {
     let head = { ...snake[0] };
-    
+    let appleFound = false;
+
     if (direction === 'right') {
-        head.x += cellSize; 
-    } else if (direction === 'left') { 
+        head.x += cellSize;
+    } else if (direction === 'left') {
         head.x -= cellSize;
     } else if (direction === 'up') {
         head.y -= cellSize;
@@ -83,12 +89,19 @@ function move() {
         head.y += cellSize;
     }
 
-    let appleFound = false;
+    for (let cell of snake) {
+        if (checkCollision(head.x, head.y, snake[0].x, snake[0].y)) {
+            console.log('collision found');
+        }
+    }
+
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
+        console.log('collision with apple');
         snake.unshift(head);
         appleFound = true;
     } else {
+        console.log('no collision with apple');
         snake.unshift(head);
         snake.pop();
     };
@@ -106,14 +119,9 @@ function move() {
         c.fillStyle = 'green';
         c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
     };
-    
+
     console.log('move done');
 };
-
-// check collisons
-// check bounds
-
-// all inside of move function
 
 canvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
@@ -131,8 +139,16 @@ canvas.addEventListener('keydown', (e) => {
     }
 });
 
+let gameRunning = false;
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-        interval = setInterval(move, 500);
+        if (!gameRunning) {
+            gameRunning = true;
+            interval = setInterval(move, 500);
+        } else {
+            gameRunning = false;
+            clearInterval(interval);
+        }
     }
 });

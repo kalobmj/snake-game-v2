@@ -39,7 +39,7 @@ placeApple();
 let interval;
 let direction = 'right';
 
-function checkForJewel(x1, y1, x2, y2) {
+function checkCollision(x1, y1, x2, y2) {
     if (x1 === x2 && y1 === y2) {
         return true;
     }
@@ -48,12 +48,27 @@ function checkForJewel(x1, y1, x2, y2) {
 
 function move() {
 
-    // based on direction, prepare a head that will be one tile away from the snakes actual head
-
-    // test that prepared head, then if its an apple. just change the square to a snake, and record the apple coordinates to the front of the snake array body
-
+    let head = snake[0];
+    console.log({head});
     
-    
+    if (direction === 'right') {
+        head.x += cellSize; 
+    } else if (direction === 'left') { 
+        head.x -= cellSize;
+    } else if (direction === 'up') {
+        head.y -= cellSize;
+    } else if (direction === 'down') {
+        head.y += cellSize;
+    }
+
+    if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
+
+
+
+    }
+ 
+
+
 };
 
 canvas.addEventListener('keydown', (e) => {

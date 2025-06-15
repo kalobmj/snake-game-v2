@@ -1,165 +1,62 @@
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
 
-canvas.setAttribute('tabindex', 1);
-canvas.focus();
-
 const rows = 10;
 const cols = 10;
-
 const cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
-
 console.log({ cellSize });
 
 canvas.height = cellSize * rows;
 canvas.width = cellSize * cols;
+canvas.setAttribute('tabindex', 1);
+canvas.focus();
+
+let interval;
+let direction = 'right';
+let gameRunning = false;
+
+// 
+
+function checkCollision(x1, y1, x2, y2) {
+    if (x1 === x2 && y1 === y2) {
+        return true;
+    } else {
+        return false;
+    }
+};
 
 function grid() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             c.fillStyle = 'white';
             c.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
-            c.strokeStyle = 'blue';
+            c.strokeStyle = 'purple';
             c.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize)
         }
     };
 };
 
-grid();
+function fillBoard() {
 
-let snake = [{ x: 4 * cellSize, y: 4 * cellSize }, { x: 5 * cellSize, y: 4 * cellSize }];
-let apple = [{ x: 2 * cellSize, y: 2 * cellSize }];
-
-c.fillStyle = 'green';
-c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
-c.fillRect(snake[1].x, snake[1].y, cellSize, cellSize);
-
-c.fillStyle = 'red';
-c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
+};
 
 function placeApple() {
-    let x1, y1, collision;
-
-    do {
-        collision = false;
-
-        x1 = Math.floor(Math.random() * cols) * cellSize;
-        y1 = Math.floor(Math.random() * rows) * cellSize;
-
-        for (let i = 0; i < snake.length; i++) {
-            let snakeX = snake[i].x;
-            let snakeY = snake[i].y;
-            if (checkCollision(x1, y1, snakeX, snakeY)) {
-                console.log('there was a collision');
-                collision = true;
-                console.log({ collision });
-                break;
-            }
-        }
-    } while (collision);
-
-    c.fillStyle = 'red';
-    apple[0].x = x1;
-    apple[0].y = y1;
-    c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
 
 };
 
-let interval;
-let direction = 'right';
+function checkBounds(x, y) {
 
-function checkCollision(x1, y1, x2, y2) {
-    if (x1 === x2 && y1 === y2) {
-        return true;
-    }
-    return false;
-}
+};
 
 function move() {
-    let head = { ...snake[0] };
-    let appleFound = false;
 
-    if (direction === 'right') {
-        head.x += cellSize;
-    } else if (direction === 'left') {
-        head.x -= cellSize;
-    } else if (direction === 'up') {
-        head.y -= cellSize;
-    } else if (direction === 'down') {
-        head.y += cellSize;
-    }
-
-    for (let cell of snake) {
-        console.log('checking snake..');
-
-        let snakeCopy = { ...snake }
-
-        console.log({snakeCopy})
-    
-        console.log(head.x);
-        console.log(head.y);
-        console.log(cell.x);
-        console.log(cell.y);
-
-        if (checkCollision(head.x, head.y, cell.x, cell.y)) {
-            console.log('collision found');
-            // window.location.reload();
-            setTimeout(() => {
-                clearInterval(interval)
-            }, 2000);
-        }
-    }
-
-    if (checkBounds(head.x, head.y)) {
-        console.log('out of bounds');
-        window.location.reload();
-    }
-
-    if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
-        console.log('collision with apple');
-        snake.unshift(head);
-        appleFound = true;
-    } else {
-        console.log('no collision with apple');
-        snake.unshift(head);
-        snake.pop();
-    };
-
-    grid();
-
-    if (appleFound) {
-        placeApple();
-    } else {
-        c.fillStyle = 'red';
-        c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
-    }
-
-    for (let i = 0; i < snake.length; i++) {
-        c.fillStyle = 'green';
-        c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
-    };
-
-    console.log('move done');
 };
 
-// util for checking out of bounds
-function checkBounds(x, y) {
-    let maxWidth = cellSize * cols;
-    let maxHeight = cellSize * rows;
+//
 
-    console.log('x, max-width');
-    console.log({x});
-    console.log({maxWidth});
-    console.log('y, max-height');
-    console.log({y});
-    console.log({maxHeight});
+grid();
 
-    if (x < 0 || y < 0 || x > maxWidth || y > maxHeight) {
-        return true
-    } else {
-        return false
-    };
-};
+//
 
 canvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') {
@@ -176,8 +73,6 @@ canvas.addEventListener('keydown', (e) => {
         direction = 'down';
     }
 });
-
-let gameRunning = false;
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {

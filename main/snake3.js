@@ -139,16 +139,12 @@ fillBoard();
 
 canvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' && direction != 'left') {
-        console.log(e.key);
         direction = 'right';
     } else if (e.key === 'ArrowLeft' && direction != 'right') {
-        console.log(e.key);
         direction = 'left';
     } else if (e.key === 'ArrowUp' && direction != 'down') {
-        console.log(e.key);
         direction = 'up';
     } else if (e.key === 'ArrowDown' && direction != 'up') {
-        console.log(e.key);
         direction = 'down';
     }
 });

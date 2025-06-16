@@ -42,8 +42,8 @@ function fillBoard() {
     c.fillStyle = 'red';
     c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
 
-    snake.push({ x: cellSize * 2, y: cellSize * 4 });
     snake.push({ x: cellSize * 3, y: cellSize * 4 });
+    snake.push({ x: cellSize * 2, y: cellSize * 4 });
     c.fillStyle = 'green';
     c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
     c.fillRect(snake[1].x, snake[1].y, cellSize, cellSize);
@@ -81,9 +81,7 @@ function checkBounds(x, y) {
 };
 
 function move() {
-
     let head = { ...snake[0] };
-    console.log({ head });
 
     if (checkBounds(head.x, head.y)) {
         clearInterval(interval);
@@ -100,6 +98,13 @@ function move() {
         head.y += cellSize;
     };
 
+    for (let i = 0; i < snake.length; i++) {
+        if (checkCollision(head.x, head.y, snake[i].x, snake[i].y)) {
+            clearInterval(interval);
+            return;
+        };
+    };
+
     snake.unshift(head);
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
@@ -111,14 +116,6 @@ function move() {
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
         };
     } else {
-        for (let i = 1; i < snake.length; i++) {
-            if (checkCollision(snake[0].x, snake[0].y, snake[i].x, snake[i].y)) {
-                console.log('body collision found');
-                clearInterval(interval);
-                return;
-            }
-        };
-
         snake.pop();
         grid();
 
@@ -141,16 +138,16 @@ fillBoard();
 //
 
 canvas.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
+    if (e.key === 'ArrowRight' && direction != 'left') {
         console.log(e.key);
         direction = 'right';
-    } else if (e.key === 'ArrowLeft') {
+    } else if (e.key === 'ArrowLeft' && direction != 'right') {
         console.log(e.key);
         direction = 'left';
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === 'ArrowUp' && direction != 'down') {
         console.log(e.key);
         direction = 'up';
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' && direction != 'up') {
         console.log(e.key);
         direction = 'down';
     }
@@ -162,6 +159,7 @@ playButton.addEventListener('click', () => {
 
     if (!isGameRunning) {
         interval = setInterval(move, 500);
+        isGameRunning = true;
     } else {
         clearInterval(interval);
         isGameRunning = false;

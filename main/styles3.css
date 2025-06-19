@@ -6,6 +6,22 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 2;
+
+    /* font-family: Quincy Caps; */
+    font-family: 'Quincy Caps', Fallback, sans-serif;
+
+    /* font face below should make it so user doesn't need to download font, check this at home */
+    @font-face {
+        font-family: 'Quincy Caps';
+        src: url('Quincy-Caps-Regular.ttf');
+    }
+
+    /* background is not working on light mode, test this at home */
+    background-image: url('/assets/blue-stars.jpg'),
+    linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.621) 35%, rgba(0, 213, 255, 0.268) 100%);
+    background-blend-mode: lighten;
+    background-size: contain;
 }
 
 #canvas-area {
@@ -14,9 +30,18 @@ body {
     align-items: center;
 }
 
+#canvas-1 {
+    border: 4mm ridge #ffec02;
+    position: relative;
+    z-index: 2;
+}
+
+#space {
+    z-index: 1;
+}
+
 #play-btn {
     /* position: relative; */
-    margin-top: 20px;
     visibility: visible;
 }
 
@@ -25,4 +50,32 @@ body {
     pointer-events: none;
     width: auto;
     visibility: hidden;
+    z-index: 3;
+}
+
+#score {
+    margin-top: 8px;
+}
+
+.text {
+    /* text is dark in dark mode, test this at home */
+    background: -webkit-linear-gradient(#eeeeee, #a31c64);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* background-color: violet; */
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        /* Example dark background color */
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #121212;
+        /* Example dark background color */
+    }
 }

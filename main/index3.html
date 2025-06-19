@@ -9,15 +9,24 @@
     <title>snake round 3</title>
 </head>
 <body>
+    <div id="asset-container" style="display: none">
+        <img id="space" src="/assets/bj-background.webp" alt="background">
+        <img src="/assets/gems/blue-diamond.png" alt="blue-diamond">
+        <img src="/assets/gems/green-octogon.png" alt="green-octogon">
+        <img src="/assets/gems/red-square.png" alt="red-square">
+        <img src="/assets/gems/white-decagon.png" alt="white-decagon">
+        <img src="/assets/gems/yellow-rect.png" alt="yellow-rect">
+    </div>
+    <h3 class="text" id="title">BEJEWLED SNAKE GAME</h3>
     <div id="hight-score-area">
-        <h5 id="high-score">high score: <span id="highscore-num">0</span></h5>
+        <h5 class="text" id="high-score">HIGH SCORE: <span id="highscore-num">0</span></h5>
     </div>
     <div id="canvas-area">
         <canvas id="canvas-1" height="500" width="500"></canvas>
         <button id="game-over-btn" type="button" class="btn btn-danger">game over</button>
     </div>
     <div id="score area">
-        <h5 id="score">score: <span id="score-num">0</span></h5>
+        <h5 class="text" id="score">SCORE: <span id="score-num">0</span></h5>
     </div>
     <div id="bottom-area">
         <button type="button" id="play-btn" class="btn btn-primary">play</button>

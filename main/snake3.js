@@ -1,6 +1,7 @@
 const playButton = document.getElementById('play-btn');
 const highScore = document.getElementById('highscore-num');
 const gameOverButton = document.getElementById('game-over-btn');
+const spaceBackground = document.getElementById('space');
 const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
@@ -15,6 +16,7 @@ console.log({ cellSize });
 
 canvas.height = cellSize * rows;
 canvas.width = cellSize * cols;
+
 gameOverButton.style.height = `${cellSize * 1.5}px`;
 gameOverButton.style.width = `${cellSize * 3.5}px`;
 gameOverButton.style.fontSize = `${cellSize / 2}px`
@@ -25,7 +27,44 @@ let direction = 'right';
 let apple = [];
 let snake = [];
 
+const jewels = {
+    green: '/assets/gems/green-octogon.png',
+    red: '/assets/gems/red-square.png',
+    yellow: '/assets/gems/yellow-rect.png',
+    white: '/assets/gems/white-decagon.png',
+    blue: '/assets/gems/blue-diamond.png'
+};
+
 // 
+
+function loadImage(src) {
+    return new Promise((res, rej) => {
+        const img = new Image();
+        img.src = src;
+
+        img.onload = () => res(img);
+        img.onerror = rej;
+    })
+};
+
+async function preloadImages() {
+    try {
+        const jewelEntries = Object.entries(jewels);
+        const imagePromises = jewelEntries.map(([name, src]) => loadImage(src));
+        imagePromises.push(loadImage('/assets/bj-background.webp'));
+
+        const loadedImgs = await Promise.all(imagePromises);
+        const spaceImage = loadedImgs.pop();
+
+        space.src = spaceImage.src;
+
+        jewelImgs = loadedImgs;
+    } catch (err) {
+        console.error('Image had problem loading...', err);
+    }
+};
+
+//
 
 function checkCollision(x1, y1, x2, y2) {
     if (x1 === x2 && y1 === y2) {
@@ -35,35 +74,38 @@ function checkCollision(x1, y1, x2, y2) {
     }
 };
 
+function checkBounds(x, y) {
+    if (x < 0 || y < 0 || x >= (cellSize * rows) || y >= (cellSize * cols)) {
+        return true;
+    } else {
+        return false;
+    };
+};
+
 function grid() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.drawImage(space, 0, 0, canvas.width, canvas.height);
+
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            c.fillStyle = 'white';
-            c.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
-            c.strokeStyle = 'purple';
-            c.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize)
+            const isEven = (i + j) % 2 === 0;
+            let color = isEven ? '#ffffff15' : '#00000040';
+
+            c.fillStyle = color;
+            c.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
         }
     };
 };
 
 function fillBoard() {
-    if (apple.length === 0) {
-        apple.push({ x: cellSize * 6, y: cellSize * 6 });
-    } else {
-        apple = [];
-        apple[0] = { x: cellSize * 6, y: cellSize * 6 };
-    };
+    apple = [];
+    apple[0] = { x: cellSize * 6, y: cellSize * 6 };
     c.fillStyle = 'red';
     c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
 
-    if (snake.length === 0) {
-        snake.push({ x: cellSize * 3, y: cellSize * 4 });
-        snake.push({ x: cellSize * 2, y: cellSize * 4 });
-    } else {
-        snake = [];
-        snake[0] = { x: cellSize * 3, y: cellSize * 4 };
-        snake[1] = { x: cellSize * 2, y: cellSize * 4 };
-    }
+    snake = [];
+    snake[0] = { x: cellSize * 3, y: cellSize * 4 };
+    snake[1] = { x: cellSize * 2, y: cellSize * 4 };
     c.fillStyle = 'green';
     c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
     c.fillRect(snake[1].x, snake[1].y, cellSize, cellSize);
@@ -90,14 +132,6 @@ function placeApple() {
     apple[0].y = y1;
     c.fillStyle = 'red';
     c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
-};
-
-function checkBounds(x, y) {
-    if (x < 0 || y < 0 || x > cellSize * rows || y > cellSize * cols) {
-        return true;
-    } else {
-        return false;
-    };
 };
 
 function move() {
@@ -162,6 +196,8 @@ function updateScore() {
     }
 };
 
+//
+
 function setupGame() {
     grid();
     fillBoard();
@@ -189,10 +225,6 @@ function resetGame() {
     score.innerText = '0';
     setupGame();
 };
-
-//
-
-setupGame();
 
 //
 
@@ -230,3 +262,8 @@ playButton.addEventListener('click', () => {
         startGame();
     }
 });
+
+window.onload = async () => {
+    await preloadImages();
+    setupGame();
+};

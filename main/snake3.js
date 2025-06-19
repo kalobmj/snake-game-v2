@@ -1,3 +1,10 @@
+//
+
+    // main problem:
+        // your gems are counting points one gem ahead. 
+
+//
+
 const playButton = document.getElementById('play-btn');
 const highScore = document.getElementById('highscore-num');
 const gameOverButton = document.getElementById('game-over-btn');

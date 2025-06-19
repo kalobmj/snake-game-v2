@@ -22,6 +22,7 @@ gameOverButton.style.width = `${cellSize * 3.5}px`;
 gameOverButton.style.fontSize = `${cellSize / 2}px`
 
 let interval;
+let jewelImgs;
 let isGameRunning = false;
 let direction = 'right';
 let ourJewel;
@@ -38,10 +39,13 @@ const jewels = {
 
 // 
 
-function loadImage(src) {
+function loadImage(name, src) {
     return new Promise((res, rej) => {
         const img = new Image();
         img.src = src;
+        img.height = cellSize;
+        img.width = cellSize;
+        img.id = name;
 
         img.onload = () => res(img);
         img.onerror = rej;
@@ -51,12 +55,13 @@ function loadImage(src) {
 async function preloadImages() {
     try {
         const jewelEntries = Object.entries(jewels);
-        const imagePromises = jewelEntries.map(([name, src]) => loadImage(src));
-        imagePromises.push(loadImage('/assets/bj-background.webp'));
+        const imagePromises = jewelEntries.map(([name, src]) => loadImage(name, src));
+        imagePromises.push(loadImage('space', '/assets/bj-background.webp'));
 
         const loadedImgs = await Promise.all(imagePromises);
         const spaceImage = loadedImgs.pop();
 
+        ourJewel = loadedImgs[0];
         space.src = spaceImage.src;
         jewelImgs = loadedImgs;
     } catch (err) {
@@ -82,6 +87,42 @@ function checkBounds(x, y) {
     };
 };
 
+function updateScore() {
+    let localScore = Number(score.innerText);
+    let localHighScore = Number(localStorage.getItem('high-score'));
+
+    //
+
+    // logic for points for each gem will go here:
+
+    console.log({ ourJewel });
+
+    const ourJewelId = ourJewel.id;
+
+    if (ourJewelId === 'green') {
+        localScore += 20;
+    } else if (ourJewelId === 'red') {
+        localScore += 30;
+    } else if (ourJewelId === 'yellow') {
+        localScore += 40;
+    } else if (ourJewelId === 'white') {
+        localScore += 50;
+    } else if (ourJewelId === 'blue') {
+        localScore += 75;
+    };
+
+    // localScore++;
+
+    //
+
+    score.innerText = localScore;
+
+    if (localScore > localHighScore) {
+        highScore.innerText = localScore;
+        localStorage.setItem('high-score', `${localScore}`);
+    }
+};
+
 function grid() {
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.drawImage(space, 0, 0, canvas.width, canvas.height);
@@ -100,8 +141,7 @@ function grid() {
 function fillBoard() {
     apple = [];
     apple[0] = { x: cellSize * 6, y: cellSize * 6 };
-    c.fillStyle = 'red';
-    c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
+    c.drawImage(ourJewel, apple[0].x, apple[0].y, cellSize, cellSize);
 
     snake = [];
     snake[0] = { x: cellSize * 3, y: cellSize * 4 };
@@ -128,17 +168,25 @@ function placeApple() {
         };
     } while (collision);
 
-    //
+    let jewelRoll = Math.floor(Math.random() * 100) + 1;
 
-        // logic for determining jewel goes here
-        // we will copy this from snake 2
+    if (jewelRoll >= 1 && jewelRoll <= 30) {
+        ourJewel = jewelImgs[0];
+    } else if (jewelRoll >= 31 && jewelRoll <= 50) {
+        ourJewel = jewelImgs[1];
+    } else if (jewelRoll >= 51 && jewelRoll <= 65) {
+        ourJewel = jewelImgs[2];
+    } else if (jewelRoll >= 66 && jewelRoll <= 85) {
+        ourJewel = jewelImgs[3];
+    } else if (jewelRoll >= 86 && jewelRoll <= 100) {
+        ourJewel = jewelImgs[4];
+    };
 
-    //
+    console.log(ourJewel);
 
     apple[0].x = x1;
     apple[0].y = y1;
-    c.fillStyle = 'red';
-    c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
+    c.drawImage(ourJewel, x1, y1, cellSize, cellSize);
 };
 
 function move() {
@@ -181,26 +229,13 @@ function move() {
         snake.pop();
         grid();
 
-        c.fillStyle = 'red';
-        c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
+        c.drawImage(ourJewel, apple[0].x, apple[0].y, cellSize, cellSize);
 
         for (let i = 0; i < snake.length; i++) {
             c.fillStyle = 'green';
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
         }
     };
-};
-
-function updateScore() {
-    let localScore = Number(score.innerText);
-    let localHighScore = Number(localStorage.getItem('high-score'));
-    localScore++;
-    score.innerText = localScore;
-
-    if (localScore > localHighScore) {
-        highScore.innerText = localScore;
-        localStorage.setItem('high-score', `${localScore}`);
-    }
 };
 
 //
@@ -242,6 +277,7 @@ function getStats() {
     console.log('canvas height', canvas.height);
     console.log('canvas width', canvas.width);
     console.log({ interval });
+    console.log({ ourJewel })
     console.log({ isGameRunning });
     console.log({ direction });
     console.log({ apple });
@@ -251,12 +287,16 @@ function getStats() {
 canvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' && direction != 'left') {
         direction = 'right';
+        console.log(e.key);
     } else if (e.key === 'ArrowLeft' && direction != 'right') {
         direction = 'left';
+        console.log(e.key);
     } else if (e.key === 'ArrowUp' && direction != 'down') {
         direction = 'up';
+        console.log(e.key);
     } else if (e.key === 'ArrowDown' && direction != 'up') {
         direction = 'down';
+        console.log(e.key);
     }
 });
 
@@ -272,5 +312,8 @@ playButton.addEventListener('click', () => {
 
 window.onload = async () => {
     await preloadImages();
+
+    console.log({ jewelImgs })
+
     setupGame();
 };

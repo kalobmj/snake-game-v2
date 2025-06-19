@@ -24,6 +24,7 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`
 let interval;
 let isGameRunning = false;
 let direction = 'right';
+let ourJewel;
 let apple = [];
 let snake = [];
 
@@ -57,7 +58,6 @@ async function preloadImages() {
         const spaceImage = loadedImgs.pop();
 
         space.src = spaceImage.src;
-
         jewelImgs = loadedImgs;
     } catch (err) {
         console.error('Image had problem loading...', err);
@@ -127,6 +127,13 @@ function placeApple() {
             }
         };
     } while (collision);
+
+    //
+
+        // logic for determining jewel goes here
+        // we will copy this from snake 2
+
+    //
 
     apple[0].x = x1;
     apple[0].y = y1;

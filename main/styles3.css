@@ -8,7 +8,21 @@ body {
     flex-direction: column;
 }
 
+#canvas-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #play-btn {
     /* position: relative; */
     margin-top: 20px;
+    visibility: visible;
+}
+
+#game-over-btn {
+    position: absolute;
+    pointer-events: none;
+    width: auto;
+    visibility: hidden;
 }

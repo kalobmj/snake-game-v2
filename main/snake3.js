@@ -1,6 +1,12 @@
 const playButton = document.getElementById('play-btn');
+const highScore = document.getElementById('highscore-num');
+const gameOverButton = document.getElementById('game-over-btn');
+const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
+
+localStorage.clear();
+localStorage.setItem('high-score', '0');
 
 const rows = 10;
 const cols = 10;
@@ -9,9 +15,12 @@ console.log({ cellSize });
 
 canvas.height = cellSize * rows;
 canvas.width = cellSize * cols;
+gameOverButton.style.height = `${cellSize * 1.5}px`;
+gameOverButton.style.width = `${cellSize * 3.5}px`;
+gameOverButton.style.fontSize = `${cellSize / 2}px`
 
 let interval;
-let isGameRunning;
+let isGameRunning = false;
 let direction = 'right';
 let apple = [];
 let snake = [];
@@ -38,12 +47,23 @@ function grid() {
 };
 
 function fillBoard() {
-    apple.push({ x: cellSize * 6, y: cellSize * 6 });
+    if (apple.length === 0) {
+        apple.push({ x: cellSize * 6, y: cellSize * 6 });
+    } else {
+        apple = [];
+        apple[0] = { x: cellSize * 6, y: cellSize * 6 };
+    };
     c.fillStyle = 'red';
     c.fillRect(apple[0].x, apple[0].y, cellSize, cellSize);
 
-    snake.push({ x: cellSize * 3, y: cellSize * 4 });
-    snake.push({ x: cellSize * 2, y: cellSize * 4 });
+    if (snake.length === 0) {
+        snake.push({ x: cellSize * 3, y: cellSize * 4 });
+        snake.push({ x: cellSize * 2, y: cellSize * 4 });
+    } else {
+        snake = [];
+        snake[0] = { x: cellSize * 3, y: cellSize * 4 };
+        snake[1] = { x: cellSize * 2, y: cellSize * 4 };
+    }
     c.fillStyle = 'green';
     c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
     c.fillRect(snake[1].x, snake[1].y, cellSize, cellSize);
@@ -53,17 +73,17 @@ function placeApple() {
     let x1, y1, collision;
 
     do {
-        collision = true;
+        collision = false;
 
         x1 = Math.floor(Math.random() * rows) * cellSize;
         y1 = Math.floor(Math.random() * cols) * cellSize;
 
         for (const cell of snake) {
-            if (!checkCollision(snake[0].x, snake[0].y, x1, y1)) {
-                collision = false;
+            if (checkCollision(cell.x, cell.y, x1, y1)) {
+                collision = true;
                 break;
             }
-        }
+        };
     } while (collision);
 
     apple[0].x = x1;
@@ -84,7 +104,7 @@ function move() {
     let head = { ...snake[0] };
 
     if (checkBounds(head.x, head.y)) {
-        clearInterval(interval);
+        endGame();
         return;
     };
 
@@ -100,7 +120,7 @@ function move() {
 
     for (let i = 0; i < snake.length; i++) {
         if (checkCollision(head.x, head.y, snake[i].x, snake[i].y)) {
-            clearInterval(interval);
+            endGame();
             return;
         };
     };
@@ -110,6 +130,7 @@ function move() {
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
         grid();
         placeApple();
+        updateScore();
 
         for (let i = 0; i < snake.length; i++) {
             c.fillStyle = 'green';
@@ -129,13 +150,64 @@ function move() {
     };
 };
 
+function updateScore() {
+    let localScore = Number(score.innerText);
+    let localHighScore = Number(localStorage.getItem('high-score'));
+    localScore++;
+    score.innerText = localScore;
+
+    if (localScore > localHighScore) {
+        highScore.innerText = localScore;
+        localStorage.setItem('high-score', `${localScore}`);
+    }
+};
+
+function setupGame() {
+    grid();
+    fillBoard();
+    getStats();
+};
+
+function startGame() {
+    interval = setInterval(move, 500);
+    isGameRunning = true;
+    gameOverButton.style.visibility = 'hidden';
+    playButton.style.visibility = 'hidden';
+};
+
+function endGame() {
+    clearInterval(interval);
+    isGameRunning = false;
+    playButton.style.visibility = 'visible';
+    gameOverButton.style.visibility = 'visible';
+};
+
+function resetGame() {
+    let apple = [];
+    let snake = [];
+    direction = 'right';
+    score.innerText = '0';
+    setupGame();
+};
+
 //
 
-grid();
-
-fillBoard();
+setupGame();
 
 //
+
+function getStats() {
+    console.log({ rows });
+    console.log({ cols });
+    console.log({ cellSize });
+    console.log('canvas height', canvas.height);
+    console.log('canvas width', canvas.width);
+    console.log({ interval });
+    console.log({ isGameRunning });
+    console.log({ direction });
+    console.log({ apple });
+    console.log({ snake });
+};
 
 canvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' && direction != 'left') {
@@ -154,10 +226,7 @@ playButton.addEventListener('click', () => {
     canvas.focus();
 
     if (!isGameRunning) {
-        interval = setInterval(move, 500);
-        isGameRunning = true;
-    } else {
-        clearInterval(interval);
-        isGameRunning = false;
+        resetGame();
+        startGame();
     }
 });

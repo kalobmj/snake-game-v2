@@ -25,6 +25,7 @@ let interval;
 let jewelImgs;
 let isGameRunning = false;
 let direction = 'right';
+let directionTick = false;
 let ourJewel;
 let apple = [];
 let snake = [];
@@ -72,6 +73,7 @@ async function preloadImages() {
 //
 
 function checkCollision(x1, y1, x2, y2) {
+    console.log({direction})
     if (x1 === x2 && y1 === y2) {
         return true;
     } else {
@@ -192,18 +194,26 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
+    //
+
+        // here we testing out why quick movements are causing our worm to go over itself
+
+    let localDirection = direction;
+
+    //
+
     if (checkBounds(head.x, head.y)) {
         endGame();
         return;
     };
 
-    if (direction === 'right') {
+    if (localDirection === 'right') {
         head.x += cellSize;
-    } else if (direction === 'left') {
+    } else if (localDirection === 'left') {
         head.x -= cellSize;
-    } else if (direction === 'up') {
+    } else if (localDirection === 'up') {
         head.y -= cellSize;
-    } else if (direction === 'down') {
+    } else if (localDirection === 'down') {
         head.y += cellSize;
     };
 
@@ -236,6 +246,7 @@ function move() {
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
         }
     };
+    directionTick = false;
 };
 
 //
@@ -285,18 +296,25 @@ function getStats() {
 };
 
 canvas.addEventListener('keydown', (e) => {
+    if (directionTick) {
+        return;
+    };
     if (e.key === 'ArrowRight' && direction != 'left') {
         direction = 'right';
         console.log(e.key);
+        directionTick = true;
     } else if (e.key === 'ArrowLeft' && direction != 'right') {
         direction = 'left';
         console.log(e.key);
+        directionTick = true;
     } else if (e.key === 'ArrowUp' && direction != 'down') {
         direction = 'up';
         console.log(e.key);
+        directionTick = true;
     } else if (e.key === 'ArrowDown' && direction != 'up') {
         direction = 'down';
         console.log(e.key);
+        directionTick = true;
     }
 });
 

@@ -8,7 +8,6 @@
 const playButton = document.getElementById('play-btn');
 const highScore = document.getElementById('highscore-num');
 const gameOverButton = document.getElementById('game-over-btn');
-const spaceBackground = document.getElementById('space');
 const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
@@ -64,14 +63,23 @@ async function preloadImages() {
     try {
         const jewelEntries = Object.entries(jewels);
         const imagePromises = jewelEntries.map(([name, src]) => loadImage(name, src));
+        
+        imagePromises.push(loadImage('bjt', '/assets/gems/BJT_NDS_ICON2.png'));
+        
         imagePromises.push(loadImage('space', '/assets/bj-background.webp'));
-
+        
         const loadedImgs = await Promise.all(imagePromises);
         const spaceImage = loadedImgs.pop();
 
+        console.log({spaceImage});
+
+        const bjtImage = loadedImgs.pop();
+
+        console.log({bjtImage});
+
         ourJewel = loadedImgs[0];
-        space.src = spaceImage.src;
         jewelImgs = loadedImgs;
+
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -80,7 +88,6 @@ async function preloadImages() {
 //
 
 function checkCollision(x1, y1, x2, y2) {
-    console.log({direction})
     if (x1 === x2 && y1 === y2) {
         return true;
     } else {
@@ -135,6 +142,10 @@ function updateScore() {
 function grid() {
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.drawImage(space, 0, 0, canvas.width, canvas.height);
+
+    console.log('space', {space});
+
+    // console.log('bjt', { bjt });
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -201,26 +212,20 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
-    //
-
-        // here we testing out why quick movements are causing our worm to go over itself
-
-    let localDirection = direction;
-
-    //
+    console.log({space});
 
     if (checkBounds(head.x, head.y)) {
         endGame();
         return;
     };
 
-    if (localDirection === 'right') {
+    if (direction === 'right') {
         head.x += cellSize;
-    } else if (localDirection === 'left') {
+    } else if (direction === 'left') {
         head.x -= cellSize;
-    } else if (localDirection === 'up') {
+    } else if (direction === 'up') {
         head.y -= cellSize;
-    } else if (localDirection === 'down') {
+    } else if (direction === 'down') {
         head.y += cellSize;
     };
 

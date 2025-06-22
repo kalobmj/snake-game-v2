@@ -347,3 +347,19 @@ window.onload = async () => {
 
     setupGame();
 };
+
+console.log(window.space);
+
+console.log('is space defined?', typeof space !== 'undefined');
+
+console.log('is bjt defined?', typeof bjt !== 'undefined');
+
+//
+
+    // can maybe make 'space' and 'bjt' global variables, And then assign them to the popped vairables. Dunno why space is working but not bjt
+
+//
+
+console.log('space is', space); // should be undefined
+
+console.log(window.bjt);

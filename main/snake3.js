@@ -1,7 +1,28 @@
 //
 
-    // main problem:
-        // your gems are counting points one gem ahead. 
+    // level 1: 500 points to win
+    // level 2: 1250 points to win
+    // level 3: 1500 points to win
+    // level 4: 1750 points to win
+    // level 5: 2000 points to win
+
+    // do logic for different gems. (keeping snake length, removing one cell)
+    
+    // do logic for new bjt gem
+
+    // bjt gem does -> ???
+
+    // every level up:
+        // increases interval speed (game runs faster)
+        // increases board size (makes gameboard bigger)
+        // require more points to go to the next level
+    
+    // possible point tracker bar on side or bottom to show how far you are in the level
+
+    // need audio track to play in background
+        // could possibly be 5 different songs for every level
+
+    // can mess around with changing the background of the board for each level (like the real game)
 
 //
 
@@ -25,7 +46,7 @@ canvas.width = cellSize * cols;
 
 gameOverButton.style.height = `${cellSize * 1.5}px`;
 gameOverButton.style.width = `${cellSize * 3.5}px`;
-gameOverButton.style.fontSize = `${cellSize / 2}px`
+gameOverButton.style.fontSize = `${cellSize / 2}px`;
 
 let interval;
 let jewelImgs;
@@ -63,11 +84,11 @@ async function preloadImages() {
     try {
         const jewelEntries = Object.entries(jewels);
         const imagePromises = jewelEntries.map(([name, src]) => loadImage(name, src));
-        
+
         imagePromises.push(loadImage('bjt', '/assets/gems/BJT_NDS_ICON2.png'));
-        
+
         imagePromises.push(loadImage('space', '/assets/bj-background.webp'));
-        
+
         const loadedImgs = await Promise.all(imagePromises);
         const spaceImage = loadedImgs.pop();
         const bjtImage = loadedImgs.pop();
@@ -100,9 +121,6 @@ function checkBounds(x, y) {
 function updateScore() {
     let localScore = Number(score.innerText);
     let localHighScore = Number(localStorage.getItem('high-score'));
-
-    console.log({ ourJewel });
-
     const ourJewelId = ourJewel.id;
 
     if (ourJewelId === 'green') {
@@ -194,8 +212,6 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
-    console.log({space});
-
     if (checkBounds(head.x, head.y)) {
         endGame();
         return;
@@ -222,8 +238,8 @@ function move() {
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
         grid();
-        placeApple();
         updateScore();
+        placeApple();
 
         for (let i = 0; i < snake.length; i++) {
             c.fillStyle = 'green';
@@ -295,21 +311,18 @@ canvas.addEventListener('keydown', (e) => {
     if (directionTick) {
         return;
     };
+
     if (e.key === 'ArrowRight' && direction != 'left') {
         direction = 'right';
-        console.log(e.key);
         directionTick = true;
     } else if (e.key === 'ArrowLeft' && direction != 'right') {
         direction = 'left';
-        console.log(e.key);
         directionTick = true;
     } else if (e.key === 'ArrowUp' && direction != 'down') {
         direction = 'up';
-        console.log(e.key);
         directionTick = true;
     } else if (e.key === 'ArrowDown' && direction != 'up') {
         direction = 'down';
-        console.log(e.key);
         directionTick = true;
     }
 });

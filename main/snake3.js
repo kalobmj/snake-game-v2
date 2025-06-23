@@ -70,16 +70,10 @@ async function preloadImages() {
         
         const loadedImgs = await Promise.all(imagePromises);
         const spaceImage = loadedImgs.pop();
-
-        console.log({spaceImage});
-
         const bjtImage = loadedImgs.pop();
-
-        console.log({bjtImage});
 
         ourJewel = loadedImgs[0];
         jewelImgs = loadedImgs;
-
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -107,10 +101,6 @@ function updateScore() {
     let localScore = Number(score.innerText);
     let localHighScore = Number(localStorage.getItem('high-score'));
 
-    //
-
-    // logic for points for each gem will go here:
-
     console.log({ ourJewel });
 
     const ourJewelId = ourJewel.id;
@@ -127,10 +117,6 @@ function updateScore() {
         localScore += 75;
     };
 
-    // localScore++;
-
-    //
-
     score.innerText = localScore;
 
     if (localScore > localHighScore) {
@@ -142,10 +128,6 @@ function updateScore() {
 function grid() {
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.drawImage(space, 0, 0, canvas.width, canvas.height);
-
-    console.log('space', {space});
-
-    // console.log('bjt', { bjt });
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -305,6 +287,8 @@ function getStats() {
     console.log({ direction });
     console.log({ apple });
     console.log({ snake });
+    console.log({ space });
+    console.log({ bjt });
 };
 
 canvas.addEventListener('keydown', (e) => {
@@ -343,23 +327,7 @@ playButton.addEventListener('click', () => {
 window.onload = async () => {
     await preloadImages();
 
-    console.log({ jewelImgs })
+    console.log({ jewelImgs });
 
     setupGame();
 };
-
-console.log(window.space);
-
-console.log('is space defined?', typeof space !== 'undefined');
-
-console.log('is bjt defined?', typeof bjt !== 'undefined');
-
-//
-
-    // can maybe make 'space' and 'bjt' global variables, And then assign them to the popped vairables. Dunno why space is working but not bjt
-
-//
-
-console.log('space is', space); // should be undefined
-
-console.log(window.bjt);

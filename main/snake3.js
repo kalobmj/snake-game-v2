@@ -292,7 +292,7 @@ function move() {
         for (let i = 0; i < snake.length; i++) {
             c.fillStyle = 'green';
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
-        }
+        };
 
         drawHead(snake[0].x, snake[0].y);
 
@@ -306,6 +306,8 @@ function drawHead(x, y) {
     //
 
         // we need to turn eyes around (they are backwards)
+
+        // can maybe put to dots for nose at front of snakehead
 
     //
 
@@ -329,11 +331,10 @@ function drawHead(x, y) {
         console.log('direction is right');
 
         x1 += (cellSize / 2);
-        x2 += cellSize;
-        x3 += (cellSize / 2);
+        x2 += (cellSize / 2);
 
-        y2 += (cellSize / 4);
-        y3 += (cellSize / 2);
+        y2 += (cellSize / 2);
+        y3 += (cellSize * .25);
 
         x4 += (cellSize / 2);
         x5 += cellSize;
@@ -415,6 +416,13 @@ function drawHead(x, y) {
     c.lineTo(x6, y6);
     c.closePath();
     c.fill();
+
+    //
+
+        // logic for snake nose arcs here:
+            // gonna have to change coords for snakeHead nose based on direction
+
+    //
 
 };
 

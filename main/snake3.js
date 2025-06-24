@@ -37,6 +37,8 @@
 
 // can mess around with changing the background of the board for each level (like the real game)
 
+// we will go after at the end and place comments to make it easier to follow
+
 //
 
 const playButton = document.getElementById('play-btn');
@@ -216,7 +218,7 @@ function placeApple() {
     } else if (jewelRoll >= 51 && jewelRoll <= 65) {
         ourJewel = jewelImgs[2];
     } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-        if (snake.length === 1) {
+        if (snake.length <= 2) {
             ourJewel = jewelImgs[0]
         } else {
             ourJewel = jewelImgs[3];
@@ -293,33 +295,75 @@ function move() {
 };
 
 function drawHead(x, y) {
+    console.log('we are in drawHead');
+
+    c.fillStyle = 'black';
+
+    let x1 = x,
+        x2 = x,
+        x3 = x,
+        x4 = x,
+        x5 = x,
+        x6 = x;
+
+    let y1 = y,
+        y2 = y,
+        y3 = y,
+        y4 = y,
+        y5 = y,
+        y6 = y;
 
     if (direction === 'right') {
+        console.log('direction is right');
 
-        console.log('direction is right')
+        x1 += (cellSize / 2);
+        x2 += cellSize;
+        x3 += (cellSize / 2);
 
-        // // Set fill style (optional)
-        c.fillStyle = 'violet';
-        // // Set stroke style and line width (optional)
-        // ctx.strokeStyle = "red";
-        // ctx.lineWidth = 2;
+        y2 += (cellSize / 4);
+        y3 += (cellSize / 2);
 
-        // ctx.beginPath();
-        // ctx.moveTo(150, 50);  // Top vertex
-        // ctx.lineTo(50, 150);  // Bottom-left vertex
-        // ctx.lineTo(250, 150); // Bottom-right vertex
-        // ctx.closePath();
+        x4 += (cellSize / 2);
+        x5 += cellSize;
+        x6 += (cellSize / 2);
 
-        // drawing the triangle (get coords based off cellSize)
-        c.beginPath();
-        c.moveTo(x, y);
-        c.lineTo(cellSize + x, (cellSize / 2) + y);
-        c.lineTo(0, cellSize + y);
-        c.closePath();
+        y4 += (cellSize / 2);
+        y5 += (cellSize * .75);
+        y6 += cellSize;
 
-        c.fill();
+    } else if (direction === 'left') {
+        console.log('direction is left');
 
-    }
+
+
+
+    } else if (direction === 'up') {
+        console.log('direction is up');
+
+
+
+
+    } else if (direction === 'down') {
+        console.log('direction is down');
+
+
+
+
+    };
+
+    c.beginPath();
+    c.moveTo(x1, y1);
+    c.lineTo(x2, y2);
+    c.lineTo(x3, y3);
+    c.closePath();
+    c.fill();
+
+    c.beginPath();
+    c.moveTo(x4, y4);
+    c.lineTo(x5, y5);
+    c.lineTo(x6, y6);
+    c.closePath();
+    c.fill();
 
 };
 

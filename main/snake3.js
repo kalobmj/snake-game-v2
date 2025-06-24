@@ -1,28 +1,41 @@
 //
 
-    // level 1: 500 points to win
-    // level 2: 1250 points to win
-    // level 3: 1500 points to win
-    // level 4: 1750 points to win
-    // level 5: 2000 points to win
+// level 1: 500 points to win
+// level 2: 1250 points to win
+// level 3: 1500 points to win
+// level 4: 1750 points to win
+// level 5: 2000 points to win
 
-    // do logic for different gems. (keeping snake length, removing one cell)
-    
-    // bjt gem does -> ???
+// things from concept:
+// board background chagning for each level (bejewled backgrounds)
+// left side - current level
+// left side - level orb
+// left side - how to play
+// right side - legend
+// bottom side - current level progress bar
+// on level completion -> play level up sound (possibly use same sound as game), play small animation each level, play larger animation when user wins entire game (most likely level 5)
 
-    // every level up:
-        // increases interval speed (game runs faster)
-        // increases board size (makes gameboard bigger)
-        // require more points to go to the next level
-    
-    // possible point tracker bar on side or bottom to show how far you are in the level
+// make snake more round (less blocky)
 
-    // every level up increases points gained by 5x
+// give snake some type of head (not a face, too cheesy)
 
-    // need audio track to play in background
-        // could possibly be 5 different songs for every level
+// have jewel pulsate (increase and decrease size, slightly move up and down to simulate gem moving on each interval)
 
-    // can mess around with changing the background of the board for each level (like the real game)
+// bjt gem does -> ???
+
+// every level up:
+// increases interval speed (game runs faster)
+// increases board size (makes gameboard bigger)
+// require more points to go to the next level
+
+// possible point tracker bar on side or bottom to show how far you are in the level
+
+// every level up increases points gained by 5x
+
+// need audio track to play in background
+// could possibly be 5 different songs for every level
+
+// can mess around with changing the background of the board for each level (like the real game)
 
 //
 
@@ -169,6 +182,12 @@ function fillBoard() {
     c.fillStyle = 'green';
     c.fillRect(snake[0].x, snake[0].y, cellSize, cellSize);
     c.fillRect(snake[1].x, snake[1].y, cellSize, cellSize);
+
+    let x1 = snake[0].x;
+    let y1 = snake[0].y;
+
+    drawHead(x1, y1);
+
 };
 
 function placeApple() {
@@ -197,7 +216,11 @@ function placeApple() {
     } else if (jewelRoll >= 51 && jewelRoll <= 65) {
         ourJewel = jewelImgs[2];
     } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-        ourJewel = jewelImgs[3];
+        if (snake.length === 1) {
+            ourJewel = jewelImgs[0]
+        } else {
+            ourJewel = jewelImgs[3];
+        }
     } else if (jewelRoll >= 86 && jewelRoll <= 100) {
         ourJewel = jewelImgs[4];
     };
@@ -212,7 +235,7 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
-    console.log({ourJewel});
+    console.log({ ourJewel });
 
     if (checkBounds(head.x, head.y)) {
         endGame();
@@ -239,27 +262,13 @@ function move() {
     snake.unshift(head);
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
+        const ourJewelId = ourJewel.id;
 
-        //
-
-            // logic for snakehead hitting certain special apples (blue, white, etc)
-
-            const ourJewelId = ourJewel.id;
-
-            console.log({ ourJewelId });
-
-            if (ourJewelId === 'white') {
-
-                // logic for white (remove 1 off snake body -> remove 2 because snake is shrinking)
-
-            } else if (ourJewelId === 'blue') {
-
-                // logic for blue (keep snakeLength same -> remove 1 from snake body -> snake.pop())
-
-            }
-
-
-        //
+        if (ourJewelId === 'white') {
+            snake.splice(-2);
+        } else if (ourJewelId === 'blue') {
+            snake.pop();
+        }
 
         grid();
         updateScore();
@@ -281,6 +290,37 @@ function move() {
         }
     };
     directionTick = false;
+};
+
+function drawHead(x, y) {
+
+    if (direction === 'right') {
+
+        console.log('direction is right')
+
+        // // Set fill style (optional)
+        c.fillStyle = 'violet';
+        // // Set stroke style and line width (optional)
+        // ctx.strokeStyle = "red";
+        // ctx.lineWidth = 2;
+
+        // ctx.beginPath();
+        // ctx.moveTo(150, 50);  // Top vertex
+        // ctx.lineTo(50, 150);  // Bottom-left vertex
+        // ctx.lineTo(250, 150); // Bottom-right vertex
+        // ctx.closePath();
+
+        // drawing the triangle (get coords based off cellSize)
+        c.beginPath();
+        c.moveTo(x, y);
+        c.lineTo(cellSize + x, (cellSize / 2) + y);
+        c.lineTo(0, cellSize + y);
+        c.closePath();
+
+        c.fill();
+
+    }
+
 };
 
 //

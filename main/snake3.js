@@ -336,11 +336,10 @@ function drawHead(x, y) {
         y2 += (cellSize / 2);
         y3 += (cellSize * .25);
 
-        x4 += (cellSize / 2);
-        x5 += cellSize;
+        x4 += (cellSize / 2); 
         x6 += (cellSize / 2);
 
-        y4 += (cellSize / 2);
+        y4 += (cellSize / 2); 
         y5 += (cellSize * .75);
         y6 += cellSize;
 
@@ -421,6 +420,8 @@ function drawHead(x, y) {
 
         // logic for snake nose arcs here:
             // gonna have to change coords for snakeHead nose based on direction
+
+        
 
     //
 

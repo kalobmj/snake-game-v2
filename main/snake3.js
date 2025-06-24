@@ -280,6 +280,9 @@ function move() {
             c.fillStyle = 'green';
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
         };
+
+        drawHead(snake[0].x, snake[0].y);
+
     } else {
         snake.pop();
         grid();
@@ -290,12 +293,21 @@ function move() {
             c.fillStyle = 'green';
             c.fillRect(snake[i].x, snake[i].y, cellSize, cellSize);
         }
+
+        drawHead(snake[0].x, snake[0].y);
+
     };
     directionTick = false;
 };
 
 function drawHead(x, y) {
     console.log('we are in drawHead');
+
+    //
+
+        // we need to turn eyes around (they are backwards)
+
+    //
 
     c.fillStyle = 'black';
 
@@ -334,19 +346,58 @@ function drawHead(x, y) {
     } else if (direction === 'left') {
         console.log('direction is left');
 
+        x1 += (cellSize / 2);
+        x2 += cellSize;
+        x3 += (cellSize / 2);
 
+        y2 += (cellSize / 4);
+        y3 += (cellSize / 2);
+
+        x4 += (cellSize / 2);
+        x5 += cellSize;
+        x6 += (cellSize / 2);
+
+        y4 += (cellSize / 2);
+        y5 += (cellSize * .75);
+        y6 += cellSize;
 
 
     } else if (direction === 'up') {
         console.log('direction is up');
 
+        x1 += (cellSize / 2);
+        x2 += cellSize;
+        x3 += (cellSize / 2);
 
+        y2 += (cellSize / 4);
+        y3 += (cellSize / 2);
+
+        x4 += (cellSize / 2);
+        x5 += cellSize;
+        x6 += (cellSize / 2);
+
+        y4 += (cellSize / 2);
+        y5 += (cellSize * .75);
+        y6 += cellSize;
 
 
     } else if (direction === 'down') {
         console.log('direction is down');
 
+        x1 += (cellSize / 2);
+        x2 += cellSize;
+        x3 += (cellSize / 2);
 
+        y2 += (cellSize / 4);
+        y3 += (cellSize / 2);
+
+        x4 += (cellSize / 2);
+        x5 += cellSize;
+        x6 += (cellSize / 2);
+
+        y4 += (cellSize / 2);
+        y5 += (cellSize * .75);
+        y6 += cellSize;
 
 
     };

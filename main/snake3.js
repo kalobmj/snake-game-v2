@@ -8,8 +8,6 @@
 
     // do logic for different gems. (keeping snake length, removing one cell)
     
-    // do logic for new bjt gem
-
     // bjt gem does -> ???
 
     // every level up:
@@ -18,6 +16,8 @@
         // require more points to go to the next level
     
     // possible point tracker bar on side or bottom to show how far you are in the level
+
+    // every level up increases points gained by 5x
 
     // need audio track to play in background
         // could possibly be 5 different songs for every level
@@ -212,6 +212,8 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
+    console.log({ourJewel});
+
     if (checkBounds(head.x, head.y)) {
         endGame();
         return;
@@ -237,6 +239,28 @@ function move() {
     snake.unshift(head);
 
     if (checkCollision(head.x, head.y, apple[0].x, apple[0].y)) {
+
+        //
+
+            // logic for snakehead hitting certain special apples (blue, white, etc)
+
+            const ourJewelId = ourJewel.id;
+
+            console.log({ ourJewelId });
+
+            if (ourJewelId === 'white') {
+
+                // logic for white (remove 1 off snake body -> remove 2 because snake is shrinking)
+
+            } else if (ourJewelId === 'blue') {
+
+                // logic for blue (keep snakeLength same -> remove 1 from snake body -> snake.pop())
+
+            }
+
+
+        //
+
         grid();
         updateScore();
         placeApple();

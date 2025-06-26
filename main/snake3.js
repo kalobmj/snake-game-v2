@@ -66,7 +66,7 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`;
 let interval;
 let jewelImgs;
 let isGameRunning = false;
-let direction = 'down';
+let direction = 'right';
 let directionTick = false;
 let ourJewel;
 let apple = [];
@@ -342,6 +342,10 @@ function drawHead(x, y) {
         y4 += (cellSize / 2); 
         y5 += (cellSize * .75);
         y6 += cellSize;
+        
+        c.fillRect(x + (cellSize * .75), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
+
+        c.fillRect(x + (cellSize * .75), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
 
     } else if (direction === 'left') {
         console.log('direction is left');
@@ -360,6 +364,10 @@ function drawHead(x, y) {
         y4 += (cellSize / 2);
         y5 += (cellSize * .75);
         y6 += cellSize;
+
+        c.fillRect(x + (cellSize * .25), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
+
+        c.fillRect(x + (cellSize * .25), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
 
 
     } else if (direction === 'up') {
@@ -380,6 +388,10 @@ function drawHead(x, y) {
         y5 += (cellSize / 2);
         y6 += cellSize;
 
+        c.fillRect(x + (cellSize * .25), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
+
+        c.fillRect(x + ((cellSize * .75) - cellSize / 10), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
+
 
     } else if (direction === 'down') {
         console.log('direction is down');
@@ -397,7 +409,10 @@ function drawHead(x, y) {
         y4 += (cellSize / 2);
         y6 += (cellSize / 2);
 
-        
+        c.fillRect(x + (cellSize * .25), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
+
+        c.fillRect(x + ((cellSize * .75) - (cellSize / 10)), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
+
     };
 
     c.beginPath();

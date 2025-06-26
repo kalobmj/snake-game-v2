@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="styles3.css">
     <title>snake round 3</title>
 </head>
+
 <body>
     <div id="asset-container" style="display: none">
         <img id="space" src="/assets/bj-background.webp" alt="background">
@@ -18,38 +20,72 @@
         <img src="/assets/gems/white-decagon.png" alt="white-decagon">
         <img src="/assets/gems/yellow-rect.png" alt="yellow-rect">
     </div>
-    <h3 class="text" id="title">BEJEWLED SNAKE GAME</h3>
+    <h2 class="text" id="title">BEJEWLED SNAKE GAME</h2>
     <div id="hight-score-area">
         <h5 class="text" id="high-score">HIGH SCORE: <span id="highscore-num">0</span></h5>
     </div>
     <div id="middle-container">
         <div id="left-container">
-
-            <h1 id="level-title">LEVEL</h1>
-
+            <h1 class="text" id="level-title">LEVEL</h1>
+            <div id="orb-container">
+                <h2 class="text" id="current-level">1/5</h2>
+                <img id="orb" src="/assets/Bejeweled_3_Stellar.png" alt="space-orb" />
+            </div>
             <div id="level-orb-container">
-
             </div>
-
-            <h3 id="how-title">HOW 2 PLAY</h3>
-
+            <h3 class="text" id="how-title">HOW 2 PLAY</h3>
             <div id="how-to-play">
-
+                <span id="rules-1">
+                    COLLECT GEMS TO FILL UP THE ENERGY BAR!
+                </span>
+                <br></br>
+                <span id="rules-2">
+                    WHEN THE BAR IS FULL, YOU WILL HAVE ENOUGH ENERGY TO MOVE ON TO THE NEXT PLANET!
+                </span>
             </div>
-
         </div>
         <div id="canvas-area">
             <canvas id="canvas-1" height="500" width="500"></canvas>
             <button id="game-over-btn" type="button" class="btn btn-danger">game over</button>
         </div>
         <div id="right-container">
-
-            <h3 id='legend-title'>LEGEND</h3>
-
+            <h3 class="text" id='legend-title'>LEGEND</h3>
             <div id="legend">
-
+                <div class="gem" id="BJT-gem">
+                    <img class="legend-gem" id="BJT-gem" src="/assets/gems/BJT_NDS_ICON.png" alt="blue-diamond">
+                    <span>BJT GEM - DOUBLE PTS!</span>
+                </div>
+                <div class="gem" id="blue-gem">
+                    <img class="legend-gem" id="blue-gem" src="/assets/gems/blue-diamond.png" alt="blue-diamond">
+                    <span>BLUE GEM - 75 PTS</span>
+                </div>
+                <div class="gem" id="white-gem">
+                    <img class="legend-gem" id="white-gem" src="/assets/gems/white-decagon.png" alt="blue-diamond">
+                    <span>WHITE GEM - 50 PTS</span>
+                </div>
+                <div class="gem" id="yellow-gem">
+                    <img class="legend-gem" id="yellow-gem" src="/assets/gems/yellow-rect.png" alt="blue-diamond">
+                    <span>YELLOW GEM - 40 PTS</span>
+                </div>
+                <div class="gem" id="red-gem">
+                    <img class="legend-gem" id="red-gem" src="/assets/gems/red-square.png" alt="blue-diamond">
+                    <span>RED GEM - 30 PTS</span>
+                </div>
+                <div class="gem" id="green-gem">
+                    <img class="legend-gem" id="green-gem" src="/assets/gems/green-octogon.png" alt="blue-diamond">
+                    <span>GREEN GEM - 20 PTS</span>
+                </div>
             </div>
-
+        </div>
+    </div>
+    <div id="progress-bar-container">
+        <div id="container">
+            <input type="checkbox" id="water" />
+            <label for="water">
+                <div id="fill"></div>
+            </label>
+            <span>Progress</span>
+            <span id="progress">0%</span>
         </div>
     </div>
     <div id="score area">
@@ -60,4 +96,5 @@
     </div>
     <script type="application/javascript" src="snake3.js"></script>
 </body>
+
 </html>

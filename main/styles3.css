@@ -28,17 +28,79 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 99vw;
     /* flex-direction: row; */
 }
 
 #left-container, #right-container {
-    width: 16.6667%;
+    /* width: 16.6667%; */
+    width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
+}
+
+#orb-container {
+    position: relative;
+    display: inline-block;
+}
+
+#orb {
+    margin-bottom: 50px;
+    display: block;
+    height: auto;
+    position: relative;
+    z-index: 1;
+}
+
+#current-level {
+    /* position: relative;
+    z-index: 2; */
+}
+
+#current-level {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    z-index: 2;
+    /* text-shadow: 1px 1px 1px white; */
+    text-shadow: #ff02c0 1px 0 10px;
+    font-size: 2.5rem;
+}
+
+#how-to-play {
+    background: linear-gradient(#eeeeee, #a31c64);
+    border: 2mm ridge #ff02c0;
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+    padding: 5px;
+}
+
+#legend {
+    background: linear-gradient(#eeeeee, #a31c64);
+    width: 100%;
+    height: auto;
+    border: 2mm ridge #ff02c0;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.gem {
+    width: 100%;
+    max-width: 100%;
+    max-height: 16.667%;
+    white-space: nowrap;
+    /* display: flex;
+    flex-direction: row; */
+}
+
+
+.legend-gem {
+    height: 20px;
 }
 
 #canvas-area {
@@ -69,6 +131,10 @@ body {
     width: auto;
     visibility: hidden;
     z-index: 3;
+}
+
+#progress-bar-container {
+    margin-top: 5px;
 }
 
 #score {

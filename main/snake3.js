@@ -20,6 +20,7 @@
 // have jewel pulsate (increase and decrease size, slightly move up and down to simulate gem moving on each interval)
 
 // bjt gem does -> ???
+// bjt gem doubles points for 5-10 seconds ?? 
 
 // every level up:
 // increases interval speed (game runs faster)
@@ -37,6 +38,8 @@
 
 // we will go after at the end and place comments to make it easier to follow
 
+// need function or checker to check game state and update level when user reaches certain score, also stops game between levels (clear intervals, play button comes back, pressing it resumes interval)
+
 //
 
 const playButton = document.getElementById('play-btn');
@@ -45,26 +48,9 @@ const gameOverButton = document.getElementById('game-over-btn');
 const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
+const currentLevel = document.getElementById('current-level');
 
-//
-
-// const middleContainer = document.getElementById('middle-container');
-const cavnasArea = document.getElementById('canvas-area');
-const leftContainer = document.getElementById('left-container');
-const rightContainer = document.getElementById('right-container');
-
-// console.log(window.innerWidth / 6);
-// console.log((window.innerWidth / 6) * 4);
-
-// console.log(cavnasArea.style.width);
-
-// cavnasArea.style.width = (window.innerWidth / 6) * 4;
-// leftContainer.style.width = (window.innerWidth / 6);
-// rightContainer.style.width = (window.innerWidth / 6);
-
-// console.log(cavnasArea.style.width);
-
-//
+const orb = document.getElementById('orb');
 
 localStorage.clear();
 localStorage.setItem('high-score', '0');
@@ -78,6 +64,14 @@ const rows = 10;
 const cols = 10;
 const cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
 console.log({ cellSize });
+
+
+//
+
+orb.width = cellSize * 2;
+orb.height = cellSize * 2;
+
+//
 
 canvas.height = cellSize * rows;
 canvas.width = cellSize * cols;
@@ -94,6 +88,7 @@ let directionTick = false;
 let ourJewel;
 let apple = [];
 let snake = [];
+let level = 1;
 
 const jewels = {
     green: '/assets/gems/green-octogon.png',

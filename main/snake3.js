@@ -17,8 +17,6 @@
 
 // make snake more round (less blocky)
 
-// give snake some type of head (not a face, too cheesy)
-
 // have jewel pulsate (increase and decrease size, slightly move up and down to simulate gem moving on each interval)
 
 // bjt gem does -> ???
@@ -48,8 +46,33 @@ const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
 
+//
+
+// const middleContainer = document.getElementById('middle-container');
+const cavnasArea = document.getElementById('canvas-area');
+const leftContainer = document.getElementById('left-container');
+const rightContainer = document.getElementById('right-container');
+
+// console.log(window.innerWidth / 6);
+// console.log((window.innerWidth / 6) * 4);
+
+// console.log(cavnasArea.style.width);
+
+// cavnasArea.style.width = (window.innerWidth / 6) * 4;
+// leftContainer.style.width = (window.innerWidth / 6);
+// rightContainer.style.width = (window.innerWidth / 6);
+
+// console.log(cavnasArea.style.width);
+
+//
+
 localStorage.clear();
 localStorage.setItem('high-score', '0');
+
+console.log(window.innerWidth);
+
+console.log(window.innerWidth / 6);
+console.log((window.innerWidth / 6) * 4);
 
 const rows = 10;
 const cols = 10;
@@ -189,7 +212,6 @@ function fillBoard() {
     let y1 = snake[0].y;
 
     drawHead(x1, y1);
-
 };
 
 function placeApple() {
@@ -302,15 +324,6 @@ function move() {
 
 function drawHead(x, y) {
     console.log('we are in drawHead');
-
-    //
-
-        // we need to turn eyes around (they are backwards)
-
-        // can maybe put to dots for nose at front of snakehead
-
-    //
-
     c.fillStyle = 'black';
 
     let x1 = x,
@@ -346,7 +359,6 @@ function drawHead(x, y) {
         c.fillRect(x + (cellSize * .75), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
 
         c.fillRect(x + (cellSize * .75), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
-
     } else if (direction === 'left') {
         console.log('direction is left');
 
@@ -368,8 +380,6 @@ function drawHead(x, y) {
         c.fillRect(x + (cellSize * .25), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
 
         c.fillRect(x + (cellSize * .25), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
-
-
     } else if (direction === 'up') {
         console.log('direction is up');
 
@@ -391,8 +401,6 @@ function drawHead(x, y) {
         c.fillRect(x + (cellSize * .25), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
 
         c.fillRect(x + ((cellSize * .75) - cellSize / 10), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
-
-
     } else if (direction === 'down') {
         console.log('direction is down');
 
@@ -412,7 +420,6 @@ function drawHead(x, y) {
         c.fillRect(x + (cellSize * .25), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
 
         c.fillRect(x + ((cellSize * .75) - (cellSize / 10)), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
-
     };
 
     c.beginPath();
@@ -428,16 +435,6 @@ function drawHead(x, y) {
     c.lineTo(x6, y6);
     c.closePath();
     c.fill();
-
-    //
-
-        // logic for snake nose rects here:
-            // gonna have to change coords for snakeHead nose based on direction
-
-        
-
-    //
-
 };
 
 //

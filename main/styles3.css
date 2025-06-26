@@ -24,10 +24,28 @@ body {
     background-size: contain;
 }
 
+#middle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    /* flex-direction: row; */
+}
+
+#left-container, #right-container {
+    width: 16.6667%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
 #canvas-area {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 66.6667%;
 }
 
 #canvas-1 {

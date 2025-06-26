@@ -66,7 +66,7 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`;
 let interval;
 let jewelImgs;
 let isGameRunning = false;
-let direction = 'right';
+let direction = 'down';
 let directionTick = false;
 let ourJewel;
 let apple = [];
@@ -365,41 +365,39 @@ function drawHead(x, y) {
     } else if (direction === 'up') {
         console.log('direction is up');
 
-        x1 += (cellSize / 2);
-        x2 += cellSize;
-        x3 += (cellSize / 2);
+        x2 += (cellSize / 2);
+        x3 += (cellSize * .25);
 
-        y2 += (cellSize / 4);
-        y3 += (cellSize / 2);
+        y1 += (cellSize / 2);
+        y2 += (cellSize / 2);
+        y3 += cellSize;
 
         x4 += (cellSize / 2);
         x5 += cellSize;
-        x6 += (cellSize / 2);
+        x6 += (cellSize * .75);
 
         y4 += (cellSize / 2);
-        y5 += (cellSize * .75);
+        y5 += (cellSize / 2);
         y6 += cellSize;
 
 
     } else if (direction === 'down') {
         console.log('direction is down');
 
-        x1 += (cellSize / 2);
-        x2 += cellSize;
+        x2 += (cellSize * .25);
         x3 += (cellSize / 2);
 
-        y2 += (cellSize / 4);
+        y1 += (cellSize / 2);
         y3 += (cellSize / 2);
 
         x4 += (cellSize / 2);
-        x5 += cellSize;
-        x6 += (cellSize / 2);
+        x5 += (cellSize * .75);
+        x6 += cellSize;
 
         y4 += (cellSize / 2);
-        y5 += (cellSize * .75);
-        y6 += cellSize;
+        y6 += (cellSize / 2);
 
-
+        
     };
 
     c.beginPath();
@@ -418,7 +416,7 @@ function drawHead(x, y) {
 
     //
 
-        // logic for snake nose arcs here:
+        // logic for snake nose rects here:
             // gonna have to change coords for snakeHead nose based on direction
 
         

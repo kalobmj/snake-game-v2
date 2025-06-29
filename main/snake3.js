@@ -15,12 +15,9 @@
 // bottom side - current level progress bar
 // on level completion -> play level up sound (possibly use same sound as game), play small animation each level, play larger animation when user wins entire game (most likely level 5)
 
-// make snake more round (less blocky)
-
 // have jewel pulsate (increase and decrease size, slightly move up and down to simulate gem moving on each interval)
 
-// bjt gem does -> ???
-// bjt gem doubles points for 5-10 seconds ?? 
+// bjt gem doubles points for 5 seconds ?? 
 
 // every level up:
 // increases interval speed (game runs faster)
@@ -39,6 +36,8 @@
 // we will go after at the end and place comments to make it easier to follow
 
 // need function or checker to check game state and update level when user reaches certain score, also stops game between levels (clear intervals, play button comes back, pressing it resumes interval)
+
+// after player beats level, end interval -> display message in middle (button) telling player they are moving onto the next planet. After a short delay (5 seconds or so), updateLevel() function runs and updates gameboard and such
 
 //
 
@@ -121,6 +120,9 @@ function checkLevel() {
         console.log('we have passed the level!');
         console.log('We will call updateLevel at this point');
 
+        // calling updateLevel
+        updateLevel();
+
         // delete this later
         clearInterval(interval);
 
@@ -131,6 +133,21 @@ function checkLevel() {
 // this will stop game interval, update gameboard, update maxPoints, and update level
 function updateLevel() {
 
+    console.log('we are currently in updateLevel function');
+
+    // visibility :hidden
+    gameOverButton.innerText = 'LEVEL UP!';
+
+    // after we figure out our background images for each planet, replace the background of our level up message to be that next planet, or some type of color gradient
+    gameOverButton.style.background = '#FFC300';
+
+    gameOverButton.style.visibility = 'visible';
+
+
+    level += 1;
+    console.log({level});
+
+    currentLevel.innerText = `${level}/5`;
 
 
 };

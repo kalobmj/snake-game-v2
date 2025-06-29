@@ -52,6 +52,9 @@ const currentLevel = document.getElementById('current-level');
 
 const orb = document.getElementById('orb');
 
+const fillBar = document.getElementById('progress-bar-container');
+fillBar.style.width = `${canvas.width + 30}px`;
+
 localStorage.clear();
 localStorage.setItem('high-score', '0');
 
@@ -517,3 +520,11 @@ window.onload = async () => {
 
     setupGame();
 };
+
+const fill = document.getElementById('fill');
+
+function setProgress(percent) {
+    fill.style.width = percent + '%';
+}
+
+setProgress(10);

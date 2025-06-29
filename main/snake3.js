@@ -55,6 +55,15 @@ const orb = document.getElementById('orb');
 const fillBar = document.getElementById('progress-bar-container');
 fillBar.style.width = `${canvas.width + 30}px`;
 
+const fill = document.getElementById('fill');
+
+// move this function later
+function setProgress(pts, maxPts) {
+    fill.style.width = `${(pts / maxPts) * 100}%`
+};
+
+// setProgress(300, 2000);
+
 localStorage.clear();
 localStorage.setItem('high-score', '0');
 
@@ -91,7 +100,42 @@ let directionTick = false;
 let ourJewel;
 let apple = [];
 let snake = [];
+
 let level = 1;
+let maxPoints = 500;
+
+//
+
+// this function will check if user has passed level, if user has completed level, call updateLevel.
+function checkLevel() {
+
+    let currentScore = Number(score.innerText);
+
+    console.log({currentScore});
+
+    // ** these score values can change
+
+    // if user passes level -> call updateLevel
+    if (level === 1 && currentScore >= 500 || level === 2 && currentScore >= 1250 || level === 3 && currentScore >= 1500 || level === 4 && currentScore >= 1750 || level === 5 && currentScore >= 2000) {
+
+        console.log('we have passed the level!');
+        console.log('We will call updateLevel at this point');
+
+        // delete this later
+        clearInterval(interval);
+
+    }
+
+};
+
+// this will stop game interval, update gameboard, update maxPoints, and update level
+function updateLevel() {
+
+
+
+};
+
+//
 
 const jewels = {
     green: '/assets/gems/green-octogon.png',
@@ -177,6 +221,10 @@ function updateScore() {
         highScore.innerText = localScore;
         localStorage.setItem('high-score', `${localScore}`);
     }
+
+    checkLevel();
+
+    setProgress(localScore, 500);
 };
 
 function grid() {
@@ -520,11 +568,3 @@ window.onload = async () => {
 
     setupGame();
 };
-
-const fill = document.getElementById('fill');
-
-function setProgress(percent) {
-    fill.style.width = percent + '%';
-}
-
-setProgress(10);

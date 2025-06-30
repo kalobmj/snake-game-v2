@@ -141,8 +141,10 @@ function updateLevel() {
     // after we figure out our background images for each planet, replace the background of our level up message to be that next planet, or some type of color gradient
     gameOverButton.style.background = '#FFC300';
 
-    gameOverButton.style.visibility = 'visible';
-
+    // give some time before making button visible
+    setTimeout(() => {
+        gameOverButton.style.visibility = 'visible';
+    }, 100);
 
     level += 1;
     console.log({level});
@@ -221,7 +223,7 @@ function updateScore() {
     const ourJewelId = ourJewel.id;
 
     if (ourJewelId === 'green') {
-        localScore += 20;
+        localScore += 2000;
     } else if (ourJewelId === 'red') {
         localScore += 30;
     } else if (ourJewelId === 'yellow') {

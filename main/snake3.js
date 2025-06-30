@@ -93,6 +93,7 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`;
 
 let interval;
 let jewelImgs;
+let bjtImage;
 let isGameRunning = false;
 let direction = 'right';
 let directionTick = false;
@@ -149,8 +150,7 @@ function updateLevel() {
     level += 1;
     console.log({level});
 
-    currentLevel.innerText = `${level}/5`;
-
+    currentLevel.innerText = `${level}/5`
 
 };
 
@@ -190,7 +190,7 @@ async function preloadImages() {
 
         const loadedImgs = await Promise.all(imagePromises);
         const spaceImage = loadedImgs.pop();
-        const bjtImage = loadedImgs.pop();
+        // bjtImage = loadedImgs.pop();
 
         ourJewel = loadedImgs[0];
         jewelImgs = loadedImgs;
@@ -223,7 +223,7 @@ function updateScore() {
     const ourJewelId = ourJewel.id;
 
     if (ourJewelId === 'green') {
-        localScore += 2000;
+        localScore += 20;
     } else if (ourJewelId === 'red') {
         localScore += 30;
     } else if (ourJewelId === 'yellow') {
@@ -232,6 +232,11 @@ function updateScore() {
         localScore += 50;
     } else if (ourJewelId === 'blue') {
         localScore += 75;
+    } else if (ourJewelId === 'bjt') {
+        
+        // we will double points, 1k is just a test
+
+        localScore += 1000;
     };
 
     score.innerText = localScore;
@@ -298,27 +303,48 @@ function placeApple() {
 
     let jewelRoll = Math.floor(Math.random() * 100) + 1;
 
-    if (jewelRoll >= 1 && jewelRoll <= 30) {
-        ourJewel = jewelImgs[0];
-    } else if (jewelRoll >= 31 && jewelRoll <= 50) {
-        ourJewel = jewelImgs[1];
-    } else if (jewelRoll >= 51 && jewelRoll <= 65) {
-        ourJewel = jewelImgs[2];
-    } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-        if (snake.length <= 2) {
-            ourJewel = jewelImgs[0]
-        } else {
-            ourJewel = jewelImgs[3];
-        }
-    } else if (jewelRoll >= 86 && jewelRoll <= 100) {
-        ourJewel = jewelImgs[4];
-    };
+    let bjtRoll = Math.floor(Math.random() * 5) + 1;
+
+    console.log({ jewelImgs });
+
+    console.log({ bjtRoll });
+
+    if (bjtRoll === 5) {
+
+        // if we get double points jewel
+
+        // bjt jewel
+        ourJewel = jewelImgs[5];
+
+    } else {
+
+        // regular jewel logic
+
+
+        if (jewelRoll >= 1 && jewelRoll <= 30) {
+            ourJewel = jewelImgs[0];
+        } else if (jewelRoll >= 31 && jewelRoll <= 50) {
+            ourJewel = jewelImgs[1];
+        } else if (jewelRoll >= 51 && jewelRoll <= 65) {
+            ourJewel = jewelImgs[2];
+        } else if (jewelRoll >= 66 && jewelRoll <= 85) {
+            if (snake.length <= 2) {
+                ourJewel = jewelImgs[0]
+            } else {
+                ourJewel = jewelImgs[3];
+            }
+        } else if (jewelRoll >= 86 && jewelRoll <= 100) {
+            ourJewel = jewelImgs[4];
+        };
+        
+    }
 
     console.log(ourJewel);
 
     apple[0].x = x1;
     apple[0].y = y1;
     c.drawImage(ourJewel, x1, y1, cellSize, cellSize);
+
 };
 
 function move() {

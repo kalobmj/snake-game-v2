@@ -1,9 +1,5 @@
 //
 
-// can change progress bar on each level to match planet color
-
-// w a s d support
-
 // level 1: 400 points to win
 // level 2: 800 points to win
 // level 3: 1200 points to win
@@ -158,6 +154,10 @@ function updateLevel() {
     gameOverButton.style.background = '#FFC300';
 
     isGameRunning = false;
+
+    // resetting double points (don't carry over to next round)
+    doublePoints = false;
+    doublePointsTracker = 0;
 
     // fill.style.background = 'linear-gradient(to bottom,rgb(0, 255, 157) 35%,rgb(191, 255, 0))';
 
@@ -731,6 +731,8 @@ function resetGame() {
     playButton.innerText = 'play';
     currentBackground = space;
     fill.style.background = 'linear-gradient(to bottom, #f259f1 35%, #e590f6)';
+    gameIsOver = false;
+    currentLevel.innerText = '1/5'
     setupGame();
 };
 
@@ -762,16 +764,16 @@ canvas.addEventListener('keydown', (e) => {
         clearInterval(interval)
     };
 
-    if (e.key === 'ArrowRight' && direction != 'left') {
+    if ((e.key === 'ArrowRight' || e.key === 'd') && direction != 'left') {
         direction = 'right';
         directionTick = true;
-    } else if (e.key === 'ArrowLeft' && direction != 'right') {
+    } else if ((e.key === 'ArrowLeft' || e.key === 'a') && direction != 'right') {
         direction = 'left';
         directionTick = true;
-    } else if (e.key === 'ArrowUp' && direction != 'down') {
+    } else if ((e.key === 'ArrowUp' || e.key === 'w') && direction != 'down') {
         direction = 'up';
         directionTick = true;
-    } else if (e.key === 'ArrowDown' && direction != 'up') {
+    } else if ((e.key === 'ArrowDown' || e.key === 's') && direction != 'up') {
         direction = 'down';
         directionTick = true;
     }
@@ -808,7 +810,7 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 400);
         isGameRunning === true;
 
-            fill.style.background = 'linear-gradient(to bottom,rgb(116,208,231) 35%,rgb(178,223,239))';
+        fill.style.background = 'linear-gradient(to bottom,rgb(116,208,231) 35%,rgb(178,223,239))';
 
 
     } else if (level === 3) {
@@ -816,7 +818,7 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 300)
         isGameRunning === true;
 
-            fill.style.background = 'linear-gradient(to bottom,rgb(176, 135, 99) 35%,rgb(228, 197, 134))';
+        fill.style.background = 'linear-gradient(to bottom,rgb(176, 135, 99) 35%,rgb(228, 197, 134))';
 
 
     } else if (level === 4) {
@@ -824,7 +826,7 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 200);
         isGameRunning === true;
 
-            fill.style.background = 'linear-gradient(to bottom,rgb(215,229,239) 35%,rgb(76,147,207))';
+        fill.style.background = 'linear-gradient(to bottom,rgb(215,229,239) 35%,rgb(76,147,207))';
 
 
     } else if (level === 5) {
@@ -832,7 +834,7 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 100);
         isGameRunning === true;
 
-            fill.style.background = 'linear-gradient(to bottom,rgb(9,67,133) 35%,rgb(71,194,241))';
+        fill.style.background = 'linear-gradient(to bottom,rgb(9,67,133) 35%,rgb(71,194,241))';
 
 
     } else if (level === 6) {

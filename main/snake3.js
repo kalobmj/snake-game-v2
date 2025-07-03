@@ -2,23 +2,14 @@
 
 // can change progress bar on each level to match planet color
 
-// work on reseting game on game over
-
 // w a s d support
 
-// level 1: 500 points to win
-// level 2: 1250 points to win
-// level 3: 1500 points to win
-// level 4: 1750 points to win
+// level 1: 400 points to win
+// level 2: 800 points to win
+// level 3: 1200 points to win
+// level 4: 1600 points to win
 // level 5: 2000 points to win
 
-// things from concept:
-// board background chagning for each level (bejewled backgrounds)
-// left side - current level
-// left side - level orb
-// left side - how to play
-// right side - legend
-// bottom side - current level progress bar
 // on level completion -> play level up sound (possibly use same sound as game), play small animation each level, play larger animation when user wins entire game (most likely level 5)
 
 // every level up increases points gained by 5x
@@ -167,6 +158,9 @@ function updateLevel() {
     gameOverButton.style.background = '#FFC300';
 
     isGameRunning = false;
+
+    // fill.style.background = 'linear-gradient(to bottom,rgb(0, 255, 157) 35%,rgb(191, 255, 0))';
+
 
     // after 4 seconds, update game speed, board, and background
     setTimeout(() => {
@@ -339,7 +333,9 @@ function updateScore() {
         };
 
         if (ourJewelId === 'green') {
-            localScore += 40;
+
+            localScore += 400;
+
         } else if (ourJewelId === 'red') {
             localScore += 60;
         } else if (ourJewelId === 'yellow') {
@@ -355,7 +351,9 @@ function updateScore() {
 
         if (ourJewelId === 'green') {
 
-            localScore += 20;
+            localScore += 400;
+
+            // fill.style.background = 'linear-gradient(to bottom,rgb(0, 255, 157) 35%,rgb(191, 255, 0))';
 
         } else if (ourJewelId === 'red') {
             localScore += 30;
@@ -386,7 +384,7 @@ function updateScore() {
         localStorage.setItem('high-score', `${localScore}`);
     }
 
-    
+
     // logic for filling progress bar
     if (level === 1) {
         setProgress(localScore, 0, 400);
@@ -704,7 +702,7 @@ function endGame() {
     isGameRunning = false;
     playButton.innerText = 'play';
     playButton.style.visibility = 'visible';
-    
+
     setTimeout(() => {
         gameOverButton.innerText = 'game over';
         gameOverButton.style.background = 'red';
@@ -732,6 +730,7 @@ function resetGame() {
     score.innerText = '0';
     playButton.innerText = 'play';
     currentBackground = space;
+    fill.style.background = 'linear-gradient(to bottom, #f259f1 35%, #e590f6)';
     setupGame();
 };
 
@@ -782,9 +781,9 @@ playButton.addEventListener('click', () => {
     canvas.setAttribute('tabindex', 1);
     canvas.focus();
 
-    console.log({isGameRunning});
-    console.log({gameIsOver});
-    console.log({level});
+    console.log({ isGameRunning });
+    console.log({ gameIsOver });
+    console.log({ level });
 
     fill.style.width = '0%';
 
@@ -809,20 +808,32 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 400);
         isGameRunning === true;
 
+            fill.style.background = 'linear-gradient(to bottom,rgb(116,208,231) 35%,rgb(178,223,239))';
+
+
     } else if (level === 3) {
 
         interval = setInterval(move, 300)
         isGameRunning === true;
+
+            fill.style.background = 'linear-gradient(to bottom,rgb(176, 135, 99) 35%,rgb(228, 197, 134))';
+
 
     } else if (level === 4) {
 
         interval = setInterval(move, 200);
         isGameRunning === true;
 
+            fill.style.background = 'linear-gradient(to bottom,rgb(215,229,239) 35%,rgb(76,147,207))';
+
+
     } else if (level === 5) {
 
         interval = setInterval(move, 100);
         isGameRunning === true;
+
+            fill.style.background = 'linear-gradient(to bottom,rgb(9,67,133) 35%,rgb(71,194,241))';
+
 
     } else if (level === 6) {
 

@@ -129,6 +129,13 @@ function checkLevel() {
         // delete this later
         clearInterval(interval);
 
+        // after 4 seconds, run update level
+        setTimeout(() => {
+            
+
+
+        }, 4000);
+
     }
 
 };
@@ -143,6 +150,8 @@ function updateLevel() {
 
     // after we figure out our background images for each planet, replace the background of our level up message to be that next planet, or some type of color gradient
     gameOverButton.style.background = '#FFC300';
+
+
 
     // give some time before making button visible
     setTimeout(() => {
@@ -165,6 +174,16 @@ const jewels = {
     white: '/assets/gems/white-decagon.png',
     blue: '/assets/gems/blue-diamond.png'
 };
+
+// planets level 2-5
+const planets = {
+
+    aqua: '/assets/planet-backgrounds/Aqua-Aeon-XI.jpg',
+    vermithrax: '',
+    frostara: '',
+    neptune: '',
+
+}
 
 // 
 

@@ -17,46 +17,34 @@
 
 //
 
+const canvas = document.getElementById('canvas-1');
+const c = canvas.getContext('2d');
 const playButton = document.getElementById('play-btn');
 const highScore = document.getElementById('highscore-num');
 const gameOverButton = document.getElementById('game-over-btn');
 const score = document.getElementById('score-num');
-const canvas = document.getElementById('canvas-1');
-const c = canvas.getContext('2d');
 const currentLevel = document.getElementById('current-level');
-let currentPlanet = document.getElementById('current-planet');
-
+const currentPlanet = document.getElementById('current-planet');
 const orb = document.getElementById('orb');
-
 const fillBar = document.getElementById('progress-bar-container');
-fillBar.style.width = `${canvas.width + 30}px`;
-
 const fill = document.getElementById('fill');
+
+// sizing progress bar
+fillBar.style.width = `${canvas.width + 30}px`;
 
 // move this function later
 function setProgress(pts, minPts, maxPts) {
-
-    // example: 840 current points - 800 minimum points
     pointsThisRound = pts - minPts;
-
-    // example 1200 - 800 === 400;
     pointsRequired = maxPts - minPts;
 
     fill.style.width = `${(pointsThisRound / pointsRequired) * 100}%`;
-
-    // if (pts >= maxPts) {
-    //     fill.style.width = '100%';
-    //     return;
-    // }
-
-    // fill.style.width = `${(pts / maxPts) * 100}%`
 };
 
+// remove this to retain high score even you reload the window
 localStorage.clear();
 localStorage.setItem('high-score', '0');
 
 console.log(window.innerWidth);
-
 console.log(window.innerWidth / 6);
 console.log((window.innerWidth / 6) * 4);
 
@@ -67,18 +55,22 @@ console.log({ cellSize });
 
 //
 
+// sizing orb
 orb.width = cellSize * 2;
 orb.height = cellSize * 2;
 
 //
 
+// sizing canvas
 canvas.height = cellSize * rows;
 canvas.width = cellSize * cols;
 
+// sizing gameOverButton
 gameOverButton.style.height = `${cellSize * 1.5}px`;
 gameOverButton.style.width = `${cellSize * 3.5}px`;
 gameOverButton.style.fontSize = `${cellSize / 2}px`;
 
+// variables
 let interval;
 let jewelImgs;
 let planetImgs;
@@ -93,16 +85,13 @@ let directionTick = false;
 let ourJewel;
 let apple = [];
 let snake = [];
-
 let level = 1;
 
 //
 
 // this function will check if user has passed level, if user has completed level, call updateLevel.
 function checkLevel() {
-
     let currentScore = Number(score.innerText);
-
     console.log({ currentScore });
 
     // ** these score values can change
@@ -118,20 +107,15 @@ function checkLevel() {
 
         // calling updateLevel
         updateLevel();
-
     }
 
     if (level === 6) {
-
         // logic for winning game here:
         console.log('you have beaten the game!');
 
-
         // ending game will happen here
         updateLevel();
-
     }
-
 };
 
 // this will stop game interval, update gameboard, update maxPoints, and update level
@@ -143,11 +127,10 @@ function updateLevel() {
 
     console.log('we are filling up the bar to 100 after the level ends');
 
-    fill.style.width = `${100}%`;
+    // fill.style.width = `${100}%`;
 
     console.log('after filling up bar')
 
-    // visibility :hidden
     gameOverButton.innerText = 'LEVEL UP!';
 
     // after we figure out our background images for each planet, replace the background of our level up message to be that next planet, or some type of color gradient
@@ -159,15 +142,11 @@ function updateLevel() {
     doublePoints = false;
     doublePointsTracker = 0;
 
-    // fill.style.background = 'linear-gradient(to bottom,rgb(0, 255, 157) 35%,rgb(191, 255, 0))';
-
-
     // after 4 seconds, update game speed, board, and background
     setTimeout(() => {
         if (level === 2) {
             currentPlanet.innerText = 'AQUA AEON XI'
             currentBackground = planetImgs[0];
-            // grid();
         } else if (level === 3) {
             currentPlanet.innerText = 'VERMITHRAX II'
             currentBackground = planetImgs[1];
@@ -179,7 +158,6 @@ function updateLevel() {
             currentBackground = planetImgs[3];
         } else if (level === 6) {
 
-            // after a delay call endGame();
 
             console.log('level 6 in updateLevel');
 
@@ -192,16 +170,12 @@ function updateLevel() {
         }
 
         grid();
-
-        direction = 'right';
-
         fillBoard();
 
+        direction = 'right';
         currentLevel.innerText = `${level}/5`
         playButton.innerText = 'continue';
         playButton.style.visibility = 'visible';
-
-
 
     }, 1000);
 
@@ -220,11 +194,10 @@ function updateLevel() {
 
     }, 100);
 
+    // if level is not the last level, add +1 to current level
     if (level != 6) {
-
         level += 1;
         console.log({ level });
-
     }
 
 };
@@ -241,12 +214,10 @@ const jewels = {
 
 // planets level 2-5
 const planets = {
-
     aqua: '/assets/planet-backgrounds/Aqua-Aeon-XI.jpg',
     vermithrax: '/assets/planet-backgrounds/Vermithrax-II.jpg',
     frostara: '/assets/planet-backgrounds/Frostara-Glace-VI.jpg',
     neptune: '/assets/planet-backgrounds/Neptune-II.jpg',
-
 }
 
 // 
@@ -278,16 +249,13 @@ async function preloadImages() {
         const loadedImgs = await Promise.all(imagePromises);
         const loadedPlanets = await Promise.all(planetPromises);
         const spaceImage = loadedImgs.pop();
-        // bjtImage = loadedImgs.pop();
 
         currentBackground = spaceImage;
-
         ourJewel = loadedImgs[0];
         jewelImgs = loadedImgs;
         planetImgs = loadedPlanets;
 
         console.log({ planetImgs });
-
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -315,20 +283,21 @@ function checkBounds(x, y) {
 function updateScore() {
     let localScore = Number(score.innerText);
     let localHighScore = Number(localStorage.getItem('high-score'));
-    const ourJewelId = ourJewel.id;
+    let ourJewelId = ourJewel.id;
 
     console.log({ doublePoints });
     console.log({ doublePointsTracker });
 
     if (doublePoints) {
-
         console.log('we are getting double points');
 
+        // each interval decrease the number of turns with double points by one ( -1)
         if (doublePointsTracker >= 1) {
             doublePointsTracker--;
         };
 
-        if (doublePoints === 0) {
+        // if we are out of double point turns, set points back to regular 
+        if (doublePointsTracker === 0) {
             doublePoints = false;
         };
 
@@ -353,7 +322,6 @@ function updateScore() {
 
             localScore += 400;
 
-            // fill.style.background = 'linear-gradient(to bottom,rgb(0, 255, 157) 35%,rgb(191, 255, 0))';
 
         } else if (ourJewelId === 'red') {
             localScore += 30;
@@ -364,26 +332,20 @@ function updateScore() {
         } else if (ourJewelId === 'blue') {
             localScore += 75;
         } else if (ourJewelId === 'bjt') {
-
-            // we will double points, 1k is just a test
-
-            doublePoints = true;
-
             // double points last 5 gems, after return to normal points
             doublePointsTracker = 5;
-
-            // localScore += 1000;
+            doublePoints = true;
         };
-
     }
 
+    // update displayed score
     score.innerText = localScore;
 
+    // if current score is higher than the high score, replace it
     if (localScore > localHighScore) {
         highScore.innerText = localScore;
         localStorage.setItem('high-score', `${localScore}`);
     }
-
 
     // logic for filling progress bar
     if (level === 1) {
@@ -399,13 +361,10 @@ function updateScore() {
     }
 
     checkLevel();
-
 };
 
+// draws planet image onto board, places grid on top
 function grid() {
-
-    console.log({ currentBackground });
-
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.drawImage(currentBackground, 0, 0, canvas.width, canvas.height);
 
@@ -420,6 +379,7 @@ function grid() {
     };
 };
 
+// fills board with our snake and current apple (jewel)
 function fillBoard() {
     apple = [];
     apple[0] = { x: cellSize * 6, y: cellSize * 6 };
@@ -438,6 +398,7 @@ function fillBoard() {
     drawHead(x1, y1);
 };
 
+// place apple on game board
 function placeApple() {
     let x1, y1, collision;
 

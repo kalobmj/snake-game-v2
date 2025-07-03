@@ -2,6 +2,10 @@
 
 // can change progress bar on each level to match planet color
 
+// work on reseting game on game over
+
+// w a s d support
+
 // level 1: 500 points to win
 // level 2: 1250 points to win
 // level 3: 1500 points to win
@@ -43,8 +47,22 @@ fillBar.style.width = `${canvas.width + 30}px`;
 const fill = document.getElementById('fill');
 
 // move this function later
-function setProgress(pts, maxPts) {
-    fill.style.width = `${(pts / maxPts) * 100}%`
+function setProgress(pts, minPts, maxPts) {
+
+    // example: 840 current points - 800 minimum points
+    pointsThisRound = pts - minPts;
+
+    // example 1200 - 800 === 400;
+    pointsRequired = maxPts - minPts;
+
+    fill.style.width = `${(pointsThisRound / pointsRequired) * 100}%`;
+
+    // if (pts >= maxPts) {
+    //     fill.style.width = '100%';
+    //     return;
+    // }
+
+    // fill.style.width = `${(pts / maxPts) * 100}%`
 };
 
 localStorage.clear();
@@ -82,6 +100,7 @@ let bjtImage;
 let doublePointsTracker = 0;
 let doublePoints = false;
 let isGameRunning = false;
+let gameIsOver = false;
 let direction = 'right';
 let directionTick = false;
 let ourJewel;
@@ -134,6 +153,12 @@ function updateLevel() {
     console.log('we are currently in updateLevel function');
 
     console.log({ level });
+
+    console.log('we are filling up the bar to 100 after the level ends');
+
+    fill.style.width = `${100}%`;
+
+    console.log('after filling up bar')
 
     // visibility :hidden
     gameOverButton.innerText = 'LEVEL UP!';
@@ -286,8 +311,7 @@ function checkCollision(x1, y1, x2, y2) {
 
 function checkBounds(x, y) {
     if (x < 0 || y < 0 || x >= (cellSize * rows) || y >= (cellSize * cols)) {
-        gameOverButton.innerText = 'game over';
-        gameOverButton.style.background = 'red';
+        endGame();
         return true;
     } else {
         return false;
@@ -330,7 +354,9 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
+
             localScore += 20;
+
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -360,20 +386,21 @@ function updateScore() {
         localStorage.setItem('high-score', `${localScore}`);
     }
 
-    checkLevel();
-
+    
     // logic for filling progress bar
     if (level === 1) {
-        setProgress(localScore, 400);
+        setProgress(localScore, 0, 400);
     } else if (level === 2) {
-        setProgress(localScore, 800);
+        setProgress(localScore, 400, 800);
     } else if (level === 3) {
-        setProgress(localScore, 1200);
+        setProgress(localScore, 800, 1200);
     } else if (level === 4) {
-        setProgress(localScore, 1600);
+        setProgress(localScore, 1200, 1600);
     } else if (level === 5) {
-        setProgress(localScore, 2000);
+        setProgress(localScore, 1600, 2000);
     }
+
+    checkLevel();
 
 };
 
@@ -675,8 +702,16 @@ function startGame() {
 function endGame() {
     clearInterval(interval);
     isGameRunning = false;
+    playButton.innerText = 'play';
     playButton.style.visibility = 'visible';
-    gameOverButton.style.visibility = 'visible';
+    
+    setTimeout(() => {
+        gameOverButton.innerText = 'game over';
+        gameOverButton.style.background = 'red';
+        gameOverButton.style.visibility = 'visible';
+    }, 100);
+
+    gameIsOver = true;
 
     // player beats game
     if (level === 6) {
@@ -746,6 +781,21 @@ canvas.addEventListener('keydown', (e) => {
 playButton.addEventListener('click', () => {
     canvas.setAttribute('tabindex', 1);
     canvas.focus();
+
+    console.log({isGameRunning});
+    console.log({gameIsOver});
+    console.log({level});
+
+    fill.style.width = '0%';
+
+    if (gameIsOver) {
+
+        console.log('game is over')
+
+        resetGame();
+        startGame();
+        return
+    };
 
     if (level === 1) {
         if (!isGameRunning) {

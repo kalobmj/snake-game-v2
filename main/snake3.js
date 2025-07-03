@@ -1,5 +1,7 @@
 //
 
+// instead of making board bigger, just make game faster
+
 // level 1: 500 points to win
 // level 2: 1250 points to win
 // level 3: 1500 points to win
@@ -71,9 +73,9 @@ console.log(window.innerWidth);
 console.log(window.innerWidth / 6);
 console.log((window.innerWidth / 6) * 4);
 
-const rows = 10;
-const cols = 10;
-const cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
+let rows = 10;
+let cols = 10;
+let cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
 console.log({ cellSize });
 
 
@@ -93,6 +95,8 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`;
 
 let interval;
 let jewelImgs;
+let planetImgs;
+let currentBackground;
 let bjtImage;
 let doublePointsTracker = 0;
 let doublePoints = false;
@@ -113,7 +117,7 @@ function checkLevel() {
 
     let currentScore = Number(score.innerText);
 
-    console.log({currentScore});
+    console.log({ currentScore });
 
     // ** these score values can change
 
@@ -123,18 +127,29 @@ function checkLevel() {
         console.log('we have passed the level!');
         console.log('We will call updateLevel at this point');
 
+        // stop game from running (clearing interval)
+        clearInterval(interval);
+
         // calling updateLevel
         updateLevel();
 
-        // delete this later
-        clearInterval(interval);
-
         // after 4 seconds, run update level
         setTimeout(() => {
-            
+
 
 
         }, 4000);
+
+    }
+
+    if (level === 6) {
+
+        // logic for winning game here:
+        console.log('you have beaten the game!');
+
+
+        // ending game will happen here
+        updateLevel();
 
     }
 
@@ -145,23 +160,78 @@ function updateLevel() {
 
     console.log('we are currently in updateLevel function');
 
+    console.log({ level });
+
     // visibility :hidden
     gameOverButton.innerText = 'LEVEL UP!';
 
     // after we figure out our background images for each planet, replace the background of our level up message to be that next planet, or some type of color gradient
     gameOverButton.style.background = '#FFC300';
 
+    isGameRunning = false;
+
+    // after 4 seconds, update game speed, board, and background
+    setTimeout(() => {
+        if (level === 2) {
+            currentBackground = planetImgs[0];
+            // grid();
+        } else if (level === 3) {
+            currentBackground = planetImgs[1];
+        } else if (level === 4) {
+            currentBackground = planetImgs[2]; 
+        } else if (level === 5) {
+            currentBackground = planetImgs[3];
+        } else if (level === 6) {
+
+            // after a delay call endGame();
+
+            console.log('level 6 in updateLevel');
+
+            playButton.innerText = 'play again?';
+            playButton.style.visibility = 'visible';
+
+            return;
+
+
+        }
+
+        grid();
+
+        direction = 'right';
+
+        fillBoard();
+
+        currentLevel.innerText = `${level}/5`
+        playButton.innerText = 'continue';
+        playButton.style.visibility = 'visible';
+
+    }, 1000);
 
 
     // give some time before making button visible
     setTimeout(() => {
-        gameOverButton.style.visibility = 'visible';
+        if (level === 6) {
+            gameOverButton.style.background = 'violet';
+            gameOverButton.innerText = 'YOU WIN!'
+        }
+
+        setTimeout(() => {
+            gameOverButton.style.visibility = 'visible';
+        
+        }, 100);
+
+
+
     }, 100);
 
-    level += 1;
-    console.log({level});
+    if (level != 6) {
 
-    currentLevel.innerText = `${level}/5`
+        level += 1;
+        console.log({ level });
+
+    }
+
+
 
 };
 
@@ -179,9 +249,9 @@ const jewels = {
 const planets = {
 
     aqua: '/assets/planet-backgrounds/Aqua-Aeon-XI.jpg',
-    vermithrax: '',
-    frostara: '',
-    neptune: '',
+    vermithrax: '/assets/planet-backgrounds/Vermithrax-II.jpg',
+    frostara: '/assets/planet-backgrounds/Frostara-Glace-VI.jpg',
+    neptune: '/assets/planet-backgrounds/Neptune-II.jpg',
 
 }
 
@@ -200,21 +270,34 @@ function loadImage(name, src) {
     })
 };
 
+console.log(space);
+
+// console.log(aqua);
+
 async function preloadImages() {
     try {
         const jewelEntries = Object.entries(jewels);
+        const planetEntries = Object.entries(planets);
         const imagePromises = jewelEntries.map(([name, src]) => loadImage(name, src));
+        const planetPromises = planetEntries.map(([name, src]) => loadImage(name, src));
 
         imagePromises.push(loadImage('bjt', '/assets/gems/BJT_NDS_ICON2.png'));
 
         imagePromises.push(loadImage('space', '/assets/bj-background.webp'));
 
         const loadedImgs = await Promise.all(imagePromises);
+        const loadedPlanets = await Promise.all(planetPromises);
         const spaceImage = loadedImgs.pop();
         // bjtImage = loadedImgs.pop();
 
+        currentBackground = spaceImage;
+
         ourJewel = loadedImgs[0];
         jewelImgs = loadedImgs;
+        planetImgs = loadedPlanets;
+
+        console.log({ planetImgs });
+
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -243,8 +326,8 @@ function updateScore() {
     let localHighScore = Number(localStorage.getItem('high-score'));
     const ourJewelId = ourJewel.id;
 
-    console.log({doublePoints});
-    console.log({doublePointsTracker});
+    console.log({ doublePoints });
+    console.log({ doublePointsTracker });
 
     if (doublePoints) {
 
@@ -274,7 +357,7 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-            localScore += 20;
+            localScore += 2000;
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -284,9 +367,9 @@ function updateScore() {
         } else if (ourJewelId === 'blue') {
             localScore += 75;
         } else if (ourJewelId === 'bjt') {
-            
+
             // we will double points, 1k is just a test
-    
+
             doublePoints = true;
 
             // double points last 5 gems, after return to normal points
@@ -311,8 +394,11 @@ function updateScore() {
 };
 
 function grid() {
+
+    console.log({ currentBackground });
+
     c.clearRect(0, 0, canvas.width, canvas.height);
-    c.drawImage(space, 0, 0, canvas.width, canvas.height);
+    c.drawImage(currentBackground, 0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -395,7 +481,7 @@ function placeApple() {
         } else if (jewelRoll >= 86 && jewelRoll <= 100) {
             ourJewel = jewelImgs[4];
         };
-        
+
     }
 
     console.log(ourJewel);
@@ -499,13 +585,13 @@ function drawHead(x, y) {
         y2 += (cellSize / 2);
         y3 += (cellSize * .25);
 
-        x4 += (cellSize / 2); 
+        x4 += (cellSize / 2);
         x6 += (cellSize / 2);
 
-        y4 += (cellSize / 2); 
+        y4 += (cellSize / 2);
         y5 += (cellSize * .75);
         y6 += cellSize;
-        
+
         c.fillRect(x + (cellSize * .75), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
 
         c.fillRect(x + (cellSize * .75), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
@@ -607,6 +693,14 @@ function endGame() {
     isGameRunning = false;
     playButton.style.visibility = 'visible';
     gameOverButton.style.visibility = 'visible';
+
+    // player beats game
+    if (level === 6) {
+
+        // logic for player beating game
+
+    };
+
 };
 
 function resetGame() {
@@ -664,16 +758,48 @@ playButton.addEventListener('click', () => {
     canvas.setAttribute('tabindex', 1);
     canvas.focus();
 
-    if (!isGameRunning) {
-        resetGame();
-        startGame();
-    }
+    if (level === 1) {
+        if (!isGameRunning) {
+            resetGame();
+            startGame();
+        }
+        return
+    } else if (level === 2) {
+
+        // speeding up game
+        interval = setInterval(move, 400);
+        isGameRunning === true;
+
+    } else if (level === 3) {
+
+        interval = setInterval(move, 300)
+        isGameRunning === true;
+
+    } else if (level === 4) {
+
+        interval = setInterval(move, 200);
+        isGameRunning === true;
+
+    } else if (level === 5) {
+
+        interval = setInterval(move, 100);
+        isGameRunning === true;
+
+    };
+
+    gameOverButton.style.visibility = 'hidden';
+    playButton.style.visibility = 'hidden';
+
 });
 
 window.onload = async () => {
     await preloadImages();
 
     console.log({ jewelImgs });
+
+    console.log({ planetImgs });
+
+    console.log(planetImgs[0]);
 
     setupGame();
 };

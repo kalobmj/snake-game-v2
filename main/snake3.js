@@ -1,8 +1,6 @@
 //
 
-// instead of making board bigger, just make game faster
-
-// do logic for updating planet name
+// can change progress bar on each level to match planet color
 
 // level 1: 500 points to win
 // level 2: 1250 points to win
@@ -19,29 +17,12 @@
 // bottom side - current level progress bar
 // on level completion -> play level up sound (possibly use same sound as game), play small animation each level, play larger animation when user wins entire game (most likely level 5)
 
-// have jewel pulsate (increase and decrease size, slightly move up and down to simulate gem moving on each interval)
-
-// bjt gem doubles points for 5 seconds ?? 
-
-// every level up:
-// increases interval speed (game runs faster)
-// increases board size (makes gameboard bigger)
-// require more points to go to the next level
-
-// possible point tracker bar on side or bottom to show how far you are in the level
-
 // every level up increases points gained by 5x
 
 // need audio track to play in background
 // could possibly be 5 different songs for every level
 
-// can mess around with changing the background of the board for each level (like the real game)
-
 // we will go after at the end and place comments to make it easier to follow
-
-// need function or checker to check game state and update level when user reaches certain score, also stops game between levels (clear intervals, play button comes back, pressing it resumes interval)
-
-// after player beats level, end interval -> display message in middle (button) telling player they are moving onto the next planet. After a short delay (5 seconds or so), updateLevel() function runs and updates gameboard and such
 
 //
 
@@ -66,8 +47,6 @@ function setProgress(pts, maxPts) {
     fill.style.width = `${(pts / maxPts) * 100}%`
 };
 
-// setProgress(300, 2000);
-
 localStorage.clear();
 localStorage.setItem('high-score', '0');
 
@@ -80,7 +59,6 @@ let rows = 10;
 let cols = 10;
 let cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
 console.log({ cellSize });
-
 
 //
 
@@ -111,7 +89,6 @@ let apple = [];
 let snake = [];
 
 let level = 1;
-let maxPoints = 500;
 
 //
 
@@ -125,7 +102,7 @@ function checkLevel() {
     // ** these score values can change
 
     // if user passes level -> call updateLevel
-    if (level === 1 && currentScore >= 500 || level === 2 && currentScore >= 1250 || level === 3 && currentScore >= 1500 || level === 4 && currentScore >= 1750 || level === 5 && currentScore >= 2000) {
+    if (level === 1 && currentScore >= 400 || level === 2 && currentScore >= 800 || level === 3 && currentScore >= 1200 || level === 4 && currentScore >= 1600 || level === 5 && currentScore >= 2000) {
 
         console.log('we have passed the level!');
         console.log('We will call updateLevel at this point');
@@ -135,13 +112,6 @@ function checkLevel() {
 
         // calling updateLevel
         updateLevel();
-
-        // after 4 seconds, run update level
-        setTimeout(() => {
-
-
-
-        }, 4000);
 
     }
 
@@ -184,7 +154,7 @@ function updateLevel() {
             currentBackground = planetImgs[1];
         } else if (level === 4) {
             currentPlanet.innerText = 'FROSTARA GLACE VI'
-            currentBackground = planetImgs[2]; 
+            currentBackground = planetImgs[2];
         } else if (level === 5) {
             currentPlanet.innerText = 'NEPTUNE II'
             currentBackground = planetImgs[3];
@@ -212,6 +182,8 @@ function updateLevel() {
         playButton.innerText = 'continue';
         playButton.style.visibility = 'visible';
 
+
+
     }, 1000);
 
 
@@ -224,10 +196,8 @@ function updateLevel() {
 
         setTimeout(() => {
             gameOverButton.style.visibility = 'visible';
-        
+
         }, 100);
-
-
 
     }, 100);
 
@@ -237,8 +207,6 @@ function updateLevel() {
         console.log({ level });
 
     }
-
-
 
 };
 
@@ -276,10 +244,6 @@ function loadImage(name, src) {
         img.onerror = rej;
     })
 };
-
-console.log(space);
-
-// console.log(aqua);
 
 async function preloadImages() {
     try {
@@ -322,6 +286,8 @@ function checkCollision(x1, y1, x2, y2) {
 
 function checkBounds(x, y) {
     if (x < 0 || y < 0 || x >= (cellSize * rows) || y >= (cellSize * cols)) {
+        gameOverButton.innerText = 'game over';
+        gameOverButton.style.background = 'red';
         return true;
     } else {
         return false;
@@ -364,7 +330,7 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-            localScore += 2000;
+            localScore += 20;
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -387,7 +353,6 @@ function updateScore() {
 
     }
 
-
     score.innerText = localScore;
 
     if (localScore > localHighScore) {
@@ -397,7 +362,19 @@ function updateScore() {
 
     checkLevel();
 
-    setProgress(localScore, 500);
+    // logic for filling progress bar
+    if (level === 1) {
+        setProgress(localScore, 400);
+    } else if (level === 2) {
+        setProgress(localScore, 800);
+    } else if (level === 3) {
+        setProgress(localScore, 1200);
+    } else if (level === 4) {
+        setProgress(localScore, 1600);
+    } else if (level === 5) {
+        setProgress(localScore, 2000);
+    }
+
 };
 
 function grid() {
@@ -713,8 +690,13 @@ function endGame() {
 function resetGame() {
     let apple = [];
     let snake = [];
+    isGameRunning = false;
+    directionTick = false;
+    level = 1;
     direction = 'right';
     score.innerText = '0';
+    playButton.innerText = 'play';
+    currentBackground = space;
     setupGame();
 };
 
@@ -792,7 +774,13 @@ playButton.addEventListener('click', () => {
         interval = setInterval(move, 100);
         isGameRunning === true;
 
-    };
+    } else if (level === 6) {
+
+        gameOverButton.style.visibility = 'hidden';
+        resetGame();
+        return;
+
+    }
 
     gameOverButton.style.visibility = 'hidden';
     playButton.style.visibility = 'hidden';

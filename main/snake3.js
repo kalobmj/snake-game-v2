@@ -94,6 +94,8 @@ gameOverButton.style.fontSize = `${cellSize / 2}px`;
 let interval;
 let jewelImgs;
 let bjtImage;
+let doublePointsTracker = 0;
+let doublePoints = false;
 let isGameRunning = false;
 let direction = 'right';
 let directionTick = false;
@@ -222,22 +224,60 @@ function updateScore() {
     let localHighScore = Number(localStorage.getItem('high-score'));
     const ourJewelId = ourJewel.id;
 
-    if (ourJewelId === 'green') {
-        localScore += 20;
-    } else if (ourJewelId === 'red') {
-        localScore += 30;
-    } else if (ourJewelId === 'yellow') {
-        localScore += 40;
-    } else if (ourJewelId === 'white') {
-        localScore += 50;
-    } else if (ourJewelId === 'blue') {
-        localScore += 75;
-    } else if (ourJewelId === 'bjt') {
-        
-        // we will double points, 1k is just a test
+    console.log({doublePoints});
+    console.log({doublePointsTracker});
 
-        localScore += 1000;
-    };
+    if (doublePoints) {
+
+        console.log('we are getting double points');
+
+        if (doublePointsTracker >= 1) {
+            doublePoints--;
+        };
+
+        if (doublePoints === 0) {
+            doublePoints = false;
+        };
+
+        if (ourJewelId === 'green') {
+            localScore += 40;
+        } else if (ourJewelId === 'red') {
+            localScore += 60;
+        } else if (ourJewelId === 'yellow') {
+            localScore += 80;
+        } else if (ourJewelId === 'white') {
+            localScore += 100;
+        } else if (ourJewelId === 'blue') {
+            localScore += 150;
+        };
+    } else {
+
+        console.log('we are not getting double points');
+
+        if (ourJewelId === 'green') {
+            localScore += 20;
+        } else if (ourJewelId === 'red') {
+            localScore += 30;
+        } else if (ourJewelId === 'yellow') {
+            localScore += 40;
+        } else if (ourJewelId === 'white') {
+            localScore += 50;
+        } else if (ourJewelId === 'blue') {
+            localScore += 75;
+        } else if (ourJewelId === 'bjt') {
+            
+            // we will double points, 1k is just a test
+    
+            doublePoints = true;
+
+            // double points last 5 gems, after return to normal points
+            doublePointsTracker = 5;
+
+            // localScore += 1000;
+        };
+
+    }
+
 
     score.innerText = localScore;
 
@@ -309,7 +349,7 @@ function placeApple() {
 
     console.log({ bjtRoll });
 
-    if (bjtRoll === 5) {
+    if (bjtRoll === 5 && !doublePoints) {
 
         // if we get double points jewel
 
@@ -579,6 +619,11 @@ function getStats() {
 canvas.addEventListener('keydown', (e) => {
     if (directionTick) {
         return;
+    };
+
+    // stop game if press enter (testing)
+    if (e.key === "Enter") {
+        clearInterval(interval)
     };
 
     if (e.key === 'ArrowRight' && direction != 'left') {

@@ -48,11 +48,16 @@ body {
 }
 
 #orb {
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     display: block;
     height: auto;
     position: relative;
     z-index: 1;
+}
+
+#current-planet {
+    margin-bottom: 40px;
+    white-space: nowrap;
 }
 
 #current-level {
@@ -149,6 +154,11 @@ body {
     background-clip: text;
     /* background-color: violet; */
 }
+
+/* #current-planet {
+    position: absolute;
+    top: 300px;
+} */
 
 @media (prefers-color-scheme: dark) {
     body {

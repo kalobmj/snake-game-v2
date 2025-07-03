@@ -2,6 +2,8 @@
 
 // instead of making board bigger, just make game faster
 
+// do logic for updating planet name
+
 // level 1: 500 points to win
 // level 2: 1250 points to win
 // level 3: 1500 points to win
@@ -50,6 +52,7 @@ const score = document.getElementById('score-num');
 const canvas = document.getElementById('canvas-1');
 const c = canvas.getContext('2d');
 const currentLevel = document.getElementById('current-level');
+let currentPlanet = document.getElementById('current-planet');
 
 const orb = document.getElementById('orb');
 
@@ -173,13 +176,17 @@ function updateLevel() {
     // after 4 seconds, update game speed, board, and background
     setTimeout(() => {
         if (level === 2) {
+            currentPlanet.innerText = 'AQUA AEON XI'
             currentBackground = planetImgs[0];
             // grid();
         } else if (level === 3) {
+            currentPlanet.innerText = 'VERMITHRAX II'
             currentBackground = planetImgs[1];
         } else if (level === 4) {
+            currentPlanet.innerText = 'FROSTARA GLACE VI'
             currentBackground = planetImgs[2]; 
         } else if (level === 5) {
+            currentPlanet.innerText = 'NEPTUNE II'
             currentBackground = planetImgs[3];
         } else if (level === 6) {
 
@@ -187,7 +194,7 @@ function updateLevel() {
 
             console.log('level 6 in updateLevel');
 
-            playButton.innerText = 'play again?';
+            playButton.innerText = 'play again';
             playButton.style.visibility = 'visible';
 
             return;

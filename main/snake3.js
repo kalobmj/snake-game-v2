@@ -232,7 +232,7 @@ function updateScore() {
         console.log('we are getting double points');
 
         if (doublePointsTracker >= 1) {
-            doublePoints--;
+            doublePointsTracker--;
         };
 
         if (doublePoints === 0) {

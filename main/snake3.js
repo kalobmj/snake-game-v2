@@ -416,6 +416,7 @@ function placeApple() {
         };
     } while (collision);
 
+    // roll for which jewel will spawn
     let jewelRoll = Math.floor(Math.random() * 100) + 1;
 
     let bjtRoll = Math.floor(Math.random() * 5) + 1;
@@ -443,7 +444,7 @@ function placeApple() {
         } else if (jewelRoll >= 51 && jewelRoll <= 65) {
             ourJewel = jewelImgs[2];
         } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-            if (snake.length <= 2) {
+            if (snake.length <= 3) {
                 ourJewel = jewelImgs[0]
             } else {
                 ourJewel = jewelImgs[3];
@@ -691,6 +692,7 @@ function resetGame() {
     score.innerText = '0';
     playButton.innerText = 'play';
     currentBackground = space;
+    currentPlanet.innerText = 'TAU HEXIMUS';
     fill.style.background = 'linear-gradient(to bottom, #f259f1 35%, #e590f6)';
     gameIsOver = false;
     currentLevel.innerText = '1/5'

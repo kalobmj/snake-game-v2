@@ -131,7 +131,6 @@ function updateLevel() {
         } else if (level === 6) {
             playButton.innerText = 'play again';
             playButton.style.visibility = 'visible';
-
             return;
         };
 
@@ -280,7 +279,7 @@ function updateScore() {
     if (localScore > localHighScore) {
         highScore.innerText = localScore;
         localStorage.setItem('high-score', `${localScore}`);
-    }
+    };
 
     // logic for filling progress bar
     if (level === 1) {
@@ -461,98 +460,54 @@ function move() {
 function drawHead(x, y) {
     c.fillStyle = 'black';
 
-    let x1 = x,
-        x2 = x,
-        x3 = x,
-        x4 = x,
-        x5 = x,
-        x6 = x;
-
-    let y1 = y,
-        y2 = y,
-        y3 = y,
-        y4 = y,
-        y5 = y,
-        y6 = y;
+    let [x1, x2, x3, x4, x5, x6] = Array(6).fill(x);
+    let [y1, y2, y3, y4, y5, y6] = Array(6).fill(y);
 
     if (direction === 'right') {
-        console.log('direction is right');
 
-        x1 += (cellSize / 2);
-        x2 += (cellSize / 2);
+        // getting coordinates for snake eyes
+        [x1, x2] = [x + cellSize / 2, x + cellSize / 2];
+        [y2, y3] = [y + cellSize / 2, y + cellSize * .25];
+        [x4, x6] = [x + cellSize / 2, x + cellSize / 2];
+        [y4, y5, y6] = [y + cellSize / 2, y + cellSize * .75, y + cellSize];
 
-        y2 += (cellSize / 2);
-        y3 += (cellSize * .25);
-
-        x4 += (cellSize / 2);
-        x6 += (cellSize / 2);
-
-        y4 += (cellSize / 2);
-        y5 += (cellSize * .75);
-        y6 += cellSize;
-
+        // filling in snake nostrils
         c.fillRect(x + (cellSize * .75), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
         c.fillRect(x + (cellSize * .75), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
+
     } else if (direction === 'left') {
-        console.log('direction is left');
 
-        x1 += (cellSize / 2);
-        x2 += cellSize;
-        x3 += (cellSize / 2);
-
-        y2 += (cellSize / 4);
-        y3 += (cellSize / 2);
-
-        x4 += (cellSize / 2);
-        x5 += cellSize;
-        x6 += (cellSize / 2);
-
-        y4 += (cellSize / 2);
-        y5 += (cellSize * .75);
-        y6 += cellSize;
+        [x1, x2, x3] = [x + cellSize / 2, x + cellSize, x + cellSize / 2];
+        [y2, y3] = [y + cellSize / 4, y + cellSize / 2];
+        [x4, x5, x6] = [x + cellSize / 2, x + cellSize, x + cellSize / 2];
+        [y4, y5, y6] = [y + cellSize / 2, y + cellSize * .75, y + cellSize];
 
         c.fillRect(x + (cellSize * .25), y + (cellSize * .25), (cellSize / 10), (cellSize / 10));
         c.fillRect(x + (cellSize * .25), y + ((cellSize * .75) - cellSize / 10), (cellSize / 10), (cellSize / 10));
+
     } else if (direction === 'up') {
-        console.log('direction is up');
 
-        x2 += (cellSize / 2);
-        x3 += (cellSize * .25);
-
-        y1 += (cellSize / 2);
-        y2 += (cellSize / 2);
-        y3 += cellSize;
-
-        x4 += (cellSize / 2);
-        x5 += cellSize;
-        x6 += (cellSize * .75);
-
-        y4 += (cellSize / 2);
-        y5 += (cellSize / 2);
-        y6 += cellSize;
+        [x2, x3] = [x + cellSize / 2, x + cellSize * .25];
+        [y1, y2, y3] = [y + cellSize / 2, y + cellSize / 2, y + cellSize];
+        [x4, x5, x6] = [x + cellSize / 2, x + cellSize, x + cellSize * .75];
+        [y4, y5, y6] = [y + cellSize / 2, y + cellSize / 2, y + cellSize];
 
         c.fillRect(x + (cellSize * .25), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
         c.fillRect(x + ((cellSize * .75) - cellSize / 10), y + (cellSize * .125), (cellSize / 10), (cellSize / 10));
+
     } else if (direction === 'down') {
-        console.log('direction is down');
 
-        x2 += (cellSize * .25);
-        x3 += (cellSize / 2);
-
-        y1 += (cellSize / 2);
-        y3 += (cellSize / 2);
-
-        x4 += (cellSize / 2);
-        x5 += (cellSize * .75);
-        x6 += cellSize;
-
-        y4 += (cellSize / 2);
-        y6 += (cellSize / 2);
+        [x2, x3] = [x + cellSize * .25, x + cellSize / 2];
+        [y1, y3] = [y + cellSize / 2, y + cellSize / 2];
+        [x4, x5, x6] = [x + cellSize / 2, x + cellSize * .75, x + cellSize];
+        [y4, y6] = [y + cellSize / 2, y + cellSize / 2];
 
         c.fillRect(x + (cellSize * .25), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
         c.fillRect(x + ((cellSize * .75) - (cellSize / 10)), y + (cellSize * .75), (cellSize / 10), (cellSize / 10));
+
     };
 
+    // drawing left eye
     c.beginPath();
     c.moveTo(x1, y1);
     c.lineTo(x2, y2);
@@ -560,6 +515,7 @@ function drawHead(x, y) {
     c.closePath();
     c.fill();
 
+    // drawing right eye
     c.beginPath();
     c.moveTo(x4, y4);
     c.lineTo(x5, y5);
@@ -635,92 +591,71 @@ function resetGame() {
 // get current stats for game
 function getStats() {
     console.log('*start of game stats*');
-    console.log({ rows });
-    console.log({ cols });
-    console.log({ cellSize });
     console.log({ isGameRunning });
-    console.log({ direction });
     console.log({ apple });
     console.log({ snake });
+    console.log({ cellSize });
+    console.log({ direction });
     console.log('canvas width', canvas.width);
     console.log('canvas height', canvas.height);
     console.log('*end of game stats*');
 };
 
+// user can use arrow keys or wasd to move snake
 canvas.addEventListener('keydown', (e) => {
     if (directionTick) {
-        return;
+        return
     };
 
-    // stop game if press enter (testing)
-    if (e.key === "Enter") {
-        clearInterval(interval)
-    };
+    // tick to keep snake to 1 turn per interval
+    directionTick = true;
 
-    // user can use arrow keys or wasd to move snake
     if ((e.key === 'ArrowRight' || e.key === 'd') && direction != 'left') {
         direction = 'right';
-        directionTick = true;
     } else if ((e.key === 'ArrowLeft' || e.key === 'a') && direction != 'right') {
         direction = 'left';
-        directionTick = true;
     } else if ((e.key === 'ArrowUp' || e.key === 'w') && direction != 'down') {
         direction = 'up';
-        directionTick = true;
     } else if ((e.key === 'ArrowDown' || e.key === 's') && direction != 'up') {
         direction = 'down';
-        directionTick = true;
-    }
+    };
 });
 
 playButton.addEventListener('click', () => {
-    // resets progress bar at the start of each level
-    fill.style.width = '0%';
-
     // focus user on game board
     canvas.setAttribute('tabindex', 1);
     canvas.focus();
 
-    // if game is over, reset and start game
-    if (gameIsOver) {
+    // resets progress bar, removes buttons, sets game running to true
+    isGameRunning === true;
+    fill.style.width = '0%';
+    gameOverButton.style.visibility = 'hidden';
+    playButton.style.visibility = 'hidden';
+
+    // setup game depending on players current level
+    if (level === 1 || gameIsOver) {
         resetGame();
         startGame();
         return
-    };
-
-    // if user presses play, start game depending on player's current level
-    if (level === 1) {
-        if (!isGameRunning) {
-            resetGame();
-            startGame();
-        };
-        return
     } else if (level === 2) {
         // speeding up game
-        isGameRunning === true;
         interval = setInterval(move, 400);
         fill.style.background = 'linear-gradient(to bottom,rgb(116,208,231) 35%,rgb(178,223,239))';
     } else if (level === 3) {
-        isGameRunning === true;
-        interval = setInterval(move, 300)
+        interval = setInterval(move, 300);
         fill.style.background = 'linear-gradient(to bottom,rgb(176, 135, 99) 35%,rgb(228, 197, 134))';
     } else if (level === 4) {
-        isGameRunning === true;
         interval = setInterval(move, 200);
         fill.style.background = 'linear-gradient(to bottom,rgb(215,229,239) 35%,rgb(76,147,207))';
     } else if (level === 5) {
-        isGameRunning === true;
         interval = setInterval(move, 100);
         fill.style.background = 'linear-gradient(to bottom,rgb(9,67,133) 35%,rgb(71,194,241))';
     } else if (level === 6) {
-        // player has won, pressing play button again will start a new game
+        // player has won, setup new game
         gameOverButton.style.visibility = 'hidden';
         resetGame();
-        return;
+        return
     };
-
-    gameOverButton.style.visibility = 'hidden';
-    playButton.style.visibility = 'hidden';
 });
 
 // on window load, wait for images to load before setting up game

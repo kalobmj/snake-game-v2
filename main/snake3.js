@@ -20,6 +20,7 @@ const currentPlanet = document.getElementById('current-planet');
 const orb = document.getElementById('orb');
 const fill = document.getElementById('fill');
 const fillBar = document.getElementById('progress-bar-container');
+const purpleNote = document.getElementById('purple-note');
 
 // sizing progress bar depending on canvas size
 fillBar.style.width = `${canvas.width + 30}px`;
@@ -32,6 +33,10 @@ localStorage.setItem('high-score', '0');
 let rows = 10;
 let cols = 10;
 let cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
+
+// sizing music toggle button depending on cellSize
+purpleNote.width = cellSize;
+purpleNote.height = cellSize;
 
 // sizing orb 
 orb.width = cellSize * 2;
@@ -573,13 +578,13 @@ function resetGame() {
     // resetting game stats to level 1
     let apple = [];
     let snake = [];
-    isGameRunning = false;
-    directionTick = false;
     level = 1;
     direction = 'right';
     score.innerText = '0';
-    playButton.innerText = 'play';
+    isGameRunning = false;
+    directionTick = false;
     currentBackground = space;
+    playButton.innerText = 'play';
     currentPlanet.innerText = 'TAU HEXIMUS';
     fill.style.background = 'linear-gradient(to bottom, #f259f1 35%, #e590f6)';
     gameIsOver = false;
@@ -658,9 +663,44 @@ playButton.addEventListener('click', () => {
     };
 });
 
+// background music
+const bejeweledTheme = new Audio('/assets/music/01 - Bejewled 2 Theme.mp3');
+
+//
+
+    // need to:
+    // delcare every audio file
+    
+    // create function that takes all of the loaded audio files, call it when the first audio file you need becomes loaded, then update the properties of all the files, (make them loop, set volume, create logic for music button)
+    
+    // create music button, plays when toggled, mutes when untoggled (muting stops audio), (unmuting it restarts it on a loop)
+    // arrange music button using css
+
+//
+
+setTimeout(() => {
+    
+    console.log({bejeweledTheme});
+    console.log('bejewled loop status', bejeweledTheme.loop);
+
+}, 2000);
+
+//
+
+    // function that will play certain audios depending on current level
+
+
+
+//
+
 // on window load, wait for images to load before setting up game
 window.onload = async () => {
     await preloadImages();
     setupGame();
     getStats();
+
+    setTimeout(() => {
+        
+    }, 3000);
+
 };

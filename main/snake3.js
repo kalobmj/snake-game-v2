@@ -722,7 +722,17 @@ const audioTracks = {
 // prep audio tracks
 function prepAudio() {
 
+    let audioArr = Object.entries(audioTracks);
 
+    console.log({audioArr});
+
+    audioArr.map((audio) => {
+
+        audio[1].id = audio[0]
+        audio[1].loop = true;
+        audio[1].volume = 0.1;
+
+    });
 
 };
 
@@ -731,22 +741,14 @@ bejeweledTheme.addEventListener('canplaythrough', () => {
 
     console.log('track loaded');
 
-    // user needs to whitelist for audio to play, this will be fine in the future because all user has to do is click page, when user clicks play button, webpage will become whitelisted, and audio will be able to be played
-    setTimeout(() => {
-        
-        bejeweledTheme.volume = 0.1;
-        bejeweledTheme.play();
+    prepAudio();
 
-    }, 2000);
+    // testing if prepAudio worked (should be true at this point)
+    console.log(audioTracks.rainOfLight.loop);
 
-    setTimeout(() => {
-        
-        bejeweledTheme.pause();
-
-    }, 4000);
-
-
-
+    // play
+    // bejeweledTheme.play()
+    
 });
 
 //

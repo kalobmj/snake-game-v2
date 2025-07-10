@@ -61,11 +61,6 @@ body {
 }
 
 #current-level {
-    /* position: relative;
-    z-index: 2; */
-}
-
-#current-level {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -92,6 +87,7 @@ body {
     border: 2mm ridge #ff02c0;
     border-radius: 5px;
     padding: 5px;
+    position: relative;
 }
 
 .gem {
@@ -136,6 +132,19 @@ body {
     width: auto;
     visibility: hidden;
     z-index: 3;
+}
+
+#no-symbol {
+    position: absolute;
+    opacity: 0.6;
+    visibility: visible;
+}
+
+#music-toggle {
+    padding: 7px;
+    margin-top: 400px;
+    position: absolute;
+    right: 10px;
 }
 
 #progress-bar-container {

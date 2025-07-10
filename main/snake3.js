@@ -20,7 +20,9 @@ const currentPlanet = document.getElementById('current-planet');
 const orb = document.getElementById('orb');
 const fill = document.getElementById('fill');
 const fillBar = document.getElementById('progress-bar-container');
+const musicButton = document.getElementById('music-toggle');
 const purpleNote = document.getElementById('purple-note');
+const noSymbol = document.getElementById('no-symbol');
 
 // sizing progress bar depending on canvas size
 fillBar.style.width = `${canvas.width + 30}px`;
@@ -37,6 +39,9 @@ let cellSize = Math.floor(((window.innerHeight / 3) * 2) / cols);
 // sizing music toggle button depending on cellSize
 purpleNote.width = cellSize;
 purpleNote.height = cellSize;
+noSymbol.width = cellSize;
+noSymbol.height = cellSize;
+noSymbol.style.visibility = 'hidden';
 
 // sizing orb 
 orb.width = cellSize * 2;
@@ -61,6 +66,12 @@ let currentBackground;
 let level = 1;
 let apple = [];
 let snake = [];
+
+// set this to false when logic comes in, will start out false then turn to true once first audio file as loaded
+let musicPlaying = true; // will be false
+let currentSong;
+
+
 let direction = 'right';
 let gameIsOver = false;
 let isGameRunning = false;
@@ -663,8 +674,63 @@ playButton.addEventListener('click', () => {
     };
 });
 
+// user clicks music button
+musicButton.addEventListener('click', () => {
+
+    console.log('clicked!');
+
+    console.log({musicPlaying});
+
+    // if music is currently playing -> enable no-symbol button and stop current track from playing
+    if (musicPlaying) {
+
+        noSymbol.style.visibility = 'visible';
+        musicPlaying = false;
+
+    } else {
+
+        noSymbol.style.visibility = 'hidden';
+        musicPlaying = true;
+
+    };
+
+    console.log({musicPlaying});
+
+});
+
 // background music
-const bejeweledTheme = new Audio('/assets/music/01 - Bejewled 2 Theme.mp3');
+
+const bejeweledTheme = new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3');
+
+const journeyBegins = new Audio('/assets/music/03 - The Journey Begins.mp3');
+const rainOfLight = new Audio('/assets/music/04 - Rain of Lights.mp3');
+const seaOfAmorphity = new Audio('/assets/music/06 - Sea of Amorphity.mp3');
+const tunnelSociety = new Audio('/assets/music/09 - Tunnel Society V2.mp3');
+const newBeginning = new Audio('/assets/music/10 - A New Beginning (Intro 2).mp3');
+
+
+
+// when our first audio track loads -> handle all of the other tracks
+bejeweledTheme.addEventListener('canplaythrough', () => {
+
+    console.log('track loaded');
+
+
+    // user needs to whitelist for audio to play, this will be fine in the future because all user has to do is click page, when user clicks play button, webpage will become whitelisted, and audio will be able to be played
+    setTimeout(() => {
+        
+        bejeweledTheme.volume = 0.1;
+        bejeweledTheme.play();
+
+    }, 2000);
+
+    setTimeout(() => {
+        
+        bejeweledTheme.pause();
+
+    }, 4000);
+
+});
 
 //
 
@@ -698,9 +764,4 @@ window.onload = async () => {
     await preloadImages();
     setupGame();
     getStats();
-
-    setTimeout(() => {
-        
-    }, 3000);
-
 };

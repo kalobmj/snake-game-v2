@@ -701,20 +701,35 @@ musicButton.addEventListener('click', () => {
 // background music
 
 const bejeweledTheme = new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3');
-
 const journeyBegins = new Audio('/assets/music/03 - The Journey Begins.mp3');
 const rainOfLight = new Audio('/assets/music/04 - Rain of Lights.mp3');
 const seaOfAmorphity = new Audio('/assets/music/06 - Sea of Amorphity.mp3');
 const tunnelSociety = new Audio('/assets/music/09 - Tunnel Society V2.mp3');
 const newBeginning = new Audio('/assets/music/10 - A New Beginning (Intro 2).mp3');
 
+// audio track object -> we will use object.entries to loop through each of these in our audio track prepper function, and also to access them.
+const audioTracks = {
 
+    bejewledTheme: new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3'),
+    journeyBegins: new Audio('/assets/music/03 - The Journey Begins.mp3'),
+    rainOfLight: new Audio('/assets/music/04 - Rain of Lights.mp3'),
+    seaOfAmorphity: new Audio('/assets/music/06 - Sea of Amorphity.mp3'),
+    tunnelSociety: new Audio('/assets/music/09 - Tunnel Society V2.mp3'),
+    newBeginning: new Audio('/assets/music/10 - A New Beginning (Intro 2).mp3')
+
+};
+
+// prep audio tracks
+function prepAudio() {
+
+
+
+};
 
 // when our first audio track loads -> handle all of the other tracks
 bejeweledTheme.addEventListener('canplaythrough', () => {
 
     console.log('track loaded');
-
 
     // user needs to whitelist for audio to play, this will be fine in the future because all user has to do is click page, when user clicks play button, webpage will become whitelisted, and audio will be able to be played
     setTimeout(() => {
@@ -729,6 +744,8 @@ bejeweledTheme.addEventListener('canplaythrough', () => {
         bejeweledTheme.pause();
 
     }, 4000);
+
+
 
 });
 

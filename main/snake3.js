@@ -736,12 +736,24 @@ function prepAudio() {
 
 };
 
+// change current audio track
+function changeAudio() {
+
+
+
+}
+
 // when our first audio track loads -> handle all of the other tracks
 bejeweledTheme.addEventListener('canplaythrough', () => {
 
     console.log('track loaded');
 
     prepAudio();
+
+    // setting current song to level 1 song
+    currentSong = audioTracks.bejewledTheme
+
+    console.log({currentSong});
 
     // testing if prepAudio worked (should be true at this point)
     console.log(audioTracks.rainOfLight.loop);

@@ -1,8 +1,6 @@
 //
 
-// update local storage to store setting of music playing or not, read from local storage and update music playing depending on setting saved, if none just load as usual
-
-// have small glimmering animation in between level ups, have a bigger one on game completion along with a bigger animation (no confetti)
+// fonts are not transfering on vercel, look into that
 
 //
 
@@ -68,6 +66,9 @@ let snake = [];
 let musicPlaying = true; // will be false
 let currentSong;
 
+// let confetti interval play 3 times after winning, once tick its 3, stop the interval
+let endingInterval;
+let endingTick = 0;
 
 let direction = 'right';
 let gameIsOver = false;
@@ -166,7 +167,18 @@ function updateLevel() {
                 gameOverButton.style.visibility = 'visible';
 
             }, 100);
+
+
         }, 100);
+
+        setTimeout(() => {
+            
+            // play confetti at end
+            runConfetti();
+
+            endingInterval = setInterval(runConfetti, 10000);
+
+        }, 300);
 
         return;
 
@@ -662,6 +674,9 @@ function resetGame() {
     gameIsOver = false;
     currentLevel.innerText = '1/5';
 
+    endingInterval = '';
+    endingTick = 0;
+
     setupGame();
 };
 
@@ -787,9 +802,9 @@ musicButton.addEventListener('click', () => {
         localStorage.setItem('musicPlaying', false);
 
         console.log(localStorage.getItem('musicPlaying'));
-        
+
     } else {
-        
+
         noSymbol.style.visibility = 'hidden';
         musicPlaying = true;
         localStorage.setItem('musicPlaying', true);
@@ -921,9 +936,58 @@ setTimeout(() => {
 
 //
 
-// function that will play certain audios depending on current level
+function runConfetti() {
 
+    console.log('ending tick before', endingTick);
+    
+    endingTick++;
+    
+    console.log('ending tick after', endingTick);
 
+    confetti({
+        spread: 360,
+        ticks: 200,
+        gravity: 1,
+        decay: 0.94,
+        startVelocity: 30,
+        particleCount: 100,
+        scalar: 3,
+        shapes: ["image"],
+        shapeOptions: {
+            image: [{
+                src: "/assets/gems/green-octogon.png",
+                width: 32,
+                height: 32,
+            },
+            {
+                src: "/assets/gems/red-square.png",
+                width: 32,
+                height: 32,
+            },
+            {
+                src: "/assets/gems/yellow-rect.png",
+                width: 32,
+                height: 32,
+            },
+            {
+                src: "/assets/gems/white-decagon.png",
+                width: 32,
+                height: 32,
+            },
+            {
+                src: "/assets/gems/blue-diamond.png",
+                width: 32,
+                height: 32,
+            }
+            ],
+        },
+    });
+
+    if (endingTick === 6) {
+        clearInterval(endingInterval)
+    };
+
+};
 
 //
 
@@ -932,4 +996,9 @@ window.onload = async () => {
     await preloadImages();
     setupGame();
     getStats();
+
+
+    // runConfetti();
+
+
 };

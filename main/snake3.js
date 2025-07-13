@@ -26,6 +26,10 @@ fillBar.style.width = `${canvas.width + 30}px`;
 // localStorage.clear();
 // localStorage.setItem('high-score', '0');
 
+if (localStorage.getItem('high-score') != undefined) {
+    highScore.innerText = localStorage.getItem('high-score');
+}
+
 // size of game board, and calculating size of each cell
 let rows = 10;
 let cols = 10;
@@ -172,7 +176,7 @@ function updateLevel() {
         }, 100);
 
         setTimeout(() => {
-            
+
             // play confetti at end
             runConfetti();
 
@@ -939,9 +943,9 @@ setTimeout(() => {
 function runConfetti() {
 
     console.log('ending tick before', endingTick);
-    
+
     endingTick++;
-    
+
     console.log('ending tick after', endingTick);
 
     confetti({

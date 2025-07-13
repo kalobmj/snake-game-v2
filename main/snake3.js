@@ -1,11 +1,12 @@
 //
 
-// mostly done, just need sounds on level completion and level up and music in background
+// update local storage to store setting of music playing or not, read from local storage and update music playing depending on setting saved, if none just load as usual
 
-// on level completion -> play level up sound (possibly use same sound as game), play small animation each level, play larger animation when user wins entire game (most likely level 5)
+// come up with a new audio for if user beats game
 
-// need audio track to play in background
-// could possibly be 5 different songs for every level
+// game is not playing after beating, fix this...
+
+// have small glimmering animation in between level ups, have a bigger one on game completion along with a bigger animation (no confetti)
 
 //
 
@@ -129,6 +130,18 @@ function updateLevel() {
     // resetting double points (don't carry over to next round)
     doublePoints = false;
     doublePointsTracker = 0;
+
+    // end current audio from playing
+    currentSong.currentTime = 0;
+    currentSong.pause();
+
+    // after some time, play track in-between levels
+    setTimeout(() => {
+        
+        currentSong = audioTracks.newBeginning;
+        playAudio();
+
+    }, 500);
 
     // after 4 seconds, update game speed, board, and background
     setTimeout(() => {
@@ -258,7 +271,11 @@ function updateScore() {
         };
 
         if (ourJewelId === 'green') {
-            localScore += 20;
+
+
+            localScore += 400;
+
+
         } else if (ourJewelId === 'red') {
             localScore += 60;
         } else if (ourJewelId === 'yellow') {
@@ -272,7 +289,11 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-            localScore += 20;
+
+
+            localScore += 400;
+
+
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -648,8 +669,13 @@ playButton.addEventListener('click', () => {
     gameOverButton.style.visibility = 'hidden';
     playButton.style.visibility = 'hidden';
 
+    // stop level up song from playing (we will put this into a helper function because we are using it in multiple places). At the end of this function we will play the new song
+    currentSong.pause();
+    currentSong.currentTime = 0;
+
     // setup game depending on players current level
     if (level === 1 || gameIsOver) {
+        playAudio();
         resetGame();
         startGame();
         return
@@ -657,21 +683,39 @@ playButton.addEventListener('click', () => {
         // speeding up game
         interval = setInterval(move, 400);
         fill.style.background = 'linear-gradient(to bottom,rgb(116,208,231) 35%,rgb(178,223,239))';
+
+        // update current planet song
+        currentSong = audioTracks.journeyBegins
+
     } else if (level === 3) {
         interval = setInterval(move, 300);
         fill.style.background = 'linear-gradient(to bottom,rgb(176, 135, 99) 35%,rgb(228, 197, 134))';
+
+        currentSong = audioTracks.seaOfAmorphity;
+
     } else if (level === 4) {
         interval = setInterval(move, 200);
         fill.style.background = 'linear-gradient(to bottom,rgb(215,229,239) 35%,rgb(76,147,207))';
+
+        currentSong = audioTracks.tunnelSociety;
+
     } else if (level === 5) {
         interval = setInterval(move, 100);
         fill.style.background = 'linear-gradient(to bottom,rgb(9,67,133) 35%,rgb(71,194,241))';
+
+        currentSong = audioTracks.rainOfLight;
+
     } else if (level === 6) {
         // player has won, setup new game
         gameOverButton.style.visibility = 'hidden';
+        currentSong = audioTracks.newBeginning;
+        playAudio();
         resetGame();
         return
     };
+
+    // play new audio once game starts
+    playAudio();
 });
 
 // user clicks music button
@@ -684,13 +728,21 @@ musicButton.addEventListener('click', () => {
     // if music is currently playing -> enable no-symbol button and stop current track from playing
     if (musicPlaying) {
 
+        // pausing current song
+        currentSong.pause();
+        currentSong.currentTime = 0;
+
         noSymbol.style.visibility = 'visible';
         musicPlaying = false;
-
+        
     } else {
-
+        
         noSymbol.style.visibility = 'hidden';
         musicPlaying = true;
+
+        // resetting currentSong back to 0, then play it
+        currentSong.currentTime = 0;
+        playAudio();
 
     };
 
@@ -699,24 +751,13 @@ musicButton.addEventListener('click', () => {
 });
 
 // background music
-
-const bejeweledTheme = new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3');
-const journeyBegins = new Audio('/assets/music/03 - The Journey Begins.mp3');
-const rainOfLight = new Audio('/assets/music/04 - Rain of Lights.mp3');
-const seaOfAmorphity = new Audio('/assets/music/06 - Sea of Amorphity.mp3');
-const tunnelSociety = new Audio('/assets/music/09 - Tunnel Society V2.mp3');
-const newBeginning = new Audio('/assets/music/10 - A New Beginning (Intro 2).mp3');
-
-// audio track object -> we will use object.entries to loop through each of these in our audio track prepper function, and also to access them.
 const audioTracks = {
-
-    bejewledTheme: new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3'),
+    bejeweledTheme: new Audio('/assets/music/01 - Bejeweled 2 Theme.mp3'),
     journeyBegins: new Audio('/assets/music/03 - The Journey Begins.mp3'),
     rainOfLight: new Audio('/assets/music/04 - Rain of Lights.mp3'),
     seaOfAmorphity: new Audio('/assets/music/06 - Sea of Amorphity.mp3'),
     tunnelSociety: new Audio('/assets/music/09 - Tunnel Society V2.mp3'),
     newBeginning: new Audio('/assets/music/10 - A New Beginning (Intro 2).mp3')
-
 };
 
 // prep audio tracks
@@ -730,36 +771,57 @@ function prepAudio() {
 
         audio[1].id = audio[0]
         audio[1].loop = true;
-        audio[1].volume = 0.1;
+        audio[1].volume = 0.02;
 
     });
 
 };
 
-// change current audio track
-function changeAudio() {
+// change current audio track based on current level
+function playAudio() {
+    console.log({musicPlaying});
 
+    if (!musicPlaying) {
+        // currentTime resets audio to beginning
+        currentSong.currentTime = 0;
+        currentSong.pause();
+    } else {
+        currentSong.play();
+    };
+};
 
-
-}
+// helper to end current playing audio
 
 // when our first audio track loads -> handle all of the other tracks
-bejeweledTheme.addEventListener('canplaythrough', () => {
+audioTracks.bejeweledTheme.addEventListener('canplaythrough', () => {
 
     console.log('track loaded');
+
+    console.log(audioTracks.rainOfLight.loop);
 
     prepAudio();
 
     // setting current song to level 1 song
-    currentSong = audioTracks.bejewledTheme
+    currentSong = audioTracks.bejeweledTheme;
 
     console.log({currentSong});
 
     // testing if prepAudio worked (should be true at this point)
     console.log(audioTracks.rainOfLight.loop);
 
-    // play
-    // bejeweledTheme.play()
+    // wait for a little bit, then play the audio track
+    // setTimeout(() => {
+
+    //     console.log(audioTracks.bejeweledTheme.loop);
+    //     console.log(audioTracks.bejeweledTheme.volume);
+        
+    //     // play
+    //     audioTracks.bejeweledTheme.play();
+
+    // }, 2000);
+
+
+    console.log('end of trackloading event listener');
     
 });
 
@@ -777,10 +839,12 @@ bejeweledTheme.addEventListener('canplaythrough', () => {
 
 setTimeout(() => {
     
-    console.log({bejeweledTheme});
-    console.log('bejewled loop status', bejeweledTheme.loop);
+    console.log(audioTracks.bejeweledTheme);
+    console.log('bejewled loop status', audioTracks.bejeweledTheme.loop);
 
-}, 2000);
+    console.log({currentSong});
+
+}, 3000);
 
 //
 

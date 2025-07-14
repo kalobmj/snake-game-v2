@@ -143,14 +143,14 @@ function updateLevel() {
     gameOverButton.style.background = '#FFC300';
     gameOverButton.innerText = 'LEVEL UP!';
     isGameRunning = false;
+    
+    if (level != 6) {
+        gameOverButton.style.visibility = 'visible';
+    };
 
     // resetting double points (don't carry over to next round)
     doublePoints = false;
     doublePointsTracker = 0;
-
-    // end current audio from playing
-    // currentSong.currentTime = 0;
-    // currentSong.pause();
 
     endAudio();
 
@@ -161,8 +161,6 @@ function updateLevel() {
             gameOverButton.style.background = 'violet';
             gameOverButton.innerText = 'YOU WIN!'
 
-            // logic for end game animation here
-
             // audio will play here
             currentSong = audioTracks.finalDestination;
             playAudio();
@@ -171,33 +169,24 @@ function updateLevel() {
                 gameOverButton.style.visibility = 'visible';
 
             }, 100);
-
-
         }, 100);
 
         setTimeout(() => {
-
             // play confetti at end
             runConfetti();
 
             endingInterval = setInterval(runConfetti, 10000);
-
         }, 300);
 
         return;
-
     };
 
     // after some time, play track in-between levels if not level 6
     setTimeout(() => {
-
         if (level != 6) {
-
             currentSong = audioTracks.newBeginning;
             playAudio();
-
         }
-
     }, 250);
 
     // after 4 seconds, update game speed, board, and background
@@ -220,13 +209,13 @@ function updateLevel() {
             return;
         };
 
-        grid();
-        fillBoard();
-
         direction = 'right';
         currentLevel.innerText = `${level}/5`
         playButton.innerText = 'continue';
         playButton.style.visibility = 'visible';
+
+        grid();
+        fillBoard();
     }, 1000);
 
     // if level is not the last level, add +1 to current level
@@ -270,7 +259,6 @@ async function preloadImages() {
         jewelImgs = loadedImgs;
         planetImgs = loadedPlanets;
 
-        console.log({ planetImgs });
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -315,11 +303,7 @@ function updateScore() {
         };
 
         if (ourJewelId === 'green') {
-
-
-            localScore += 4000;
-
-
+            localScore += 40;
         } else if (ourJewelId === 'red') {
             localScore += 60;
         } else if (ourJewelId === 'yellow') {
@@ -333,11 +317,7 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-
-
-            localScore += 4000;
-
-
+            localScore += 20;
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -396,6 +376,11 @@ function grid() {
 
 // fills board with our snake and current apple (jewel)
 function fillBoard() {
+    // if ourJewel is white, change to green so player doens't start the game with just a head
+    if (ourJewel.id === 'white') {
+        ourJewel = jewelImgs[0];
+    };
+
     // apple
     apple = [];
     apple[0] = { x: cellSize * 6, y: cellSize * 6 };
@@ -449,8 +434,8 @@ function placeApple() {
         } else if (jewelRoll >= 51 && jewelRoll <= 65) {
             ourJewel = jewelImgs[2];
         } else if (jewelRoll >= 66 && jewelRoll <= 85) {
-            if (snake.length <= 3) {
-                ourJewel = jewelImgs[0]
+            if (snake.length < 3) {
+                ourJewel = jewelImgs[0];
             } else {
                 ourJewel = jewelImgs[3];
             }
@@ -727,10 +712,6 @@ playButton.addEventListener('click', () => {
     fill.style.width = '0%';
     gameOverButton.style.visibility = 'hidden';
     playButton.style.visibility = 'hidden';
-
-    // stop level up song from playing (we will put this into a helper function because we are using it in multiple places). At the end of this function we will play the new song
-    // currentSong.pause();
-    // currentSong.currentTime = 0;
 
     endAudio();
 

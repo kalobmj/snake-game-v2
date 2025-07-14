@@ -2,6 +2,8 @@
 
 // fonts are not transfering on vercel, look into that
 
+// test game board size at home (the game board is fine on the laptop, but might be to large on bigger screens)
+
 //
 
 const canvas = document.getElementById('canvas-1');

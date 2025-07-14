@@ -23,12 +23,12 @@ const noSymbol = document.getElementById('no-symbol');
 fillBar.style.width = `${canvas.width + 30}px`;
 
 // remove this to retain high score even you reload the window
-// localStorage.clear();
-// localStorage.setItem('high-score', '0');
+localStorage.removeItem('high-score');
+localStorage.setItem('high-score', '0');
 
 if (localStorage.getItem('high-score') != undefined) {
     highScore.innerText = localStorage.getItem('high-score');
-}
+};
 
 // size of game board, and calculating size of each cell
 let rows = 10;
@@ -65,15 +65,10 @@ let currentBackground;
 let level = 1;
 let apple = [];
 let snake = [];
-
-// set this to false when logic comes in, will start out false then turn to true once first audio file as loaded
-let musicPlaying = true; // will be false
+let musicPlaying = true;
 let currentSong;
-
-// let confetti interval play 3 times after winning, once tick its 3, stop the interval
 let endingInterval;
 let endingTick = 0;
-
 let direction = 'right';
 let gameIsOver = false;
 let isGameRunning = false;
@@ -83,15 +78,9 @@ let doublePointsTracker = 0;
 
 // store user music button setting in localStorage
 if (localStorage.getItem('musicPlaying') === 'false') {
-
-    console.log('musicPlaying found in localStorage and came back false');
-
     noSymbol.style.visibility = 'visible';
     musicPlaying = false;
 } else if (localStorage.getItem('musicPlaying') === undefined) {
-
-    console.log('musicPlaying not found in localStorage, returned undefined');
-
     noSymbol.style.visibility = 'hidden';
     musicPlaying = true;
     localStorage.setItem('musicPlaying', true);
@@ -111,7 +100,7 @@ const planets = {
     aqua: '/assets/planet-backgrounds/Aqua-Aeon-XI.jpg',
     vermithrax: '/assets/planet-backgrounds/Vermithrax-II.jpg',
     frostara: '/assets/planet-backgrounds/Frostara-Glace-VI.jpg',
-    neptune: '/assets/planet-backgrounds/Neptune-II.jpg',
+    neptune: '/assets/planet-backgrounds/Neptune-II.jpg'
 };
 
 // this function will check if user has passed level, if user has completed level, call updateLevel.
@@ -122,20 +111,15 @@ function checkLevel() {
     if (level === 1 && currentScore >= 400 || level === 2 && currentScore >= 800 || level === 3 && currentScore >= 1200 || level === 4 && currentScore >= 1600 || level === 5 && currentScore >= 2000) {
         console.log('we have passed the level!');
 
-        // stop game from running (clearing interval)
         clearInterval(interval);
-
-        // calling updateLevel
         updateLevel();
-    }
+    };
 
     if (level === 6) {
         console.log('you have beaten the game!');
-        // logic for winning game here:
 
-        // ending game will happen here
         updateLevel();
-    }
+    };
 };
 
 // this will stop game interval, update gameboard, update maxPoints, and update level
@@ -143,7 +127,7 @@ function updateLevel() {
     gameOverButton.style.background = '#FFC300';
     gameOverButton.innerText = 'LEVEL UP!';
     isGameRunning = false;
-    
+
     if (level != 6) {
         gameOverButton.style.visibility = 'visible';
     };
@@ -155,24 +139,20 @@ function updateLevel() {
     endAudio();
 
     if (level === 6) {
-
         // give some time before making button visible
         setTimeout(() => {
             gameOverButton.style.background = 'violet';
             gameOverButton.innerText = 'YOU WIN!'
-
-            // audio will play here
             currentSong = audioTracks.finalDestination;
             playAudio();
 
             setTimeout(() => {
                 gameOverButton.style.visibility = 'visible';
-
             }, 100);
         }, 100);
 
         setTimeout(() => {
-            // play confetti at end
+            // play confetti at end (every 10 seconds)
             runConfetti();
 
             endingInterval = setInterval(runConfetti, 10000);
@@ -189,7 +169,7 @@ function updateLevel() {
         }
     }, 250);
 
-    // after 4 seconds, update game speed, board, and background
+    // update game speed, board, and background
     setTimeout(() => {
         if (level === 2) {
             currentPlanet.innerText = 'AQUA AEON XI'
@@ -218,7 +198,6 @@ function updateLevel() {
         fillBoard();
     }, 1000);
 
-    // if level is not the last level, add +1 to current level
     if (level != 6) {
         level += 1;
     };
@@ -258,7 +237,6 @@ async function preloadImages() {
         ourJewel = loadedImgs[0];
         jewelImgs = loadedImgs;
         planetImgs = loadedPlanets;
-
     } catch (err) {
         console.error('Image had problem loading...', err);
     }
@@ -297,7 +275,6 @@ function updateScore() {
             doublePointsTracker--;
         };
 
-        // if we are out of double point turns, set points back to regular 
         if (doublePointsTracker === 0) {
             doublePoints = false;
         };
@@ -331,7 +308,7 @@ function updateScore() {
             doublePointsTracker = 5;
             doublePoints = true;
         };
-    }
+    };
 
     // update displayed score
     score.innerText = localScore;
@@ -376,7 +353,7 @@ function grid() {
 
 // fills board with our snake and current apple (jewel)
 function fillBoard() {
-    // if ourJewel is white, change to green so player doens't start the game with just a head
+    // if ourJewel is white, change to green so player doesn't start the game with just a head
     if (ourJewel.id === 'white') {
         ourJewel = jewelImgs[0];
     };
@@ -618,7 +595,7 @@ function endGame() {
     playButton.innerText = 'play';
     playButton.style.visibility = 'visible';
     gameIsOver = true;
-
+    endAudio();
 
     setTimeout(() => {
         gameOverButton.innerText = 'game over';
@@ -630,20 +607,11 @@ function endGame() {
 
     }, 100);
 
-    endAudio();
-
     // player beats game
     if (level === 6) {
-
-        // logic for end game animation here
-
-        // audio will play here
         currentSong = audioTracks.finalDestination;
         playAudio();
-
     };
-
-    // currentSong = audioTracks.bejeweledTheme;
 };
 
 function resetGame() {
@@ -662,7 +630,6 @@ function resetGame() {
     fill.style.background = 'linear-gradient(to bottom, #f259f1 35%, #e590f6)';
     gameIsOver = false;
     currentLevel.innerText = '1/5';
-
     endingInterval = '';
     endingTick = 0;
 
@@ -712,7 +679,6 @@ playButton.addEventListener('click', () => {
     fill.style.width = '0%';
     gameOverButton.style.visibility = 'hidden';
     playButton.style.visibility = 'hidden';
-
     endAudio();
 
     // setup game depending on players current level
@@ -752,11 +718,7 @@ playButton.addEventListener('click', () => {
         // player has won, setup new game
         gameOverButton.style.visibility = 'hidden';
 
-        // currentSong.pause();
-        // currentSong.currentTime = 0;
-
         endAudio();
-
         playAudio();
         resetGame();
         startGame();
@@ -768,46 +730,24 @@ playButton.addEventListener('click', () => {
 
 // user clicks music button
 musicButton.addEventListener('click', () => {
-
-    console.log('clicked!');
-
-    console.log({ musicPlaying });
-
     // if music is currently playing -> enable no-symbol button and stop current track from playing
     if (musicPlaying) {
-
-        // pausing current song
-        // currentSong.pause();
-        // currentSong.currentTime = 0;
-
-        endAudio();
-
         noSymbol.style.visibility = 'visible';
         musicPlaying = false;
         localStorage.setItem('musicPlaying', false);
 
-        console.log(localStorage.getItem('musicPlaying'));
-
+        endAudio();
     } else {
-
         noSymbol.style.visibility = 'hidden';
         musicPlaying = true;
         localStorage.setItem('musicPlaying', true);
 
-        console.log('localStorage get item', localStorage.getItem('musicPlaying'));
-
-        // resetting currentSong back to 0, then play it
-        // currentSong.currentTime = 0;
         endAudio();
         playAudio();
-
     };
-
-    console.log({ musicPlaying });
 
     // refocus player back on canvas
     canvas.focus();
-
 });
 
 // background music
@@ -824,32 +764,19 @@ const audioTracks = {
 
 // prep audio tracks
 function prepAudio() {
-
     let audioArr = Object.entries(audioTracks);
 
-    console.log({ audioArr });
-
     audioArr.map((audio) => {
-
         audio[1].id = audio[0]
         audio[1].loop = true;
         audio[1].volume = 0.02;
-
     });
-
 };
 
 // change current audio track based on current level
 function playAudio() {
-    console.log({ musicPlaying });
-
     if (!musicPlaying) {
-        // currentTime resets audio to beginning
-        // currentSong.currentTime = 0;
-        // currentSong.pause();
-
         endAudio();
-
     } else {
         currentSong.play();
     };
@@ -857,77 +784,21 @@ function playAudio() {
 
 // helper to end current playing audio
 function endAudio() {
-
-    console.log({ currentSong });
-
     currentSong.currentTime = 0;
     currentSong.pause();
-
 };
 
 // when our first audio track loads -> handle all of the other tracks
 audioTracks.bejeweledTheme.addEventListener('canplaythrough', () => {
-
-    console.log('track loaded');
-
-    console.log(audioTracks.rainOfLight.loop);
-
-    prepAudio();
-
     // setting current song to level 1 song
     currentSong = audioTracks.bejeweledTheme;
 
-    console.log({ currentSong });
-
-    // testing if prepAudio worked (should be true at this point)
-    console.log(audioTracks.rainOfLight.loop);
-
-    // wait for a little bit, then play the audio track
-    // setTimeout(() => {
-
-    //     console.log(audioTracks.bejeweledTheme.loop);
-    //     console.log(audioTracks.bejeweledTheme.volume);
-
-    //     // play
-    //     audioTracks.bejeweledTheme.play();
-
-    // }, 2000);
-
-
-    console.log('end of trackloading event listener');
-
+    prepAudio();
 });
 
-//
-
-// need to:
-// delcare every audio file
-
-// create function that takes all of the loaded audio files, call it when the first audio file you need becomes loaded, then update the properties of all the files, (make them loop, set volume, create logic for music button)
-
-// create music button, plays when toggled, mutes when untoggled (muting stops audio), (unmuting it restarts it on a loop)
-// arrange music button using css
-
-//
-
-setTimeout(() => {
-
-    console.log(audioTracks.bejeweledTheme);
-    console.log('bejewled loop status', audioTracks.bejeweledTheme.loop);
-
-    console.log({ currentSong });
-
-}, 3000);
-
-//
-
+// play confetti animation with assorted jewels
 function runConfetti() {
-
-    console.log('ending tick before', endingTick);
-
     endingTick++;
-
-    console.log('ending tick after', endingTick);
 
     confetti({
         spread: 360,
@@ -971,19 +842,11 @@ function runConfetti() {
     if (endingTick === 6) {
         clearInterval(endingInterval)
     };
-
 };
-
-//
 
 // on window load, wait for images to load before setting up game
 window.onload = async () => {
     await preloadImages();
     setupGame();
     getStats();
-
-
-    // runConfetti();
-
-
 };

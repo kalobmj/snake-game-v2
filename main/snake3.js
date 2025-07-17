@@ -23,8 +23,8 @@ const noSymbol = document.getElementById('no-symbol');
 fillBar.style.width = `${canvas.width + 30}px`;
 
 // remove this to retain high score even you reload the window
-localStorage.removeItem('high-score');
-localStorage.setItem('high-score', '0');
+// localStorage.removeItem('high-score');
+// localStorage.setItem('high-score', '0');
 
 if (localStorage.getItem('high-score') != undefined) {
     highScore.innerText = localStorage.getItem('high-score');

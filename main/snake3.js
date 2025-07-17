@@ -280,7 +280,7 @@ function updateScore() {
         };
 
         if (ourJewelId === 'green') {
-            localScore += 40000;
+            localScore += 40;
         } else if (ourJewelId === 'red') {
             localScore += 60;
         } else if (ourJewelId === 'yellow') {
@@ -294,7 +294,7 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-            localScore += 2000;
+            localScore += 20;
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {

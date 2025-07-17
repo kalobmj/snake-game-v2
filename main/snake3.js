@@ -231,7 +231,7 @@ async function preloadImages() {
 
         imagePromises.push(loadImage('bjt', '/assets/gems/BJT_NDS_ICON2.png'));
 
-        imagePromises.push(loadImage('space', '/assets/bj-background.webp'));
+        imagePromises.push(loadImage('space', '/assets/concept-pictures/bj-background.webp'));
 
         const loadedImgs = await Promise.all(imagePromises);
         const loadedPlanets = await Promise.all(planetPromises);

@@ -18,7 +18,7 @@ body {
     }
 
     /* background is not working on light mode, test this at home */
-    background-image: url('/assets/blue-stars.jpg'),
+    background-image: url('/assets/concept-pictures/blue-stars.jpg'),
     linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 0.621) 35%, rgba(0, 213, 255, 0.268) 100%);
     background-blend-mode: lighten;
     background-size: contain;

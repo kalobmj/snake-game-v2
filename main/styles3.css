@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Quincy Caps';
+    src:
+        url('/assets/fonts/Quincy-Caps-Regular.ttf') format('truetype');
+}
+
 body {
     height: 100vh;
     margin: 0;
@@ -14,7 +20,7 @@ body {
     /* font face below should make it so user doesn't need to download font, check this at home */
     @font-face {
         font-family: 'Quincy Caps';
-        src: 
+        src:
             url('/assets/fonts/Quincy-Caps-Regular.ttf') format('truetype');
     }
 
@@ -33,7 +39,8 @@ body {
     /* flex-direction: row; */
 }
 
-#left-container, #right-container {
+#left-container,
+#right-container {
     /* width: 16.6667%; */
     width: 25%;
     display: flex;
@@ -187,49 +194,52 @@ body {
 
 
 @keyframes grow {
-  from {
-    width: 0%
-  }
-  to {
-    width: 100%;
-  }
+    from {
+        width: 0%
+    }
+
+    to {
+        width: 100%;
+    }
 }
 
 input {
-  display: none;
+    display: none;
 }
 
 label {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 40px;
-  background: transparent;
-  border-radius: 0.4rem;
-  border: 2px solid #eeeeee7b;
-  overflow: hidden;
-  box-shadow: -2px 0 8px 0 rgba(white, 0.6);
-  div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to bottom, #f259f1 35%, #e590f6);
-    height: 100%;
-    width: 0%;
-    /* animation: grow 2s forwards; */
-    /* transition: width 0.5s ease-in-out; */
-    box-shadow: 0 0 8px 1px white inset;
-    &:before {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/172299/bubbles-mask.gif);
-      mix-blend-mode: overlay;
-      opacity: 0.3;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border-radius: 0.4rem;
+    border: 2px solid #eeeeee7b;
+    overflow: hidden;
+    box-shadow: -2px 0 8px 0 rgba(white, 0.6);
+
+    div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: linear-gradient(to bottom, #f259f1 35%, #e590f6);
+        height: 100%;
+        width: 0%;
+        /* animation: grow 2s forwards; */
+        /* transition: width 0.5s ease-in-out; */
+        box-shadow: 0 0 8px 1px white inset;
+
+        &:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/172299/bubbles-mask.gif);
+            mix-blend-mode: overlay;
+            opacity: 0.3;
+        }
     }
-  }
 }

@@ -1,10 +1,6 @@
 //
 
-// fonts are not transfering on vercel, look into that
-
-// test game board size at home (the game board is fine on the laptop, but might be to large on bigger screens)
-
-// see if stockimage word is on background space text, if it is try to find a copy background or just change it
+// see if stockimage word is on background space text, if it is try to find a copy background or just change it (try at home)
 
 //
 
@@ -121,7 +117,7 @@ function checkLevel() {
 
     if (level === 6) {
         console.log('you have beaten the game!');
-
+        gameIsOver = true;
         updateLevel();
     };
 };
@@ -284,7 +280,7 @@ function updateScore() {
         };
 
         if (ourJewelId === 'green') {
-            localScore += 40;
+            localScore += 40000;
         } else if (ourJewelId === 'red') {
             localScore += 60;
         } else if (ourJewelId === 'yellow') {
@@ -298,7 +294,7 @@ function updateScore() {
         console.log('we are not getting double points');
 
         if (ourJewelId === 'green') {
-            localScore += 20;
+            localScore += 2000;
         } else if (ourJewelId === 'red') {
             localScore += 30;
         } else if (ourJewelId === 'yellow') {
@@ -642,6 +638,7 @@ function resetGame() {
 function getStats() {
     console.log('*start of game stats*');
     console.log({ isGameRunning });
+    console.log({ currentSong });
     console.log({ apple });
     console.log({ snake });
     console.log({ cellSize });
@@ -685,6 +682,8 @@ playButton.addEventListener('click', () => {
 
     // setup game depending on players current level
     if (level === 1 || gameIsOver) {
+        gameOverButton.style.visibility = 'hidden';
+        clearInterval(endingInterval);
         endAudio();
         resetGame();
         startGame();
@@ -716,14 +715,6 @@ playButton.addEventListener('click', () => {
 
         currentSong = audioTracks.rainOfLight;
 
-    } else if (level === 6) {
-        // player has won, setup new game
-        gameOverButton.style.visibility = 'hidden';
-
-        endAudio();
-        playAudio();
-        resetGame();
-        startGame();
     };
 
     playAudio();

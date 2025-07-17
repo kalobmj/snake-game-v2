@@ -16,7 +16,7 @@ body {
         font-family: 'Quincy Caps';
         src: 
             local('Quincy-Caps-Regular'),
-            url('fonts/Quincy-Caps-Regular.ttf');
+            url('/fonts/Quincy-Caps-Regular.ttf') format(truetype);
     }
 
     /* background is not working on light mode, test this at home */

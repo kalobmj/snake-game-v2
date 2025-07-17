@@ -272,7 +272,7 @@ function updateScore() {
     if (doublePoints) {
         console.log('we are getting double points');
 
-        // each interval decrease the number of turns with double points by one ( -1)
+        // each interval decreases the number of turns with double points by one ( -1)
         if (doublePointsTracker >= 1) {
             doublePointsTracker--;
         };
@@ -433,7 +433,6 @@ function placeApple() {
 function move() {
     let head = { ...snake[0] };
 
-    // check if snakehead exits the game board
     if (checkBounds(head.x, head.y)) {
         endGame();
         return;
@@ -450,7 +449,6 @@ function move() {
         head.y += cellSize;
     };
 
-    // check if our new snake head collides with any part of our snake's body
     for (let i = 0; i < snake.length; i++) {
         if (checkCollision(head.x, head.y, snake[i].x, snake[i].y)) {
             endGame();
@@ -726,13 +724,11 @@ playButton.addEventListener('click', () => {
         startGame();
     };
 
-    // play new audio once game starts
     playAudio();
 });
 
 // user clicks music button
 musicButton.addEventListener('click', () => {
-    // if music is currently playing -> enable no-symbol button and stop current track from playing
     if (musicPlaying) {
         noSymbol.style.visibility = 'visible';
         musicPlaying = false;

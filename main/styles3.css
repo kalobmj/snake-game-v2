@@ -14,7 +14,9 @@ body {
     /* font face below should make it so user doesn't need to download font, check this at home */
     @font-face {
         font-family: 'Quincy Caps';
-        src: url('/fonts/Quincy-Caps-Regular.ttf');
+        src: 
+            local('Quincy-Caps-Regular'),
+            url('fonts/Quincy-Caps-Regular.ttf');
     }
 
     /* background is not working on light mode, test this at home */
